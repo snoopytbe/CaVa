@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/feh_date"
+        style="@style/CaVa.Titre.Large"
+        android:text="Dimanche 13 décembre 2018"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/feh_momentjournee"
+        style="@style/CaVa.Titre.Medium"
+        android:text="Après-midi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_date" />
+
+    <!--    <Spinner
+            android:id="@+id/spinnerHumeur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/textViewHumeur"
+            app:layout_constraintTop_toBottomOf="@+id/feh_momentjournee" />-->
+
+    <TextView
+        android:id="@+id/feh_meteo"
+        style="@style/CaVa.TextView.BigMargin"
+        android:text="Météo de l'humeur"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_momentjournee" />
+
+    <TextView
+        android:id="@+id/feh_angoisse"
+        style="@style/CaVa.TextView.BigMargin"
+        android:layout_marginTop="24dp"
+        android:text="Angoisse"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_meteo" />
+
+    <TextView
+        android:id="@+id/feh_titrecommentaire"
+        style="@style/CaVa.TextView.BigMargin"
+        android:layout_marginTop="24dp"
+        android:text="Commentaire sur la journée :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_angoisse" />
+
+
+    <EditText
+        android:id="@+id/feh_commentaire"
+        style="@style/CaVa.EditText.BigMargin"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_titrecommentaire" />
+
+    <Button
+        android:id="@+id/feh_OK"
+        style="@style/CaVa.Bouton"
+        android:text="OK"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
