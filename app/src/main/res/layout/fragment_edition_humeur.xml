@@ -46,12 +46,29 @@
         app:layout_constraintTop_toBottomOf="@+id/feh_meteo" />
 
     <TextView
+        android:id="@+id/feh_energie"
+        style="@style/CaVa.TextView.BigMargin"
+        android:layout_marginTop="24dp"
+        android:text="Energie"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_angoisse" />
+
+    <TextView
+        android:id="@+id/feh_irritabilite"
+        style="@style/CaVa.TextView.BigMargin"
+        android:layout_marginTop="24dp"
+        android:text="Irritabilité"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_energie" />
+
+
+    <TextView
         android:id="@+id/feh_titrecommentaire"
         style="@style/CaVa.TextView.BigMargin"
         android:layout_marginTop="24dp"
         android:text="Commentaire sur la journée :"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feh_angoisse" />
+        app:layout_constraintTop_toBottomOf="@+id/feh_irritabilite" />
 
 
     <EditText
@@ -62,6 +79,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/feh_titrecommentaire" />
+
+    <TextView
+        android:id="@+id/feh_titredetails"
+        style="@style/CaVa.TextView.BigMargin"
+        android:layout_marginTop="24dp"
+        android:text="A noter :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_commentaire" />
+
+    <TextView
+        android:id="@+id/feh_numero1"
+        style="@style/CaVa.TextView.SmallMargin"
+        android:text="#irritabilité"
+        android:textColor="@color/colorTertiaryText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_titredetails" />
+
+
+    <TextView
+        android:id="@+id/feh_numero2"
+        style="@style/CaVa.TextView.SmallMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#fatigue"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/feh_numero1"
+        app:layout_constraintTop_toBottomOf="@+id/feh_titredetails" />
 
     <Button
         android:id="@+id/feh_OK"

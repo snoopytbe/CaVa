@@ -31,9 +31,12 @@ public class etat implements Serializable {
     @Embedded
     private QualiteSommeil qualiteSommeil;
 
-    public etat(long date, QualiteSommeil qualiteSommeil) {
+    @Embedded
+    private Traitement traitement;
+
+    public etat(long date, Traitement traitement) {
         this.date = date;
-        this.qualiteSommeil = qualiteSommeil;
+        this.traitement = new Traitement(traitement.actuel);
     }
 
     @Ignore
@@ -43,6 +46,7 @@ public class etat implements Serializable {
         this.humeurMatin = new Humeur();
         this.humeurApresMidi = new Humeur();
         this.humeurSoir = new Humeur();
+        this.traitement = new Traitement();
     }
 
     public QualiteSommeil getQualiteSommeil() {
@@ -103,5 +107,13 @@ public class etat implements Serializable {
 
     public void setHumeurSoir(Humeur humeurSoir) {
         this.humeurSoir = humeurSoir;
+    }
+
+    public Traitement getTraitement() {
+        return traitement;
+    }
+
+    public void setTraitement(Traitement traitement) {
+        this.traitement = traitement;
     }
 }

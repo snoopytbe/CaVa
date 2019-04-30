@@ -4,13 +4,15 @@ import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import java.util.Calendar;
 
-@Database(entities = {etat.class}, version = 1)
+@Database(entities = {etat.class}, version = 2)
+@TypeConverters({Converters.class})
 public abstract class etatRoomDatabase extends RoomDatabase {
 
     private static volatile etatRoomDatabase INSTANCE;
@@ -28,6 +30,8 @@ public abstract class etatRoomDatabase extends RoomDatabase {
             //new PopulateDbAsync(INSTANCE).execute();
             new UpgradeDbAsync(INSTANCE).execute();
         }
+
+
     };
 
 
@@ -62,21 +66,16 @@ public abstract class etatRoomDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            // Start the app with a clean database every time.
-            // Not needed if you only populate on creation.
             mDao.deleteAll();
 
             Calendar calendar;
             calendar = Calendar.getInstance();
-            //calendar.set(2019, 3, 1, 0, 0, 0);
             etat etat = new etat(calendar.getTimeInMillis());
             mDao.insert(etat);
-            /*calendar.add(Calendar.DAY_OF_MONTH, 1);
-            etat = new etat(calendar.getTimeInMillis());
-            mDao.insert(etat);*/
             return null;
         }
     }
+
 
     /**
      * Upgrades the database in the background with missing days.
@@ -93,23 +92,26 @@ public abstract class etatRoomDatabase extends RoomDatabase {
         protected Void doInBackground(final Void... params) {
 
             // Last day in the database
+            etat etatDernierJour = mDao.getEtatDernierJour();
             long dernierJour = mDao.getDernierJour();
             Calendar lastDayDB = Calendar.getInstance();
             lastDayDB.setTimeInMillis(dernierJour);
             lastDayDB.set(Calendar.HOUR, 0);
             lastDayDB.set(Calendar.MINUTE, 0);
             lastDayDB.set(Calendar.SECOND, 0);
+            lastDayDB.set(Calendar.MILLISECOND, 0);
 
             // Today
             Calendar today = Calendar.getInstance();
             today.set(Calendar.HOUR, 0);
             today.set(Calendar.MINUTE, 0);
             today.set(Calendar.SECOND, 0);
+            today.set(Calendar.MILLISECOND, 0);
 
             // Ajout des jours manquants
             while (lastDayDB.compareTo(today) < 0) {
                 lastDayDB.add(Calendar.DAY_OF_MONTH, 1);
-                etat etat = new etat(lastDayDB.getTimeInMillis());
+                etat etat = new etat(lastDayDB.getTimeInMillis(), etatDernierJour.getTraitement());
                 mDao.insert(etat);
             }
 

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8c67f7f4a139eeb3fc60c12f25d4d9c5",
+    "identityHash": "82de71954ea0056cd34e52f9144d47b1",
     "entities": [
       {
         "tableName": "etat_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` INTEGER NOT NULL, `am_humeur` INTEGER, `am_angoisse` INTEGER, `am_commentaire` TEXT, `pm_humeur` INTEGER, `pm_angoisse` INTEGER, `pm_commentaire` TEXT, `eve_humeur` INTEGER, `eve_angoisse` INTEGER, `eve_commentaire` TEXT, `ratingSommeil` REAL, `sommeil_heures` INTEGER, `sommeil_minutes` INTEGER, `coucher_heures` INTEGER, `coucher_minutes` INTEGER, `lever_heures` INTEGER, `lever_minutes` INTEGER, `insomnie_heures` INTEGER, `insomnie_minutes` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` INTEGER NOT NULL, `am_humeur` INTEGER, `am_angoisse` INTEGER, `am_commentaire` TEXT, `am_symptomesActifs` TEXT, `am_symptomesInactifs` TEXT, `pm_humeur` INTEGER, `pm_angoisse` INTEGER, `pm_commentaire` TEXT, `pm_symptomesActifs` TEXT, `pm_symptomesInactifs` TEXT, `eve_humeur` INTEGER, `eve_angoisse` INTEGER, `eve_commentaire` TEXT, `eve_symptomesActifs` TEXT, `eve_symptomesInactifs` TEXT, `ratingSommeil` REAL, `sommeil_heures` INTEGER, `sommeil_minutes` INTEGER, `coucher_heures` INTEGER, `coucher_minutes` INTEGER, `lever_heures` INTEGER, `lever_minutes` INTEGER, `insomnie_heures` INTEGER, `insomnie_minutes` INTEGER, `actuel` TEXT, `respecte` INTEGER, `commentaire` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -39,6 +39,18 @@
             "notNull": false
           },
           {
+            "fieldPath": "humeurMatin.symptomesActifs",
+            "columnName": "am_symptomesActifs",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "humeurMatin.symptomesInactifs",
+            "columnName": "am_symptomesInactifs",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "humeurApresMidi.humeur",
             "columnName": "pm_humeur",
             "affinity": "INTEGER",
@@ -57,6 +69,18 @@
             "notNull": false
           },
           {
+            "fieldPath": "humeurApresMidi.symptomesActifs",
+            "columnName": "pm_symptomesActifs",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "humeurApresMidi.symptomesInactifs",
+            "columnName": "pm_symptomesInactifs",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "humeurSoir.humeur",
             "columnName": "eve_humeur",
             "affinity": "INTEGER",
@@ -71,6 +95,18 @@
           {
             "fieldPath": "humeurSoir.commentaire",
             "columnName": "eve_commentaire",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "humeurSoir.symptomesActifs",
+            "columnName": "eve_symptomesActifs",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "humeurSoir.symptomesInactifs",
+            "columnName": "eve_symptomesInactifs",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -127,6 +163,24 @@
             "columnName": "insomnie_minutes",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "traitement.actuel",
+            "columnName": "actuel",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "traitement.respecte",
+            "columnName": "respecte",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "traitement.commentaire",
+            "columnName": "commentaire",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -141,7 +195,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8c67f7f4a139eeb3fc60c12f25d4d9c5\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"82de71954ea0056cd34e52f9144d47b1\")"
     ]
   }
 }

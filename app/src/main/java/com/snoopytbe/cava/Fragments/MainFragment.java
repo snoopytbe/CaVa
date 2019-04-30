@@ -42,10 +42,10 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (myView == null) {
-        myView = inflater.inflate(R.layout.fragment_recyclerview, container, false);
-        ButterKnife.bind(this, myView);
-        ConfigureRecyclerView(myView);
-        ConfigureOnClickRecyclerView();
+            myView = inflater.inflate(R.layout.fragment_recyclerview, container, false);
+            ButterKnife.bind(this, myView);
+            ConfigureRecyclerView(myView);
+            ConfigureOnClickRecyclerView();
         }
         return myView;
     }

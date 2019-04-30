@@ -92,7 +92,7 @@ public class SommeilFragment extends Fragment {
     }
 
     private void LoadEtatInUI() {
-            date.setText(etat.DateLisible());
+        date.setText(etat.DateLisible());
         ratingSommeil.setRating(etat.getQualiteSommeil().getRatingSommeil());
         heuresSommeil.setText(etat.getQualiteSommeil().getHeuresSommeil().Lisible());
         heureCoucher.setText(etat.getQualiteSommeil().getHeureCoucher().Lisible());

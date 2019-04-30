@@ -9,6 +9,7 @@
     <color name="colorSecondaryDark">#c4001d</color>
     <color name="colorPrimaryText">#ffffff</color>
     <color name="colorSecondaryText">#000000</color>
+    <color name="colorTertiaryText">#818181</color>
     <color name="colorBackground">#f2f2f2</color>
     <color name="colorBackgroundDark">#D8D8D8</color>
 </resources>

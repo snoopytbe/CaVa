@@ -1,4 +1,4 @@
-package com.snoopytbe.cava.MethodesListeEtats;
+package com.snoopytbe.cava.ListeEtats;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class ListeEtats implements Serializable {
 
-    protected ArrayList<com.snoopytbe.cava.MethodesListeEtats.NiveauEtat> ListeNiveaux;
+    protected ArrayList<NiveauEtat> ListeNiveaux;
 
     public ListeEtats() {
         this.ListeNiveaux = new ArrayList<>();

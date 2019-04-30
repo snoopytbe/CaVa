@@ -25,6 +25,9 @@ public interface etatDao {
 
     @Query("SELECT MAX(date) from etat_table")
     long getDernierJour();
+
+    @Query("SELECT * from etat_table where date = (SELECT MAX(date) from etat_table)")
+    etat getEtatDernierJour();
 }
 
 

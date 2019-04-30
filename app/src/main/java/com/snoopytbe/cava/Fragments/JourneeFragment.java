@@ -108,6 +108,13 @@ public class JourneeFragment extends Fragment {
             activityCallback.onChargeEtatClicked(etat, "Soir");
     }
 
+    @OnClick(R.id.fpj_cardTraitement)
+    public void chargeTraitement() {
+        SaveEtatFromUI();
+        if (activityCallback != null)
+            activityCallback.ShowTraitementFragment(etat);
+    }
+
     @OnClick(R.id.fpj_OK)
     public void ok() {
         SaveEtatFromUI();
@@ -118,6 +125,7 @@ public class JourneeFragment extends Fragment {
     public interface JourneeFragmentCallback {
         void ShowSommeilFragment(etat etat);
 
+        void ShowTraitementFragment(etat etat);
         void onChargeEtatClicked(etat etat, String quand);
 
         void onOKFragmentJournee(etat etat);

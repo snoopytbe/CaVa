@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.snoopytbe.cava.MethodesListeEtats.ListeAngoisses;
-import com.snoopytbe.cava.MethodesListeEtats.ListeHumeurs;
+import com.snoopytbe.cava.ListeEtats.ListeAngoisses;
+import com.snoopytbe.cava.ListeEtats.ListeEnergies;
+import com.snoopytbe.cava.ListeEtats.ListeHumeurs;
+import com.snoopytbe.cava.ListeEtats.ListeIrritabilite;
 import com.snoopytbe.cava.R;
 import com.snoopytbe.cava.db.Humeur;
 import com.snoopytbe.cava.db.etat;
@@ -22,18 +24,34 @@ import butterknife.OnClick;
 
 public class HumeurFragment extends Fragment {
 
-    ListeAngoisses ListeAngoisses;
+    ListeAngoisses listeAngoisses;
+    ListeHumeurs listeHumeurs;
+    ListeEnergies listeEnergies;
+    ListeIrritabilite listeIrritabilite;
+
     private etat etat;
+
     private static final String ARG_PARAM1 = "etat";
     private static final String ARG_PARAM2 = "quand";
+
+    private HumeurFragmentCallback activityCallback;
+
+    private String quand;
     @BindView(R.id.feh_date)
     TextView date;
-    ListeHumeurs ListeHumeurs;
     @BindView(R.id.feh_momentjournee)
     TextView momentJournee;
     @BindView(R.id.feh_meteo)
     TextView meteo;
-    private String quand;
+    @BindView(R.id.feh_angoisse)
+    TextView angoisse;
+    @BindView(R.id.feh_energie)
+    TextView energie;
+    @BindView(R.id.feh_irritabilite)
+    TextView irritabilite;
+    @BindView(R.id.feh_commentaire)
+    EditText commentaire;
+
 
     public static HumeurFragment newInstance(etat etat, String quand) {
         HumeurFragment fragment = new HumeurFragment();
@@ -52,11 +70,7 @@ public class HumeurFragment extends Fragment {
             quand = (String) getArguments().getSerializable(ARG_PARAM2);
         }
     }
-    @BindView(R.id.feh_angoisse)
-    TextView angoisse;
-    @BindView(R.id.feh_commentaire)
-    EditText commentaire;
-    private HumeurFragmentCallback activityCallback;
+
 
     /*@BindView(R.id.spinnerHumeur)
     Spinner SpinnerHumeur;*/
@@ -76,8 +90,10 @@ public class HumeurFragment extends Fragment {
         } else if (this.quand == "Soir") {
             humeur = etat.getHumeurSoir();
         }
-        meteo.setText("Météo de l'humeur : " + ListeHumeurs.getListeNiveaux().get(humeur.getHumeur()).getNom());
-        angoisse.setText("Angoisse : " + ListeAngoisses.getListeNiveaux().get(humeur.getAngoisse()).getNom());
+        meteo.setText("Météo de l'humeur : " + listeHumeurs.getListeNiveaux().get(humeur.getHumeur()).getNom());
+        angoisse.setText("Angoisse : " + listeAngoisses.getListeNiveaux().get(humeur.getAngoisse()).getNom());
+        energie.setText("Energie : " + listeEnergies.getListeNiveaux().get(humeur.getEnergie()).getNom());
+        irritabilite.setText("Irritabilité : " + listeIrritabilite.getListeNiveaux().get(humeur.getIrritabilite()).getNom());
         commentaire.setText(humeur.getCommentaire());
     }
 
@@ -89,8 +105,10 @@ public class HumeurFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        ListeHumeurs = new ListeHumeurs();
-        ListeAngoisses = new ListeAngoisses();
+        listeHumeurs = new ListeHumeurs();
+        listeAngoisses = new ListeAngoisses();
+        listeIrritabilite = new ListeIrritabilite();
+        listeEnergies = new ListeEnergies();
 
         //SpinnerEtatsAdapter adapterHumeurs = new SpinnerEtatsAdapter((Context) activityCallback, ListeHumeurs);
         //SpinnerHumeur.setAdapter(adapterHumeurs);*/
@@ -143,6 +161,21 @@ public class HumeurFragment extends Fragment {
         if (activityCallback != null)
             activityCallback.onChoixEtatClicked(etat, quand, "Angoisse");
     }
+
+    @OnClick(R.id.feh_energie)
+    public void EditEnergie() {
+        SaveEtatFromUI();
+        if (activityCallback != null)
+            activityCallback.onChoixEtatClicked(etat, quand, "Energie");
+    }
+
+    @OnClick(R.id.feh_irritabilite)
+    public void EditIrritabilite() {
+        SaveEtatFromUI();
+        if (activityCallback != null)
+            activityCallback.onChoixEtatClicked(etat, quand, "Irritabilite");
+    }
+
 
     @OnClick(R.id.feh_OK)
     public void ok() {

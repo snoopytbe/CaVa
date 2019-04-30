@@ -12,13 +12,16 @@ import android.widget.Toast;
 
 import com.snoopytbe.cava.Fragments.HumeurFragment;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
+import com.snoopytbe.cava.Fragments.ListeEtatsFragment;
 import com.snoopytbe.cava.Fragments.MainFragment;
 import com.snoopytbe.cava.Fragments.SommeilFragment;
 import com.snoopytbe.cava.Fragments.TimeFragment;
-import com.snoopytbe.cava.MethodesListeEtats.ListeAngoisses;
-import com.snoopytbe.cava.MethodesListeEtats.ListeEtats;
-import com.snoopytbe.cava.MethodesListeEtats.ListeEtatsFragment;
-import com.snoopytbe.cava.MethodesListeEtats.ListeHumeurs;
+import com.snoopytbe.cava.Fragments.TraitementFragment;
+import com.snoopytbe.cava.ListeEtats.ListeAngoisses;
+import com.snoopytbe.cava.ListeEtats.ListeEnergies;
+import com.snoopytbe.cava.ListeEtats.ListeEtats;
+import com.snoopytbe.cava.ListeEtats.ListeHumeurs;
+import com.snoopytbe.cava.ListeEtats.ListeIrritabilite;
 import com.snoopytbe.cava.db.HeuresMinutes;
 import com.snoopytbe.cava.db.etat;
 import com.snoopytbe.cava.db.etatViewModel;
@@ -35,7 +38,8 @@ public class MainActivity extends AppCompatActivity
         SommeilFragment.SommeilFragmentCallback,
         TimePickerDialog.OnTimeSetListener,
         ListeEtatsFragment.ListeEtatsFragmentCallback,
-        JourneeFragment.JourneeFragmentCallback {
+        JourneeFragment.JourneeFragmentCallback,
+        TraitementFragment.TraitementFragmentCallback {
 
     private MainFragment mainFragment;
     private etatViewModel etatViewModel;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         this.configureAndShowMainFragment();
         this.ConfigureDb();
     }
+
 
     private void ConfigureDb() {
         etatViewModel = ViewModelProviders.of(this).get(etatViewModel.class);
@@ -119,12 +124,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void ShowTraitementFragment(etat etat) {
+        this.etatActuel = etat;
+        TraitementFragment traitementFragment = TraitementFragment.newInstance(etat);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_main_layout, traitementFragment)
+                .addToBackStack("Traitement")
+                .commit();
+    }
+
+    @Override
     public void onOKFragmentHumeur(etat etat) {
         this.etatActuel = etat;
         etatViewModel.update(etat);
         ShowJourneeFragment(this.etatActuel);
     }
 
+    @Override
+    public void onOKFragmentTraitement(etat etat) {
+        this.etatActuel = etat;
+        etatViewModel.update(etat);
+        ShowJourneeFragment(this.etatActuel);
+    }
 
     @Override
     public void onChoixEtatClicked(etat etat, String tagMoment, String tagEtats) {
@@ -139,6 +161,10 @@ public class MainActivity extends AppCompatActivity
             listeEtats = new ListeAngoisses();
         } else if (tagEtats == "Humeur") {
             listeEtats = new ListeHumeurs();
+        } else if (tagEtats == "Energie") {
+            listeEtats = new ListeEnergies();
+        } else if (tagEtats == "Irritabilite") {
+            listeEtats = new ListeIrritabilite();
         }
 
         ListeEtatsFragment listeEtatsFragment = ListeEtatsFragment.newInstance(listeEtats);
@@ -213,6 +239,22 @@ public class MainActivity extends AppCompatActivity
                 this.etatActuel.getHumeurApresMidi().setHumeur(numero);
             } else if (this.tagMoment == "Soir") {
                 this.etatActuel.getHumeurSoir().setHumeur(numero);
+            }
+        } else if (this.tagEtats == "Energie") {
+            if (this.tagMoment == "Matin") {
+                this.etatActuel.getHumeurMatin().setEnergie(numero);
+            } else if (this.tagMoment == "Aprem") {
+                this.etatActuel.getHumeurApresMidi().setEnergie(numero);
+            } else if (this.tagMoment == "Soir") {
+                this.etatActuel.getHumeurSoir().setEnergie(numero);
+            }
+        } else if (this.tagEtats == "Irritabilite") {
+            if (this.tagMoment == "Matin") {
+                this.etatActuel.getHumeurMatin().setIrritabilite(numero);
+            } else if (this.tagMoment == "Aprem") {
+                this.etatActuel.getHumeurApresMidi().setIrritabilite(numero);
+            } else if (this.tagMoment == "Soir") {
+                this.etatActuel.getHumeurSoir().setIrritabilite(numero);
             }
         }
         ShowHumeurFragment(this.etatActuel, this.tagMoment);

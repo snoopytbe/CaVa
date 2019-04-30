@@ -1,4 +1,4 @@
-package com.snoopytbe.cava.MethodesListeEtats;
+package com.snoopytbe.cava.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+
+import com.snoopytbe.cava.ListeEtats.ListeEtats;
 
 public class ListeEtatsFragment extends DialogFragment {
 
