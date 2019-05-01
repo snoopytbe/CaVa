@@ -10,6 +10,9 @@ import android.util.Log;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.snoopytbe.cava.Classes.HeuresMinutes;
+import com.snoopytbe.cava.Classes.ListeEtats;
+import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.Fragments.HumeurFragment;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
 import com.snoopytbe.cava.Fragments.ListeEtatsFragment;
@@ -17,13 +20,6 @@ import com.snoopytbe.cava.Fragments.MainFragment;
 import com.snoopytbe.cava.Fragments.SommeilFragment;
 import com.snoopytbe.cava.Fragments.TimeFragment;
 import com.snoopytbe.cava.Fragments.TraitementFragment;
-import com.snoopytbe.cava.ListeEtats.ListeAngoisses;
-import com.snoopytbe.cava.ListeEtats.ListeEnergies;
-import com.snoopytbe.cava.ListeEtats.ListeEtats;
-import com.snoopytbe.cava.ListeEtats.ListeHumeurs;
-import com.snoopytbe.cava.ListeEtats.ListeIrritabilite;
-import com.snoopytbe.cava.db.HeuresMinutes;
-import com.snoopytbe.cava.db.etat;
 import com.snoopytbe.cava.db.etatViewModel;
 
 import java.io.File;
@@ -52,6 +48,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //importDB();
+        Log.e("Test", "Top départ");
         setContentView(R.layout.activity_main);
         this.configureAndShowMainFragment();
         this.ConfigureDb();
@@ -155,16 +152,16 @@ public class MainActivity extends AppCompatActivity
         this.tagEtats = tagEtats;
         this.tagMoment = tagMoment;
 
-        ListeEtats listeEtats = new ListeAngoisses();
+        ListeEtats listeEtats = new ListeEtats.ListeAngoisses();
 
         if (tagEtats == "Angoisse") {
-            listeEtats = new ListeAngoisses();
+            listeEtats = new ListeEtats.ListeAngoisses();
         } else if (tagEtats == "Humeur") {
-            listeEtats = new ListeHumeurs();
+            listeEtats = new ListeEtats.ListeHumeurs();
         } else if (tagEtats == "Energie") {
-            listeEtats = new ListeEnergies();
+            listeEtats = new ListeEtats.ListeEnergies();
         } else if (tagEtats == "Irritabilite") {
-            listeEtats = new ListeIrritabilite();
+            listeEtats = new ListeEtats.ListeIrritabilite();
         }
 
         ListeEtatsFragment listeEtatsFragment = ListeEtatsFragment.newInstance(listeEtats);

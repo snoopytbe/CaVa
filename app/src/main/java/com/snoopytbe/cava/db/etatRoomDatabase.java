@@ -9,6 +9,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.Converters.Converters;
+
 import java.util.Calendar;
 
 @Database(entities = {etat.class}, version = 2)
@@ -94,6 +97,7 @@ public abstract class etatRoomDatabase extends RoomDatabase {
             // Last day in the database
             etat etatDernierJour = mDao.getEtatDernierJour();
             long dernierJour = mDao.getDernierJour();
+
             Calendar lastDayDB = Calendar.getInstance();
             lastDayDB.setTimeInMillis(dernierJour);
             lastDayDB.set(Calendar.HOUR, 0);

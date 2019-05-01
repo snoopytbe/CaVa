@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.R;
-import com.snoopytbe.cava.db.etat;
 
 import java.util.ArrayList;
 import java.util.List;

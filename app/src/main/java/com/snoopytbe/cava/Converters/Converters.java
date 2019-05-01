@@ -1,4 +1,4 @@
-package com.snoopytbe.cava.db;
+package com.snoopytbe.cava.Converters;
 
 import android.arch.persistence.room.TypeConverter;
 

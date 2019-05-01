@@ -88,25 +88,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/feh_commentaire" />
 
-    <TextView
-        android:id="@+id/feh_numero1"
-        style="@style/CaVa.TextView.SmallMargin"
-        android:text="#irritabilité"
-        android:textColor="@color/colorTertiaryText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feh_titredetails" />
-
-
-    <TextView
-        android:id="@+id/feh_numero2"
-        style="@style/CaVa.TextView.SmallMargin"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/feh_listesymptomes"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="#fatigue"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/feh_numero1"
-        app:layout_constraintTop_toBottomOf="@+id/feh_titredetails" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="top|left"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feh_titredetails"></LinearLayout>
+
 
     <Button
         android:id="@+id/feh_OK"

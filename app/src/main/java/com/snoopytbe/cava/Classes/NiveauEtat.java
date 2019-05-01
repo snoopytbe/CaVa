@@ -1,4 +1,4 @@
-package com.snoopytbe.cava.ListeEtats;
+package com.snoopytbe.cava.Classes;
 
 import java.io.Serializable;
 

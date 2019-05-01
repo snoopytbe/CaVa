@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.MainActivity;
 import com.snoopytbe.cava.R;
 import com.snoopytbe.cava.RecyclerView.EtatListAdapter;
-import com.snoopytbe.cava.db.etat;
 import com.snoopytbe.cava.utils.ItemClickSupport;
 
 import java.io.File;

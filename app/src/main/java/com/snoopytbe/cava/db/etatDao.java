@@ -2,9 +2,12 @@ package com.snoopytbe.cava.db;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+
+import com.snoopytbe.cava.Classes.etat;
 
 import java.util.List;
 
@@ -16,6 +19,9 @@ public interface etatDao {
 
     @Update
     void update(etat etat);
+
+    @Delete
+    void delete(etat etat);
 
     @Query("DELETE FROM etat_table")
     void deleteAll();

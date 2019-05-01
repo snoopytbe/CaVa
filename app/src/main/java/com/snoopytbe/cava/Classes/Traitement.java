@@ -1,4 +1,4 @@
-package com.snoopytbe.cava.db;
+package com.snoopytbe.cava.Classes;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Ignore;
@@ -7,13 +7,13 @@ import java.io.Serializable;
 
 public class Traitement implements Serializable {
     @ColumnInfo(name = "actuel")
-    String actuel;
+    private String actuel;
 
     @ColumnInfo(name = "respecte")
-    Boolean respecte;
+    private Boolean respecte;
 
     @ColumnInfo(name = "commentaire")
-    String commentaire;
+    private String commentaire;
 
     public Traitement(String actuel, Boolean respecte, String commentaire) {
         this.actuel = actuel;

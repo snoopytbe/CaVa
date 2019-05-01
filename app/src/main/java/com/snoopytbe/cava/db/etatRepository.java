@@ -4,6 +4,8 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
+import com.snoopytbe.cava.Classes.etat;
+
 import java.util.List;
 
 public class etatRepository {

@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
-import com.snoopytbe.cava.db.etat;
 
 import java.util.ArrayList;
 import java.util.List;

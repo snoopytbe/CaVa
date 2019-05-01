@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
-import com.snoopytbe.cava.ListeEtats.ListeEtats;
+import com.snoopytbe.cava.Classes.ListeEtats;
 
 public class ListeEtatsFragment extends DialogFragment {
 

@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.R;
-import com.snoopytbe.cava.db.etat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

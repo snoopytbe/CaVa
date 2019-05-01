@@ -1,4 +1,4 @@
-package com.snoopytbe.cava.db;
+package com.snoopytbe.cava.Classes;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Ignore;
@@ -28,12 +28,30 @@ public class Humeur implements Serializable {
     @ColumnInfo(name = "symptomesInactifs")
     private ArrayList<String> symptomesInactifs;
 
+    private void InitialiseSymptomes() {
+        this.symptomesInactifs = new ArrayList<>();
+        this.symptomesActifs = new ArrayList<>();
+        this.symptomesInactifs.add("Pensées rapides");
+        this.symptomesInactifs.add("Envie de bcp parler");
+        this.symptomesInactifs.add("Pas envie de se coucher");
+        this.symptomesInactifs.add("Dispersé");
+        this.symptomesInactifs.add("Obsessions");
+        this.symptomesInactifs.add("Ennui");
+        this.symptomesInactifs.add("Cynisme");
+        this.symptomesInactifs.add("Pleurs");
+        this.symptomesInactifs.add("Envie de s'isoler");
+        this.symptomesInactifs.add("Sentiment d'échec");
+        this.symptomesInactifs.add("Envie de tout plaquer");
+        this.symptomesInactifs.add("Idées suicidaires");
+    }
+
     public Humeur(int humeur, int angoisse, int energie, int irritabilite, String commentaire) {
         this.humeur = humeur;
         this.angoisse = angoisse;
         this.energie = energie;
         this.irritabilite = irritabilite;
         this.commentaire = commentaire;
+        InitialiseSymptomes();
     }
 
     @Ignore
@@ -43,6 +61,7 @@ public class Humeur implements Serializable {
         this.energie = 0;
         this.irritabilite = 0;
         this.commentaire = "";
+        InitialiseSymptomes();
     }
 
     public int getHumeur() {

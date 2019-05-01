@@ -8,8 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 
+import com.snoopytbe.cava.Classes.HeuresMinutes;
 import com.snoopytbe.cava.R;
-import com.snoopytbe.cava.db.HeuresMinutes;
 
 public class TimeFragment extends DialogFragment {
 

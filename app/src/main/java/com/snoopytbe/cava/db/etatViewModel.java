@@ -4,6 +4,8 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
+import com.snoopytbe.cava.Classes.etat;
+
 import java.util.List;
 
 

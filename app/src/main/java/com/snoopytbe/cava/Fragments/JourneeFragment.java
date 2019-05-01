@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.R;
-import com.snoopytbe.cava.db.etat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +23,7 @@ public class JourneeFragment extends Fragment {
     @BindView(R.id.fpj_date)
     TextView date;
     private JourneeFragmentCallback activityCallback;
-    private com.snoopytbe.cava.db.etat etat;
+    private com.snoopytbe.cava.Classes.etat etat;
 
     public JourneeFragment() {
     }

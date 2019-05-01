@@ -3,6 +3,9 @@ package com.snoopytbe.cava.ListeEtats;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import com.snoopytbe.cava.Classes.ListeEtats;
+import com.snoopytbe.cava.Classes.NiveauEtat;
+
 public class SpinnerEtatsAdapter extends ArrayAdapter<NiveauEtat> {
 
     public SpinnerEtatsAdapter(Context context, ListeEtats ListeEtats) {

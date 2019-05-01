@@ -24,12 +24,24 @@
         <item name="android:textAlignment">center</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
     </style>
 
     <style name="CaVa.TextView.SmallMargin">
         <item name="android:layout_marginStart">8dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="CaVa.SymptomeInactif">
+        <item name="android:textColor">@color/colorTertiaryText</item>
+    </style>
+
+    <style name="CaVa.SymptomeActif">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="CaVa.TextView.BigMargin">
@@ -48,6 +60,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
 
     <style name="CaVa.EditText.SmallMargin">
         <item name="android:layout_marginStart">8dp</item>

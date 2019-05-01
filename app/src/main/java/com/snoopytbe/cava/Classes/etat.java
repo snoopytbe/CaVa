@@ -1,4 +1,4 @@
-package com.snoopytbe.cava.db;
+package com.snoopytbe.cava.Classes;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
@@ -36,7 +36,11 @@ public class etat implements Serializable {
 
     public etat(long date, Traitement traitement) {
         this.date = date;
-        this.traitement = new Traitement(traitement.actuel);
+        this.traitement = new Traitement(traitement.getActuel());
+        this.qualiteSommeil = new QualiteSommeil();
+        this.humeurMatin = new Humeur();
+        this.humeurApresMidi = new Humeur();
+        this.humeurSoir = new Humeur();
     }
 
     @Ignore

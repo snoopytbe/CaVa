@@ -1,4 +1,4 @@
-package com.snoopytbe.cava.db;
+package com.snoopytbe.cava.Classes;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;
