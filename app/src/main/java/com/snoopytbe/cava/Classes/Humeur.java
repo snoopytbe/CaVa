@@ -34,7 +34,7 @@ public class Humeur implements Serializable {
         this.symptomesInactifs.add("Pensées rapides");
         this.symptomesInactifs.add("Envie de bcp parler");
         this.symptomesInactifs.add("Pas envie de se coucher");
-        this.symptomesInactifs.add("Dispersé");
+        this.symptomesInactifs.add("Disperse");
         this.symptomesInactifs.add("Obsessions");
         this.symptomesInactifs.add("Ennui");
         this.symptomesInactifs.add("Cynisme");

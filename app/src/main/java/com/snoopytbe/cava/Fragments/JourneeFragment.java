@@ -20,7 +20,7 @@ import butterknife.OnClick;
 public class JourneeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "Etat";
-    @BindView(R.id.fpj_date)
+    @BindView(R.id.tit_date)
     TextView date;
     private JourneeFragmentCallback activityCallback;
     private com.snoopytbe.cava.Classes.etat etat;

@@ -10,7 +10,7 @@
 
         <item name="android:fontFamily">Roboto</item>
         <item name="android:textColor">@color/colorSecondaryText</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textAlignment">center</item>
 
@@ -19,7 +19,7 @@
     <style name="CaVa.TextView" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">Roboto</item>
         <item name="android:textColor">@color/colorSecondaryText</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textAlignment">center</item>
         <item name="android:layout_width">wrap_content</item>
@@ -36,6 +36,8 @@
     </style>
 
     <style name="CaVa.SymptomeInactif">
+        <item name="android:fontFamily">Roboto</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/colorTertiaryText</item>
     </style>
 
@@ -49,7 +51,6 @@
         <item name="android:layout_marginTop">24dp</item>
         <item name="android:layout_marginEnd">16dp</item>
     </style>
-
 
     <style name="CaVa.EditText" parent="Widget.AppCompat.EditText">
         <item name="android:gravity">start|top</item>
@@ -88,7 +89,7 @@
     </style>
 
     <style name="CaVa.Titre.Large">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>

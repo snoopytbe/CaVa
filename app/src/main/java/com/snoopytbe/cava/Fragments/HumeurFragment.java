@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class HumeurFragment extends Fragment {
+public class HumeurFragment extends Fragment implements View.OnClickListener {
 
     private ListeEtats.ListeAngoisses listeAngoisses;
     private ListeEtats.ListeHumeurs listeHumeurs;
@@ -109,18 +109,21 @@ public class HumeurFragment extends Fragment {
         commentaire.setText(humeur.getCommentaire());
         Log.e("Test", "Milieu");
 
-        SymptomesActifs = new ArrayList<>(humeur.getSymptomesActifs());
-        SymptomesInactifs = new ArrayList<>(humeur.getSymptomesInactifs());
-
-        //ArrayList<TextView> textViewSymptomes = new ArrayList<>();
+        try {
+            SymptomesActifs = new ArrayList<>(humeur.getSymptomesActifs());
+            SymptomesInactifs = new ArrayList<>(humeur.getSymptomesInactifs());
+        } catch (Exception e) {
+            SymptomesActifs = new ArrayList<>();
+            SymptomesInactifs = new ArrayList<>();
+        }
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager()
                 .getDefaultDisplay()
                 .getMetrics(displayMetrics);
-        int maxWidth = displayMetrics.widthPixels - 16;
+        int maxWidth = displayMetrics.widthPixels - 64;
         int currentWidth = 0;
-        Log.e("Test", "MaxWidth " + maxWidth);
+        //Log.e("Test", "MaxWidth " + maxWidth);
 
         LinearLayout.LayoutParams marginSetter = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         marginSetter.setMargins(8, 8, 8, 8);
@@ -128,83 +131,49 @@ public class HumeurFragment extends Fragment {
         LinearLayout llTechnique = new LinearLayout(getContext());
         llTechnique.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         llTechnique.setOrientation(LinearLayout.HORIZONTAL);
-        llTechnique.setGravity(Gravity.LEFT);
+        llTechnique.setGravity(Gravity.START);
 
         TextView newTextView = new TextView(getContext());
 
         for (int i = 0; i < SymptomesInactifs.size(); i++) {
-            Log.e("Test", "début " + i);
+            //Log.e("Test", "début " + i + " " + SymptomesInactifs.get(i));
             newTextView = new TextView(getContext());
             newTextView.setTextAppearance(R.style.CaVa_SymptomeInactif);
             newTextView.setLayoutParams(marginSetter);
-
             newTextView.setText(SymptomesInactifs.get(i));
-            newTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TextView self = (TextView) v;
-                    String symptomeClique = self.getText().toString();
-                    Log.e("Test", "Click sur " + symptomeClique);
-                    if (SymptomesInactifs.indexOf(symptomeClique) >= 0) {
-                        SymptomesInactifs.remove(symptomeClique);
-                        SymptomesActifs.add(symptomeClique);
-                        self.setTextAppearance(R.style.CaVa_SymptomeActif);
-                    } else {
-                        SymptomesActifs.remove(symptomeClique);
-                        SymptomesInactifs.add(symptomeClique);
-                        self.setTextAppearance(R.style.CaVa_SymptomeInactif);
-                    }
-                }
-            });
-            //textViewSymptomes.add(newTextView);
+            newTextView.setOnClickListener(this);
             newTextView.measure(0, 0);
             currentWidth += newTextView.getMeasuredWidth();
-            Log.e("Test", "Width " + currentWidth);
+            //Log.e("Test", "Width " + currentWidth);
             if (currentWidth > maxWidth) {
-                Log.e("Test", "Nouvelle ligne");
+                //Log.e("Test", "Nouvelle ligne");
                 listesymptomes.addView(llTechnique);
                 llTechnique = new LinearLayout(getContext());
                 llTechnique.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 llTechnique.setOrientation(LinearLayout.HORIZONTAL);
-                llTechnique.setGravity(Gravity.LEFT);
+                llTechnique.setGravity(Gravity.START);
                 llTechnique.addView(newTextView);
                 currentWidth = newTextView.getMeasuredWidth();
             } else {
-                Log.e("Test", "Ligne actuelle");
+                //Log.e("Test", "Ligne actuelle");
                 llTechnique.addView(newTextView);
             }
         }
 
         for (int i = 0; i < SymptomesActifs.size(); i++) {
-            Log.e("Test", "début " + i);
+            //Log.e("Test", "début " + i);
             newTextView = new TextView(getContext());
             newTextView.setTextAppearance(R.style.CaVa_SymptomeActif);
             newTextView.setLayoutParams(marginSetter);
 
             newTextView.setText(SymptomesActifs.get(i));
-            newTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TextView self = (TextView) v;
-                    String symptomeClique = self.getText().toString();
-                    Log.e("Test", "Click sur " + symptomeClique);
-                    if (SymptomesInactifs.indexOf(symptomeClique) >= 0) {
-                        SymptomesInactifs.remove(symptomeClique);
-                        SymptomesActifs.add(symptomeClique);
-                        self.setTextAppearance(R.style.CaVa_SymptomeActif);
-                    } else {
-                        SymptomesActifs.remove(symptomeClique);
-                        SymptomesInactifs.add(symptomeClique);
-                        self.setTextAppearance(R.style.CaVa_SymptomeInactif);
-                    }
-                }
-            });
+            newTextView.setOnClickListener(this);
             //textViewSymptomes.add(newTextView);
             newTextView.measure(0, 0);
             currentWidth += newTextView.getMeasuredWidth();
-            Log.e("Test", "Width " + currentWidth);
+            //Log.e("Test", "Width " + currentWidth);
             if (currentWidth > maxWidth) {
-                Log.e("Test", "Nouvelle ligne");
+                //Log.e("Test", "Nouvelle ligne");
                 listesymptomes.addView(llTechnique);
                 llTechnique = new LinearLayout(getContext());
                 llTechnique.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -213,7 +182,7 @@ public class HumeurFragment extends Fragment {
                 llTechnique.addView(newTextView);
                 currentWidth = newTextView.getMeasuredWidth();
             } else {
-                Log.e("Test", "Ligne actuelle");
+                //Log.e("Test", "Ligne actuelle");
                 llTechnique.addView(newTextView);
             }
         }
@@ -277,6 +246,22 @@ public class HumeurFragment extends Fragment {
             this.etat.getHumeurSoir().setSymptomesInactifs(this.SymptomesInactifs);
         }
         //etat.setHumeur(SpinnerHumeur.getSelectedItemPosition());
+    }
+
+    @Override
+    public void onClick(View v) {
+        TextView self = (TextView) v;
+        String symptomeClique = self.getText().toString();
+        Log.e("Test", "Click sur " + symptomeClique);
+        if (SymptomesInactifs.indexOf(symptomeClique) >= 0) {
+            SymptomesInactifs.remove(symptomeClique);
+            SymptomesActifs.add(symptomeClique);
+            self.setTextAppearance(R.style.CaVa_SymptomeActif);
+        } else {
+            SymptomesActifs.remove(symptomeClique);
+            SymptomesInactifs.add(symptomeClique);
+            self.setTextAppearance(R.style.CaVa_SymptomeInactif);
+        }
     }
 
     @OnClick(R.id.feh_meteo)
