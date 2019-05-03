@@ -4,21 +4,19 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/fet_date"
-        style="@style/CaVa.Titre.Large"
-        android:text="Dimanche 13 décembre 2018"
-        app:layout_constraintEnd_toEndOf="parent"
+    <include
+        layout="@layout/include_titre"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/fet_titreTraitementActuel"
         style="@style/CaVa.TextView.BigMargin"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/margin_huge"
         android:text="Traitement actuel :"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fet_date" />
+        app:layout_constraintTop_toBottomOf="@+id/inc_titre" />
 
 
     <EditText
@@ -42,7 +40,7 @@
         android:id="@+id/fet_respecte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/margin_small"
         app:layout_constraintBottom_toBottomOf="@+id/fet_textrespecte"
         app:layout_constraintStart_toEndOf="@+id/fet_textrespecte"
         app:layout_constraintTop_toTopOf="@+id/fet_textrespecte" />
@@ -50,7 +48,7 @@
     <TextView
         android:id="@+id/fet_titrecommentaire"
         style="@style/CaVa.TextView.BigMargin"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/margin_huge"
         android:text="Commentaire sur le traitement :"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fet_textrespecte" />
@@ -64,13 +62,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fet_titrecommentaire" />
-
-    <Button
-        android:id="@+id/fet_OK"
-        style="@style/CaVa.Bouton"
-        android:text="OK"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

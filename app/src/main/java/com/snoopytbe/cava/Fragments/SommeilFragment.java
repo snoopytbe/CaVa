@@ -24,13 +24,6 @@ public class SommeilFragment extends Fragment {
     private SommeilFragmentCallback activityCallback;
     private etat etat;
 
-    @OnClick(R.id.fes_OK)
-    public void ok() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onOkFragmentSommeil(etat);
-    }
-
     public SommeilFragment() {
     }
 
@@ -44,7 +37,7 @@ public class SommeilFragment extends Fragment {
     TextView heureLever;
     @BindView(R.id.textHeuresInsomnie)
     TextView heuresInsomnie;
-    @BindView(R.id.fes_date)
+    @BindView(R.id.tit_date)
     TextView date;
 
     public static SommeilFragment newInstance(etat etat) {
@@ -129,6 +122,13 @@ public class SommeilFragment extends Fragment {
         SaveEtatFromUI();
         if (activityCallback != null)
             activityCallback.onHeuresSommeilClicked(etat, "Insomnie");
+    }
+
+    @OnClick(R.id.tit_retour)
+    public void ok() {
+        SaveEtatFromUI();
+        if (activityCallback != null)
+            activityCallback.onOkFragmentSommeil(etat);
     }
 
 }

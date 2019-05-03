@@ -20,8 +20,20 @@ import butterknife.OnClick;
 public class JourneeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "Etat";
+
     @BindView(R.id.tit_date)
     TextView date;
+    @BindView(R.id.fpj_textViewSommeil)
+    TextView sommeil;
+    @BindView(R.id.fpj_textViewTraitement)
+    TextView traitement;
+    @BindView(R.id.fpj_textViewMatin)
+    TextView matin;
+    @BindView(R.id.fpj_textViewAprem)
+    TextView aprem;
+    @BindView(R.id.fpj_textViewSoir)
+    TextView soir;
+
     private JourneeFragmentCallback activityCallback;
     private com.snoopytbe.cava.Classes.etat etat;
 
@@ -74,6 +86,10 @@ public class JourneeFragment extends Fragment {
 
     private void LoadEtatInUI() {
         date.setText(etat.DateLisible());
+
+        String textSommeil;
+        textSommeil = etat.getQualiteSommeil().getHeuresSommeil().Lisible() + "de sommeil";
+        sommeil.setText(textSommeil);
     }
 
     private void SaveEtatFromUI() {
@@ -115,7 +131,7 @@ public class JourneeFragment extends Fragment {
             activityCallback.ShowTraitementFragment(etat);
     }
 
-    @OnClick(R.id.fpj_OK)
+    @OnClick(R.id.tit_retour)
     public void ok() {
         SaveEtatFromUI();
         if (activityCallback != null)

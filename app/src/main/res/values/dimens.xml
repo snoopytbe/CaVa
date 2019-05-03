@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_title">24sp</dimen>
-    <dimen name="margin_small">8dp</dimen>
+    <!--text sizes-->
+    <dimen name="default_text_size">16sp</dimen>
+    <dimen name="large_text_size">20sp</dimen>
 
+    <!--margins-->
+    <dimen name="margin_little">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_huge">24dp</dimen>
+
+    <!--taille de l'icone-->
+    <dimen name="largeur_image_humeur">35dp</dimen>
+
+    <!--separateur-->
+    <dimen name="hauteur_separateur">2dp</dimen>
+    <dimen name="margin_separateur">4dp</dimen>
+
+    <!--box des symptomes-->
+    <dimen name="padding_box_symptome">3dp</dimen>
 </resources>

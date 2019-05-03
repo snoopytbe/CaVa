@@ -22,7 +22,7 @@ public class TraitementFragment extends Fragment {
 
     private etat etat;
     private static final String ARG_PARAM1 = "etat";
-    @BindView(R.id.fet_date)
+    @BindView(R.id.tit_date)
     TextView date;
     @BindView(R.id.fet_respecte)
     CheckBox respecte;
@@ -94,8 +94,7 @@ public class TraitementFragment extends Fragment {
         etat.getTraitement().setCommentaire(commentaire.getText().toString());
     }
 
-
-    @OnClick(R.id.fet_OK)
+    @OnClick(R.id.tit_retour)
     public void ok() {
         SaveEtatFromUI();
         if (activityCallback != null)
