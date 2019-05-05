@@ -35,7 +35,7 @@ public abstract class ListeEtats implements Serializable {
         @Override
         protected void InitialiserDonnees() {
             this.ListeNiveaux.add(new NiveauEtat("-"));
-            this.ListeNiveaux.add(new NiveauEtat("Au lit"));
+            this.ListeNiveaux.add(new NiveauEtat("Aucune énergie"));
             this.ListeNiveaux.add(new NiveauEtat("Très fatigué"));
             this.ListeNiveaux.add(new NiveauEtat("Fatigué"));
             this.ListeNiveaux.add(new NiveauEtat("En forme"));
@@ -49,10 +49,10 @@ public abstract class ListeEtats implements Serializable {
         protected void InitialiserDonnees() {
             this.ListeNiveaux.add(new NiveauEtat("-"));
             this.ListeNiveaux.add(new NiveauEtat("Pas angoissé"));
-            this.ListeNiveaux.add(new NiveauEtat("Angoisse légère"));
-            this.ListeNiveaux.add(new NiveauEtat("Angoisse Moyenne"));
-            this.ListeNiveaux.add(new NiveauEtat("Angoisse forte"));
-            this.ListeNiveaux.add(new NiveauEtat("Panique"));
+            this.ListeNiveaux.add(new NiveauEtat("Légèrement angoissé"));
+            this.ListeNiveaux.add(new NiveauEtat("Moyennement angoissé"));
+            this.ListeNiveaux.add(new NiveauEtat("Fortement angoissé"));
+            this.ListeNiveaux.add(new NiveauEtat("Paniqué"));
         }
     }
 

@@ -46,8 +46,8 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
     private String quand;
     @BindView(R.id.tit_date)
     TextView date;
-    @BindView(R.id.sti_momentjournee)
-    TextView momentJournee;
+    @BindView(R.id.sti_soustitre)
+    TextView sousTitre;
     @BindView(R.id.feh_meteo)
     TextView meteo;
     @BindView(R.id.feh_angoisse)
@@ -80,11 +80,45 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
-    /*@BindView(R.id.spinnerHumeur)
-    Spinner SpinnerHumeur;*/
-
     public HumeurFragment() {
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_edition_humeur, container, false);
+
+        ButterKnife.bind(this, view);
+
+        listeHumeurs = new ListeEtats.ListeHumeurs();
+        listeAngoisses = new ListeEtats.ListeAngoisses();
+        listeIrritabilite = new ListeEtats.ListeIrritabilite();
+        listeEnergies = new ListeEtats.ListeEnergies();
+
+        LoadEtatInUI();
+
+        return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof HumeurFragmentCallback)
+            activityCallback = (HumeurFragmentCallback) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activityCallback = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SaveEtatFromUI();
     }
 
     private void LoadEtatInUI() {
@@ -93,14 +127,17 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
 
         //SpinnerHumeur.setSelection(etat.getHumeur());
         date.setText(etat.DateLisible());
-        momentJournee.setText(quand);
+
         Humeur humeur = new Humeur();
         if (this.quand == "Matin") {
             humeur = etat.getHumeurMatin();
+            sousTitre.setText("Humeur du matin");
         } else if (this.quand == "Aprem") {
             humeur = etat.getHumeurApresMidi();
+            sousTitre.setText("Humeur de l'après-midi");
         } else if (this.quand == "Soir") {
             humeur = etat.getHumeurSoir();
+            sousTitre.setText("Humeur du soir");
         }
         meteo.setText(listeHumeurs.getListeNiveaux().get(humeur.getHumeur()).getNom());
         angoisse.setText(listeAngoisses.getListeNiveaux().get(humeur.getAngoisse()).getNom());
@@ -189,46 +226,6 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
 
         listesymptomes.addView(llTechnique);
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_edition_humeur, container, false);
-
-        ButterKnife.bind(this, view);
-
-        listeHumeurs = new ListeEtats.ListeHumeurs();
-        listeAngoisses = new ListeEtats.ListeAngoisses();
-        listeIrritabilite = new ListeEtats.ListeIrritabilite();
-        listeEnergies = new ListeEtats.ListeEnergies();
-
-        //SpinnerEtatsAdapter adapterHumeurs = new SpinnerEtatsAdapter((Context) activityCallback, ListeHumeurs);
-        //SpinnerHumeur.setAdapter(adapterHumeurs);*/
-
-        LoadEtatInUI();
-
-        return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof HumeurFragmentCallback)
-            activityCallback = (HumeurFragmentCallback) context;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        activityCallback = null;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        SaveEtatFromUI();
     }
 
     private void SaveEtatFromUI() {

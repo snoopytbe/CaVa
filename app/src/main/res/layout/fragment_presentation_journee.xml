@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="top|start"
+    android:orientation="vertical">
 
     <include
         layout="@layout/include_titre"
@@ -10,156 +12,198 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <android.support.v7.widget.CardView
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/fpj_cardSommeil"
-        style="@style/CaVa.CardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inc_titre">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
+        <ImageView
+            android:id="@+id/imageView1"
+            style="@style/CaVa.ImageHumeur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/sommeil" />
 
-            <TextView
-                android:id="@+id/fpj_titreCardSommeil"
-                style="@style/CaVa.Titre.Small"
-                android:text="Sommeil"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/fpj_titreCardSommeil"
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="Sommeil"
+            app:layout_constraintStart_toEndOf="@+id/imageView1"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/fpj_textViewSommeil"
-                style="@style/CaVa.TextView.SmallMargin"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardSommeil" />
+        <TextView
+            android:id="@+id/fpj_textViewSommeil"
+            style="@style/CaVa.TextView.Rubrique"
+            android:lines="2"
+            android:text="Dormi 7h\nQualité du sommeil : 4/5"
+            app:layout_constraintStart_toEndOf="@+id/imageView1"
+            app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardSommeil" />
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+        <TextView
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="&gt;"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.CardView
+    </android.support.constraint.ConstraintLayout>
+
+    <include layout="@layout/include_separateur" />
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/fpj_cardTraitement"
-        style="@style/CaVa.CardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fpj_cardSommeil">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
+        <ImageView
+            android:id="@+id/imageView2"
+            style="@style/CaVa.ImageHumeur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/pill" />
 
-            <TextView
-                android:id="@+id/fpj_titreCardTraitement"
-                style="@style/CaVa.Titre.Small"
-                android:text="Traitement"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/fpj_titreCardTraitement"
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="Traitement"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/fpj_textViewTraitement"
-                style="@style/CaVa.TextView.SmallMargin"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardTraitement" />
+        <TextView
+            android:id="@+id/fpj_textViewTraitement"
+            style="@style/CaVa.TextView.Rubrique"
+            android:text="Traitement habituel pris"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardTraitement" />
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+        <TextView
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="&gt;"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.CardView
+    </android.support.constraint.ConstraintLayout>
+
+    <include layout="@layout/include_separateur" />
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/fpj_cardMatin"
-        style="@style/CaVa.CardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fpj_cardTraitement">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
+        <ImageView
+            android:id="@+id/imageView3"
+            style="@style/CaVa.ImageHumeur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/sunrise" />
 
-            <TextView
-                android:id="@+id/fpj_titreCardMatin"
-                style="@style/CaVa.Titre.Small"
-                android:text="Humeur du matin"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/fpj_titreCardMatin"
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="Humeur du matin"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/fpj_textViewMatin"
-                style="@style/CaVa.TextView.SmallMargin"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardMatin" />
+        <TextView
+            android:id="@+id/fpj_textViewMatin"
+            style="@style/CaVa.TextView.Rubrique"
+            android:lines="4"
+            android:text="Météo de l'humeur : soleil\nPas d'angoisse\nEn forme\nCool"
+            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardMatin" />
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+        <TextView
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="&gt;"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+    </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.CardView
+    <include layout="@layout/include_separateur" />
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/fpj_cardAprem"
-        style="@style/CaVa.CardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fpj_cardMatin">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
+        <ImageView
+            android:id="@+id/imageView4"
+            style="@style/CaVa.ImageHumeur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/house_with_garden" />
 
-            <TextView
-                android:id="@+id/fpj_titreCardAprem"
-                style="@style/CaVa.Titre.Small"
-                android:text="Humeur de l'après-midi"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/fpj_titreCardAprem"
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="Humeur de l'après-midi"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/fpj_textViewAprem"
-                style="@style/CaVa.TextView.SmallMargin"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardAprem" />
+        <TextView
+            android:id="@+id/fpj_textViewAprem"
+            style="@style/CaVa.TextView.Rubrique"
+            android:lines="4"
+            android:text="Météo de l'humeur : soleil\nPas d'angoisse\nEn forme\nCool"
+            app:layout_constraintStart_toEndOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardAprem" />
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+        <TextView
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="&gt;"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+    </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.CardView
+    <include layout="@layout/include_separateur" />
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/fpj_cardSoir"
-        style="@style/CaVa.CardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fpj_cardAprem">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp">
+        <ImageView
+            android:id="@+id/imageView5"
+            style="@style/CaVa.ImageHumeur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/sunset" />
 
-            <TextView
-                android:id="@+id/fpj_titreCardSoir"
-                style="@style/CaVa.Titre.Small"
-                android:text="Humeur du soir"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/fpj_titreCardSoir"
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="Humeur du soir"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/fpj_textViewSoir"
-                style="@style/CaVa.TextView.SmallMargin"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardSoir" />
+        <TextView
+            android:id="@+id/fpj_textViewSoir"
+            style="@style/CaVa.TextView.Rubrique"
+            android:lines="4"
+            android:text="Météo de l'humeur : soleil\nPas d'angoisse\nEn forme\nCool"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardSoir" />
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+        <TextView
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="&gt;"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <include layout="@layout/include_separateur" />
+
+</LinearLayout>

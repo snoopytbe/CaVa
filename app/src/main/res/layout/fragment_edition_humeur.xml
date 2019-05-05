@@ -204,4 +204,6 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <include layout="@layout/include_separateur" />
+
 </LinearLayout>

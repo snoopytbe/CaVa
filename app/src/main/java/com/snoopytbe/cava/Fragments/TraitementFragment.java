@@ -30,6 +30,8 @@ public class TraitementFragment extends Fragment {
     EditText actuel;
     @BindView(R.id.fet_commentaire)
     EditText commentaire;
+    @BindView(R.id.sti_soustitre)
+    TextView sousTitre;
     private TraitementFragmentCallback activityCallback;
 
 
@@ -54,6 +56,7 @@ public class TraitementFragment extends Fragment {
 
     private void LoadEtatInUI() {
         date.setText(etat.DateLisible());
+        sousTitre.setText("Traitement");
         actuel.setText(etat.getTraitement().getActuel());
         respecte.setChecked(etat.getTraitement().getRespecte());
         commentaire.setText(etat.getTraitement().getCommentaire());

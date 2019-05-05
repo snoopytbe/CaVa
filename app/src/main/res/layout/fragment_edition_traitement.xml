@@ -1,66 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="top|start"
+    android:orientation="vertical">
 
-    <include
-        layout="@layout/include_titre"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <include layout="@layout/include_titre" />
 
-    <TextView
-        android:id="@+id/fet_titreTraitementActuel"
-        style="@style/CaVa.TextView.BigMargin"
-        android:layout_marginTop="@dimen/margin_huge"
-        android:text="Traitement actuel :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inc_titre" />
+    <include layout="@layout/include_soustitre" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fet_zonetraitementactuel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            style="@style/CaVa.ImageHumeur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/pill" />
+
+        <TextView
+            android:id="@+id/fet_titreTraitementActuel"
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="Traitement actuel"
+            app:layout_constraintStart_toEndOf="@+id/imageView1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/fet_actuel"
+            style="@style/CaVa.EditText.BigMargin"
+            android:hint="Saisissez ici votre traitement"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView1"
+            app:layout_constraintTop_toBottomOf="@+id/fet_titreTraitementActuel" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <include layout="@layout/include_separateur" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fet_zonerespect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            style="@style/CaVa.ImageHumeur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/thumbs_up" />
+
+        <TextView
+            android:id="@+id/fet_textrespecte"
+            style="@style/CaVa.TextView.TitreRubrique.Centre"
+            android:text="Traitement pris"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/fet_respecte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/fet_textrespecte"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <include layout="@layout/include_separateur" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/feh_zonecommentaires"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView6"
+            style="@style/CaVa.ImageHumeur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/commentaires" />
+
+        <TextView
+            android:id="@+id/fet_titrecommentaire"
+            style="@style/CaVa.TextView.TitreRubrique"
+            android:text="Commentaires"
+            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <EditText
-        android:id="@+id/fet_actuel"
-        style="@style/CaVa.EditText.BigMargin"
-        android:inputType="textMultiLine"
-        android:hint=""
-        android:lines="5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fet_titreTraitementActuel" />
+        <EditText
+            android:id="@+id/fet_commentaire"
+            style="@style/CaVa.EditText.BigMargin"
+            android:hint="Tapez vos commentaires"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            app:layout_constraintTop_toBottomOf="@+id/fet_titrecommentaire" />
 
-    <TextView
-        android:id="@+id/fet_textrespecte"
-        style="@style/CaVa.TextView.BigMargin"
-        android:text="Traitement pris :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fet_actuel" />
+    </android.support.constraint.ConstraintLayout>
 
-    <CheckBox
-        android:id="@+id/fet_respecte"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_small"
-        app:layout_constraintBottom_toBottomOf="@+id/fet_textrespecte"
-        app:layout_constraintStart_toEndOf="@+id/fet_textrespecte"
-        app:layout_constraintTop_toTopOf="@+id/fet_textrespecte" />
+    <include layout="@layout/include_separateur" />
 
-    <TextView
-        android:id="@+id/fet_titrecommentaire"
-        style="@style/CaVa.TextView.BigMargin"
-        android:layout_marginTop="@dimen/margin_huge"
-        android:text="Commentaire sur le traitement :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fet_textrespecte" />
-
-
-    <EditText
-        android:id="@+id/fet_commentaire"
-        style="@style/CaVa.EditText.BigMargin"
-        android:inputType="textMultiLine"
-        android:lines="5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fet_titrecommentaire" />
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

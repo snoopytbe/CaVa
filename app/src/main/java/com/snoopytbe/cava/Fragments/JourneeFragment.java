@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.snoopytbe.cava.Classes.ListeEtats;
 import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.R;
 
@@ -87,9 +88,42 @@ public class JourneeFragment extends Fragment {
     private void LoadEtatInUI() {
         date.setText(etat.DateLisible());
 
-        String textSommeil;
-        textSommeil = etat.getQualiteSommeil().getHeuresSommeil().Lisible() + "de sommeil";
-        sommeil.setText(textSommeil);
+        String myText;
+
+        myText = "Dormi " + etat.getQualiteSommeil().getHeuresSommeil().Lisible() + "\n";
+        myText += "Qualité : " + (int) etat.getQualiteSommeil().getRatingSommeil() + "/5";
+        sommeil.setText(myText);
+
+        if (etat.getTraitement().getRespecte()) {
+            myText = "Traitement habituel pris";
+        } else {
+            myText = "Traitement habituel modifié";
+        }
+        traitement.setText(myText);
+
+        ListeEtats.ListeAngoisses listeAngoisses = new ListeEtats.ListeAngoisses();
+        ListeEtats.ListeHumeurs listeHumeurs = new ListeEtats.ListeHumeurs();
+        ListeEtats.ListeEnergies listeEnergies = new ListeEtats.ListeEnergies();
+        ListeEtats.ListeIrritabilite listeIrritabilite = new ListeEtats.ListeIrritabilite();
+
+        myText = "Humeur : " + listeHumeurs.getListeNiveaux().get(etat.getHumeurMatin().getHumeur()).getNom() + "\n";
+        myText += "Angoisse : " + listeAngoisses.getListeNiveaux().get(etat.getHumeurMatin().getAngoisse()).getNom() + "\n";
+        myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurMatin().getEnergie()).getNom() + "\n";
+        myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurMatin().getIrritabilite()).getNom();
+        matin.setText(myText);
+
+        myText = "Humeur : " + listeHumeurs.getListeNiveaux().get(etat.getHumeurApresMidi().getHumeur()).getNom() + "\n";
+        myText += "Angoisse : " + listeAngoisses.getListeNiveaux().get(etat.getHumeurApresMidi().getAngoisse()).getNom() + "\n";
+        myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurApresMidi().getEnergie()).getNom() + "\n";
+        myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurApresMidi().getIrritabilite()).getNom();
+        aprem.setText(myText);
+
+        myText = "Humeur : " + listeHumeurs.getListeNiveaux().get(etat.getHumeurSoir().getHumeur()).getNom() + "\n";
+        myText += "Angoisse : " + listeAngoisses.getListeNiveaux().get(etat.getHumeurSoir().getAngoisse()).getNom() + "\n";
+        myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurSoir().getEnergie()).getNom() + "\n";
+        myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurSoir().getIrritabilite()).getNom();
+        soir.setText(myText);
+
     }
 
     private void SaveEtatFromUI() {
@@ -142,6 +176,7 @@ public class JourneeFragment extends Fragment {
         void ShowSommeilFragment(etat etat);
 
         void ShowTraitementFragment(etat etat);
+
         void onChargeEtatClicked(etat etat, String quand);
 
         void onOKFragmentJournee(etat etat);
