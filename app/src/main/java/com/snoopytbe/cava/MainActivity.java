@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.snoopytbe.cava.Classes.HeuresMinutes;
 import com.snoopytbe.cava.Classes.ListeEtats;
 import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.Dialogs.SommeilDialog;
 import com.snoopytbe.cava.Fragments.HumeurFragment;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
 import com.snoopytbe.cava.Fragments.ListeEtatsFragment;
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity
         TimePickerDialog.OnTimeSetListener,
         ListeEtatsFragment.ListeEtatsFragmentCallback,
         JourneeFragment.JourneeFragmentCallback,
-        TraitementFragment.TraitementFragmentCallback {
+        TraitementFragment.TraitementFragmentCallback,
+        SommeilDialog.SommeilDialogCallback {
 
     private MainFragment mainFragment;
     private etatViewModel etatViewModel;
@@ -143,6 +145,11 @@ public class MainActivity extends AppCompatActivity
         this.etatActuel = etat;
         etatViewModel.update(etat);
         ShowJourneeFragment(this.etatActuel);
+    }
+
+    @Override
+    public void onOkSommeilDialog(HeuresMinutes heuresMinutes) {
+
     }
 
     @Override

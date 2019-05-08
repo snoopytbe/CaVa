@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.snoopytbe.cava.Classes.ListeEtats;
+import com.snoopytbe.cava.R;
 
 public class ListeEtatsFragment extends DialogFragment {
 
@@ -38,15 +42,21 @@ public class ListeEtatsFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Choisir");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CaVaDialogTheme);
+        //builder.setTitle("Choisir");
         builder.setItems(listeEtats.getStringListeNiveaux().toArray(new CharSequence[listeEtats.getStringListeNiveaux().size()]), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 activityCallback.onEtatClicked(which);
             }
         });
-        return builder.create();
+        Dialog dialog = builder.create();
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        return dialog;
     }
 
     @Override

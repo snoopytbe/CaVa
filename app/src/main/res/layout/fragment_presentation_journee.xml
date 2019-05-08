@@ -18,7 +18,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/fes_imageRatingSommeil"
             style="@style/CaVa.ImageHumeur"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
             android:id="@+id/fpj_titreCardSommeil"
             style="@style/CaVa.TextView.TitreRubrique"
             android:text="Sommeil"
-            app:layout_constraintStart_toEndOf="@+id/imageView1"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -37,7 +37,7 @@
             style="@style/CaVa.TextView.Rubrique"
             android:lines="2"
             android:text="Dormi 7h\nQualité du sommeil : 4/5"
-            app:layout_constraintStart_toEndOf="@+id/imageView1"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
             app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardSommeil" />
 
         <TextView
@@ -49,7 +49,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/include_separateur" />
+    <include layout="@layout/include_separateur_horizontal" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fpj_cardTraitement"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/fes_imageHeuresSommeil"
             style="@style/CaVa.ImageHumeur"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,14 +68,14 @@
             android:id="@+id/fpj_titreCardTraitement"
             style="@style/CaVa.TextView.TitreRubrique"
             android:text="Traitement"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresSommeil"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/fpj_textViewTraitement"
             style="@style/CaVa.TextView.Rubrique"
             android:text="Traitement habituel pris"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresSommeil"
             app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardTraitement" />
 
         <TextView
@@ -87,7 +87,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/include_separateur" />
+    <include layout="@layout/include_separateur_horizontal" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fpj_cardMatin"
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/fes_imageHeureCoucher"
             style="@style/CaVa.ImageHumeur"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
             android:id="@+id/fpj_titreCardMatin"
             style="@style/CaVa.TextView.TitreRubrique"
             android:text="Humeur du matin"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageHeureCoucher"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -114,7 +114,7 @@
             style="@style/CaVa.TextView.Rubrique"
             android:lines="4"
             android:text="Météo de l'humeur : soleil\nPas d'angoisse\nEn forme\nCool"
-            app:layout_constraintStart_toEndOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageHeureCoucher"
             app:layout_constraintTop_toBottomOf="@+id/fpj_titreCardMatin" />
 
         <TextView
@@ -126,7 +126,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/include_separateur" />
+    <include layout="@layout/include_separateur_horizontal" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fpj_cardAprem"
@@ -165,7 +165,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/include_separateur" />
+    <include layout="@layout/include_separateur_horizontal" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fpj_cardSoir"
@@ -204,6 +204,6 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/include_separateur" />
+    <include layout="@layout/include_separateur_horizontal" />
 
 </LinearLayout>

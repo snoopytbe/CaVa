@@ -39,13 +39,27 @@ public class HeuresMinutes implements Serializable {
 
     public String Lisible() {
         String resultat;
-        resultat = this.heures + "h";
+        if (this.heures < 10) {
+            resultat = "0" + this.heures;
+        } else {
+            resultat = "" + this.heures;
+        }
+        resultat += "h";
         if (this.minutes < 10) {
             resultat += "0" + this.minutes;
         } else {
             resultat += this.minutes;
         }
         return resultat;
+    }
+
+    public int getIntQuinzaine() {
+        return this.heures * 4 + this.minutes / 15;
+    }
+
+    public void setIntQuinzaine(int heuresminutes) {
+        this.heures = (int) Math.ceil((double) heuresminutes / 4);
+        this.minutes = (heuresminutes - 4 * this.heures) * 15;
     }
 
     private void Corrige() {

@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.Dialogs.SommeilDialog;
 import com.snoopytbe.cava.R;
 
 import butterknife.BindView;
@@ -27,15 +28,15 @@ public class SommeilFragment extends Fragment {
     public SommeilFragment() {
     }
 
-    @BindView(R.id.ratingSommeil)
+    @BindView(R.id.fes_ratingSommeil)
     RatingBar ratingSommeil;
-    @BindView(R.id.textHeuresSommeil)
+    @BindView(R.id.fes_HeuresSommeil)
     TextView heuresSommeil;
-    @BindView(R.id.textHeureCoucher)
+    @BindView(R.id.fes_HeureCoucher)
     TextView heureCoucher;
-    @BindView(R.id.textHeureLever)
+    @BindView(R.id.fes_HeureLever)
     TextView heureLever;
-    @BindView(R.id.textHeuresInsomnie)
+    @BindView(R.id.fes_HeuresInsomnie)
     TextView heuresInsomnie;
     @BindView(R.id.tit_date)
     TextView date;
@@ -103,21 +104,23 @@ public class SommeilFragment extends Fragment {
         void onOkFragmentSommeil(etat etat);
     }
 
-    @OnClick(R.id.textHeureLever)
+    @OnClick(R.id.fes_HeureLever)
     public void changeHeureLever() {
         SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onHeuresSommeilClicked(etat, "Lever");
+        SommeilDialog sommeilDialog = SommeilDialog.newInstance(getActivity(), etat.getQualiteSommeil().getHeureLever());
+        sommeilDialog.show();
+        //if (activityCallback != null)
+        //    activityCallback.onHeuresSommeilClicked(etat, "Lever");
     }
 
-    @OnClick(R.id.textHeureCoucher)
+    @OnClick(R.id.fes_HeureCoucher)
     public void changeHeureCoucher() {
         SaveEtatFromUI();
         if (activityCallback != null)
             activityCallback.onHeuresSommeilClicked(etat, "Coucher");
     }
 
-    @OnClick(R.id.textHeuresInsomnie)
+    @OnClick(R.id.fes_HeuresInsomnie)
     public void changeHeuresInsomnie() {
         SaveEtatFromUI();
         if (activityCallback != null)

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/fes_imageRatingSommeil"
             style="@style/CaVa.ImageHumeur"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
             android:id="@+id/fet_titreTraitementActuel"
             style="@style/CaVa.TextView.TitreRubrique"
             android:text="Traitement actuel"
-            app:layout_constraintStart_toEndOf="@+id/imageView1"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -35,12 +35,12 @@
             style="@style/CaVa.EditText.BigMargin"
             android:hint="Saisissez ici votre traitement"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView1"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
             app:layout_constraintTop_toBottomOf="@+id/fet_titreTraitementActuel" />
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/include_separateur" />
+    <include layout="@layout/include_separateur_horizontal" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fet_zonerespect"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/fes_imageHeuresSommeil"
             style="@style/CaVa.ImageHumeur"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
             style="@style/CaVa.TextView.TitreRubrique.Centre"
             android:text="Traitement pris"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresSommeil"
             app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
@@ -76,7 +76,7 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/include_separateur" />
+    <include layout="@layout/include_separateur_horizontal" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/feh_zonecommentaires"
@@ -109,6 +109,6 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/include_separateur" />
+    <include layout="@layout/include_separateur_horizontal" />
 
 </LinearLayout>

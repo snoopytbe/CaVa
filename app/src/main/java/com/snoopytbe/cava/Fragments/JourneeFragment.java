@@ -36,7 +36,7 @@ public class JourneeFragment extends Fragment {
     TextView soir;
 
     private JourneeFragmentCallback activityCallback;
-    private com.snoopytbe.cava.Classes.etat etat;
+    private etat etat;
 
     public JourneeFragment() {
     }
@@ -123,7 +123,6 @@ public class JourneeFragment extends Fragment {
         myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurSoir().getEnergie()).getNom() + "\n";
         myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurSoir().getIrritabilite()).getNom();
         soir.setText(myText);
-
     }
 
     private void SaveEtatFromUI() {
