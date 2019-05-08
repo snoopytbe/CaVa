@@ -66,13 +66,7 @@
         <item name="android:layout_marginStart">@dimen/margin_tiny</item>
     </style>
 
-    <style name="CaVa.TextView.SmallMargin">
-        <item name="android:layout_marginStart">@dimen/margin_small</item>
-        <item name="android:layout_marginTop">@dimen/margin_small</item>
-        <item name="android:layout_marginEnd">@dimen/margin_small</item>
-    </style>
-
-    <style name="CaVa.TextView.BigMargin">
+    <style name="CaVa.TextView.Dialog">
         <item name="android:layout_marginStart">@dimen/margin_large</item>
         <item name="android:layout_marginTop">@dimen/margin_huge</item>
         <item name="android:layout_marginEnd">@dimen/margin_large</item>
@@ -92,9 +86,7 @@
     <style name="CaVa.ImageHumeur">
         <item name="android:layout_width">@dimen/largeur_image_humeur</item>
         <item name="android:layout_height">@dimen/largeur_image_humeur</item>
-        <item name="android:layout_marginStart">@dimen/margin_small</item>
-        <item name="android:layout_marginTop">@dimen/margin_small</item>
-        <item name="android:layout_marginBottom">@dimen/margin_small</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
     </style>
 
     <style name="CaVa.EditText" parent="Widget.AppCompat.EditText">
@@ -123,11 +115,9 @@
     <style name="CaVa.Bouton" parent="Widget.AppCompat.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/margin_small</item>
-        <item name="android:layout_marginTop">@dimen/margin_small</item>
-        <item name="android:layout_marginEnd">@dimen/margin_small</item>
-        <item name="android:layout_marginBottom">@dimen/margin_small</item>
-        <item name="android:background">@color/colorBackgroundDark</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
+        <item name="android:background">@color/colorBackground</item>
+        <item name="android:stateListAnimator">@null</item>
 
     </style>
 

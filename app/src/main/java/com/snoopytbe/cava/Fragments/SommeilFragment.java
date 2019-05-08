@@ -12,7 +12,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.snoopytbe.cava.Classes.etat;
-import com.snoopytbe.cava.Dialogs.SommeilDialog;
 import com.snoopytbe.cava.R;
 
 import butterknife.BindView;
@@ -98,40 +97,25 @@ public class SommeilFragment extends Fragment {
         etat.getQualiteSommeil().setRatingSommeil(ratingSommeil.getRating());
     }
 
-    public interface SommeilFragmentCallback {
-        void onHeuresSommeilClicked(etat etat, String tagTimeset);
-
-        void onOkFragmentSommeil(etat etat);
-    }
-
-    @OnClick(R.id.fes_HeureLever)
-    public void changeHeureLever() {
-        SaveEtatFromUI();
-        SommeilDialog sommeilDialog = SommeilDialog.newInstance(getActivity(), etat.getQualiteSommeil().getHeureLever());
-        sommeilDialog.show();
-        //if (activityCallback != null)
-        //    activityCallback.onHeuresSommeilClicked(etat, "Lever");
-    }
-
-    @OnClick(R.id.fes_HeureCoucher)
-    public void changeHeureCoucher() {
+    @OnClick(R.id.fes_zoneQuantite)
+    public void changeHeuresSommeil() {
         SaveEtatFromUI();
         if (activityCallback != null)
-            activityCallback.onHeuresSommeilClicked(etat, "Coucher");
-    }
-
-    @OnClick(R.id.fes_HeuresInsomnie)
-    public void changeHeuresInsomnie() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onHeuresSommeilClicked(etat, "Insomnie");
+            activityCallback.ShowHeuresSommeil(etat);
     }
 
     @OnClick(R.id.tit_retour)
     public void ok() {
         SaveEtatFromUI();
         if (activityCallback != null)
-            activityCallback.onOkFragmentSommeil(etat);
+            activityCallback.onRetourFragmentSommeil(etat);
+    }
+
+    public interface SommeilFragmentCallback {
+
+        void onRetourFragmentSommeil(etat etat);
+
+        void ShowHeuresSommeil(etat etat);
     }
 
 }

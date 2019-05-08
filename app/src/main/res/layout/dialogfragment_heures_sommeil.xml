@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/CaVaDialogTheme"
+    android:layout_margin="@dimen/margin_large">
+
+    <TextView
+        android:id="@+id/dhs_textCoucher"
+        style="@style/CaVa.TextView.Dialog"
+        android:text="Coucher"
+        app:layout_constraintEnd_toEndOf="@+id/guideline1"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dhs_textLever"
+        style="@style/CaVa.TextView.Dialog"
+        android:text="Lever"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dhs_textInsomnie"
+        style="@style/CaVa.TextView.Dialog"
+        android:text="Insomnie"
+        app:layout_constraintEnd_toEndOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <NumberPicker
+        android:id="@+id/dhs_coucher"
+        style="@style/CaVa.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/dhs_textCoucher"
+        app:layout_constraintStart_toStartOf="@+id/dhs_textCoucher"
+        app:layout_constraintTop_toBottomOf="@+id/dhs_textCoucher" />
+
+    <NumberPicker
+        android:id="@+id/dhs_lever"
+        style="@style/CaVa.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/dhs_textLever"
+        app:layout_constraintStart_toStartOf="@+id/dhs_textLever"
+        app:layout_constraintTop_toBottomOf="@+id/dhs_textLever" />
+
+    <NumberPicker
+        android:id="@+id/dhs_insomnie"
+        style="@style/CaVa.TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/dhs_textInsomnie"
+        app:layout_constraintStart_toStartOf="@+id/dhs_textInsomnie"
+        app:layout_constraintTop_toBottomOf="@+id/dhs_textInsomnie" />
+
+    <Button
+        android:id="@+id/dhs_boutonCancel"
+        style="@style/CaVa.Bouton"
+        android:text="Annuler"
+        app:layout_constraintEnd_toStartOf="@+id/dhs_boutonOK"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dhs_coucher" />
+
+    <Button
+        android:id="@+id/dhs_boutonOK"
+        style="@style/CaVa.Bouton"
+        android:text="OK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dhs_boutonCancel"
+        app:layout_constraintTop_toBottomOf="@+id/dhs_coucher" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".20" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".50" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".80" />
+
+</android.support.constraint.ConstraintLayout>

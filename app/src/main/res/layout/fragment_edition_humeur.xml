@@ -194,10 +194,7 @@
         <EditText
             android:id="@+id/feh_commentaire"
             style="@style/CaVa.EditText.BigMargin"
-            android:layout_marginEnd="8dp"
             android:hint="Tapez vos commentaires"
-            android:inputType="textMultiLine"
-            android:lines="5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView6"
             app:layout_constraintTop_toBottomOf="@+id/feh_titrecommentaire" />

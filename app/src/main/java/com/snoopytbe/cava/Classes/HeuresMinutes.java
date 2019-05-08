@@ -58,8 +58,10 @@ public class HeuresMinutes implements Serializable {
     }
 
     public void setIntQuinzaine(int heuresminutes) {
-        this.heures = (int) Math.ceil((double) heuresminutes / 4);
+        this.heures = (int) Math.floor((double) heuresminutes / 4);
+        //Log.e("rien", "setIntQuinzaine: heures : "+ this.heures );
         this.minutes = (heuresminutes - 4 * this.heures) * 15;
+        //Log.e("rien", "setIntQuinzaine: minutes : "+ this.minutes );
     }
 
     private void Corrige() {

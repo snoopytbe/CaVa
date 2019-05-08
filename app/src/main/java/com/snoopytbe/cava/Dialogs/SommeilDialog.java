@@ -15,7 +15,7 @@ import butterknife.OnClick;
 
 public class SommeilDialog extends Dialog {
 
-    @BindView(R.id.dhs_hour)
+    @BindView(R.id.dhs_coucher)
     NumberPicker heure;
     private HeuresMinutes heuresMinutes;
     private SommeilDialogCallback activityCallback;
@@ -37,7 +37,7 @@ public class SommeilDialog extends Dialog {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_heures_sommeil);
+        setContentView(R.layout.dialogfragment_heures_sommeil);
 
         ButterKnife.bind(this);
 

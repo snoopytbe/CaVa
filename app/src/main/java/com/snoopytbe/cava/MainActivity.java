@@ -1,25 +1,21 @@
 package com.snoopytbe.cava;
 
-import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.snoopytbe.cava.Classes.HeuresMinutes;
 import com.snoopytbe.cava.Classes.ListeEtats;
 import com.snoopytbe.cava.Classes.etat;
-import com.snoopytbe.cava.Dialogs.SommeilDialog;
 import com.snoopytbe.cava.Fragments.HumeurFragment;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
 import com.snoopytbe.cava.Fragments.ListeEtatsFragment;
 import com.snoopytbe.cava.Fragments.MainFragment;
+import com.snoopytbe.cava.Fragments.SommeilDialogFragment;
 import com.snoopytbe.cava.Fragments.SommeilFragment;
-import com.snoopytbe.cava.Fragments.TimeFragment;
 import com.snoopytbe.cava.Fragments.TraitementFragment;
 import com.snoopytbe.cava.db.etatViewModel;
 
@@ -33,16 +29,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements HumeurFragment.HumeurFragmentCallback,
         SommeilFragment.SommeilFragmentCallback,
-        TimePickerDialog.OnTimeSetListener,
         ListeEtatsFragment.ListeEtatsFragmentCallback,
         JourneeFragment.JourneeFragmentCallback,
         TraitementFragment.TraitementFragmentCallback,
-        SommeilDialog.SommeilDialogCallback {
+        SommeilDialogFragment.SommeilDialogFragmentCallback {
 
     private MainFragment mainFragment;
     private etatViewModel etatViewModel;
     private etat etatActuel;
-    private String tagTimeset;
     private String tagEtats;
     private String tagMoment;
 
@@ -110,7 +104,6 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
-
     @Override
     public void ShowSommeilFragment(etat etat) {
         this.etatActuel = etat;
@@ -121,6 +114,14 @@ public class MainActivity extends AppCompatActivity
                 .addToBackStack("Sommeil")
                 .commit();
     }
+
+    @Override
+    public void ShowHeuresSommeil(etat etat) {
+        this.etatActuel = etat;
+        SommeilDialogFragment sommeilDialogFragment = SommeilDialogFragment.newInstance(this.etatActuel);
+        sommeilDialogFragment.show(getSupportFragmentManager(), "EditionHeure");
+    }
+
 
     @Override
     public void ShowTraitementFragment(etat etat) {
@@ -148,8 +149,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onOkSommeilDialog(HeuresMinutes heuresMinutes) {
-
+    public void onOkSommeilDialogFragment(etat etat) {
+        this.etatActuel = etat;
+        etatViewModel.update(etat);
+        ShowSommeilFragment(this.etatActuel);
     }
 
     @Override
@@ -183,46 +186,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onOkFragmentSommeil(etat etat) {
+    public void onRetourFragmentSommeil(etat etat) {
         this.etatActuel = etat;
         etatViewModel.update(etat);
         ShowJourneeFragment(etat);
     }
 
     @Override
-    public void onHeuresSommeilClicked(etat etat, String tagTimeset) {
-        this.etatActuel = etat;
-        this.tagTimeset = tagTimeset;
-        Log.e("test", "onHeuresSommeilClicked: " + tagTimeset);
-        HeuresMinutes heuresMinutes = new HeuresMinutes();
-        if (tagTimeset == "Lever") {
-            heuresMinutes = etat.getQualiteSommeil().getHeureLever();
-        } else if (tagTimeset == "Coucher") {
-            heuresMinutes = etat.getQualiteSommeil().getHeureCoucher();
-        } else if (tagTimeset == "Insomnie") {
-            heuresMinutes = etat.getQualiteSommeil().getHeuresInsomnie();
-        }
-        TimeFragment timeFragment = TimeFragment.newInstance(heuresMinutes);
-        timeFragment.show(getSupportFragmentManager(), "timePicker");
-    }
-
-    @Override
     public void onChargeEtatClicked(etat etat, String quand) {
         this.tagMoment = quand;
         ShowHumeurFragment(etat, quand);
-    }
-
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Log.e("test", "onTimeSet: " + tagTimeset);
-        if (this.tagTimeset == "Lever") {
-            this.etatActuel.getQualiteSommeil().setHeureLever(new HeuresMinutes(hourOfDay, minute));
-        } else if (this.tagTimeset == "Coucher") {
-            this.etatActuel.getQualiteSommeil().setHeureCoucher(new HeuresMinutes(hourOfDay, minute));
-        } else if (this.tagTimeset == "Insomnie") {
-            this.etatActuel.getQualiteSommeil().setHeuresInsomnie(new HeuresMinutes(hourOfDay, minute));
-        }
-        this.ShowSommeilFragment(this.etatActuel);
     }
 
     @Override
