@@ -23,6 +23,10 @@ public class etatRepository {
         return mAllEtats;
     }
 
+    public etat getEtatFromID(int paramID) {
+        return mEtatDao.getEtatFromID(paramID);
+    }
+
     public void insert(etat etat) {
         new insertAsyncTask(mEtatDao).execute(etat);
     }

@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import icepick.Icepick;
+import icepick.State;
+
 public class MainActivity extends AppCompatActivity
         implements HumeurFragment.HumeurFragmentCallback,
         SommeilFragment.SommeilFragmentCallback,
@@ -36,20 +39,62 @@ public class MainActivity extends AppCompatActivity
 
     private MainFragment mainFragment;
     private etatViewModel etatViewModel;
-    private etat etatActuel;
-    private String tagEtats;
-    private String tagMoment;
+
+    @State
+    String currentFragment;
+    @State
+    etat etatActuel;
+    @State
+    String tagMoment;
+    @State
+    String tagEtats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Icepick.restoreInstanceState(this, savedInstanceState);
+
         //importDB();
         Log.e("Test", "Top départ");
         setContentView(R.layout.activity_main);
+
+        if (etatViewModel == null) {
+            Log.e("Test", "ConfigureDb");
+            this.ConfigureDb();
+        }
+        //if (currentFragment==null) {
+        Log.e("Test", "Affichage configureAndShowMainFragment");
         this.configureAndShowMainFragment();
-        this.ConfigureDb();
+        /*} else switch (currentFragment) {
+            case "Main":
+                Log.e("Test", "Affichage configureAndShowMainFragment");
+                this.configureAndShowMainFragment();
+                break;
+            case "Journee":
+                Log.e("Test", "Affichage ShowJourneeFragment");
+                this.ShowJourneeFragment(this.etatActuel);
+                break;
+            case "Sommeil":
+                this.ShowSommeilFragment(this.etatActuel);
+                break;
+            case "Traitement":
+                this.ShowTraitementFragment(this.etatActuel);
+                break;
+            case "Humeur":
+                this.ShowHumeurFragment(this.etatActuel, this.tagMoment);
+                break;
+            default:
+                this.ShowMainFragment();
+                break;
+        }*/
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.e("Test", "Sauvegarde InstanceState");
+        super.onSaveInstanceState(outState);
+        Icepick.saveInstanceState(this, outState);
+    }
 
     private void ConfigureDb() {
         etatViewModel = ViewModelProviders.of(this).get(etatViewModel.class);
@@ -63,6 +108,7 @@ public class MainActivity extends AppCompatActivity
 
     private void configureAndShowMainFragment() {
 
+        currentFragment = "Main";
         mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
 
         if (mainFragment == null) {
@@ -76,15 +122,33 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void ShowMainFragment() {
-        etatActuel = null;
+        if (currentFragment != "Main") {
+            currentFragment = "Main";
+            etatActuel = null;
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.activity_main_layout, mainFragment)
+                    .addToBackStack("Main")
+                    .commit();
+        }
+    }
+
+    public void ShowJourneeFragment(etat etat) {
+        Log.e("Test", "Affichage ShowJourneeFragment");
+        currentFragment = "Journee";
+        Log.e("Test", "Affichage ShowJourneeFragment");
+        this.etatActuel = etat;
+        Log.e("Test", "Affichage ShowJourneeFragment");
+        JourneeFragment journeeFragment = JourneeFragment.newInstance(etat);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.activity_main_layout, mainFragment)
-                .addToBackStack("Main")
+                .replace(R.id.activity_main_layout, journeeFragment, null)
+                .addToBackStack("Journee")
                 .commit();
     }
 
     public void ShowHumeurFragment(etat etat, String quand) {
+        currentFragment = "Humeur";
         this.etatActuel = etat;
         HumeurFragment humeurFragment = HumeurFragment.newInstance(etat, quand);
         getSupportFragmentManager()
@@ -94,18 +158,9 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
-    public void ShowJourneeFragment(etat etat) {
-        this.etatActuel = etat;
-        JourneeFragment journeeFragment = JourneeFragment.newInstance(etat);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.activity_main_layout, journeeFragment, null)
-                .addToBackStack("Journee")
-                .commit();
-    }
-
     @Override
     public void ShowSommeilFragment(etat etat) {
+        currentFragment = "Sommeil";
         this.etatActuel = etat;
         SommeilFragment sommeilFragment = SommeilFragment.newInstance(etat);
         getSupportFragmentManager()
@@ -125,6 +180,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void ShowTraitementFragment(etat etat) {
+        currentFragment = "Traitement";
         this.etatActuel = etat;
         TraitementFragment traitementFragment = TraitementFragment.newInstance(etat);
         getSupportFragmentManager()
@@ -182,7 +238,7 @@ public class MainActivity extends AppCompatActivity
     public void onOKFragmentJournee(etat etat) {
         this.etatActuel = etat;
         etatViewModel.update(etat);
-        ShowMainFragment();
+        this.ShowMainFragment();
     }
 
     @Override

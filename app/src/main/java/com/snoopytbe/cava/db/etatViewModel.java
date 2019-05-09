@@ -32,4 +32,8 @@ public class etatViewModel extends AndroidViewModel {
     public void update(etat etat) {
         mRepository.update(etat);
     }
+
+    public etat getEtatFromID(int paramID) {
+        return mRepository.getEtatFromID(paramID);
+    }
 }

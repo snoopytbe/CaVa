@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -136,14 +137,20 @@ public class SommeilDialogFragment extends DialogFragment {
     }
 
     private void SaveEtatFromUI() {
-
     }
 
     @OnClick(R.id.dhs_boutonOK)
     public void Ok() {
-        this.etat.getQualiteSommeil().getHeureLever().setIntQuinzaine(lever.getValue());
-        this.etat.getQualiteSommeil().getHeureCoucher().setIntQuinzaine(coucher.getValue());
-        this.etat.getQualiteSommeil().getHeuresInsomnie().setIntQuinzaine(insomnie.getValue());
+        HeuresMinutes time = new HeuresMinutes();
+        time.setIntQuinzaine(lever.getValue());
+        this.etat.getQualiteSommeil().setHeureLever(new HeuresMinutes(time.getHeures(), time.getMinutes()));
+        Log.e("Test", "@OnClick(R.id.dhs_boutonOK) : " + etat.getQualiteSommeil().getHeureLever().Lisible());
+        time.setIntQuinzaine(coucher.getValue());
+        this.etat.getQualiteSommeil().setHeureCoucher(new HeuresMinutes(time.getHeures(), time.getMinutes()));
+        Log.e("Test", "@OnClick(R.id.dhs_boutonOK) : " + etat.getQualiteSommeil().getHeureLever().Lisible());
+        time.setIntQuinzaine(insomnie.getValue());
+        this.etat.getQualiteSommeil().setHeuresInsomnie(new HeuresMinutes(time.getHeures(), time.getMinutes()));
+        Log.e("Test", "@OnClick(R.id.dhs_boutonOK) : " + etat.getQualiteSommeil().getHeureLever().Lisible());
 
         if (activityCallback != null)
             activityCallback.onOkSommeilDialogFragment(this.etat);

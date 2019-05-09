@@ -34,6 +34,9 @@ public interface etatDao {
 
     @Query("SELECT * from etat_table where date = (SELECT MAX(date) from etat_table)")
     etat getEtatDernierJour();
+
+    @Query("SELECT * from etat_table WHERE id = :paramID")
+    etat getEtatFromID(int paramID);
 }
 
 
