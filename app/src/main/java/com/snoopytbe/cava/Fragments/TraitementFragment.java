@@ -92,9 +92,9 @@ public class TraitementFragment extends Fragment {
     }
 
     private void SaveEtatFromUI() {
-        etat.getTraitement().setActuel(actuel.getText().toString());
-        etat.getTraitement().setRespecte(respecte.isChecked());
-        etat.getTraitement().setCommentaire(commentaire.getText().toString());
+        this.etat.getTraitement().setActuel(actuel.getText().toString());
+        this.etat.getTraitement().setRespecte(respecte.isChecked());
+        this.etat.getTraitement().setCommentaire(commentaire.getText().toString());
     }
 
     @OnClick(R.id.tit_retour)

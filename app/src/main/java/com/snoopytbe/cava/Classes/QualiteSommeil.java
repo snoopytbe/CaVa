@@ -22,11 +22,19 @@ public class QualiteSommeil implements Serializable {
     @Embedded(prefix = "insomnie_")
     private HeuresMinutes heuresInsomnie;
 
-    public QualiteSommeil(float ratingSommeil, HeuresMinutes heureCoucher, HeuresMinutes heureLever, HeuresMinutes heuresInsomnie) {
+    @Embedded(prefix = "sieste_")
+    private HeuresMinutes heuresSieste;
+
+    @ColumnInfo(name = "commentaireSommeil")
+    private String commentaire;
+
+    public QualiteSommeil(float ratingSommeil, HeuresMinutes heureCoucher, HeuresMinutes heureLever, HeuresMinutes heuresInsomnie, HeuresMinutes heuresSieste, String commentaire) {
         this.ratingSommeil = ratingSommeil;
         this.heureCoucher = heureCoucher;
         this.heureLever = heureLever;
         this.heuresInsomnie = heuresInsomnie;
+        this.heuresSieste = heuresSieste;
+        this.commentaire = commentaire;
         this.heuresSommeil = new HeuresMinutes();
         calculeHeuresSommeil();
     }
@@ -37,6 +45,8 @@ public class QualiteSommeil implements Serializable {
         this.heureCoucher = new HeuresMinutes("23h");
         this.heureLever = new HeuresMinutes("7h");
         this.heuresInsomnie = new HeuresMinutes("0h");
+        this.heuresSieste = new HeuresMinutes("0h");
+        this.commentaire = "";
         this.heuresSommeil = new HeuresMinutes();
         calculeHeuresSommeil();
     }
@@ -89,5 +99,21 @@ public class QualiteSommeil implements Serializable {
     public void setHeuresInsomnie(HeuresMinutes heuresInsomnie) {
         this.heuresInsomnie = heuresInsomnie;
         calculeHeuresSommeil();
+    }
+
+    public HeuresMinutes getHeuresSieste() {
+        return heuresSieste;
+    }
+
+    public void setHeuresSieste(HeuresMinutes heuresSieste) {
+        this.heuresSieste = heuresSieste;
+    }
+
+    public String getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
     }
 }

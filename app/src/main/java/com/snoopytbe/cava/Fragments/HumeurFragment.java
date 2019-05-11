@@ -125,7 +125,7 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
 
         Log.e("Test", "Départ config");
 
-        //SpinnerHumeur.setSelection(etat.getHumeur());
+
         date.setText(etat.DateLisible());
 
         Humeur humeur = new Humeur();

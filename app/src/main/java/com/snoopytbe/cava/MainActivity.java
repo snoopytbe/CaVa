@@ -13,7 +13,7 @@ import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.Fragments.HumeurFragment;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
 import com.snoopytbe.cava.Fragments.ListeEtatsFragment;
-import com.snoopytbe.cava.Fragments.MainFragment;
+import com.snoopytbe.cava.Fragments.MainFragment_ViewPager;
 import com.snoopytbe.cava.Fragments.SommeilDialogFragment;
 import com.snoopytbe.cava.Fragments.SommeilFragment;
 import com.snoopytbe.cava.Fragments.TraitementFragment;
@@ -27,7 +27,6 @@ import java.io.OutputStream;
 import java.util.List;
 
 import icepick.Icepick;
-import icepick.State;
 
 public class MainActivity extends AppCompatActivity
         implements HumeurFragment.HumeurFragmentCallback,
@@ -35,19 +34,16 @@ public class MainActivity extends AppCompatActivity
         ListeEtatsFragment.ListeEtatsFragmentCallback,
         JourneeFragment.JourneeFragmentCallback,
         TraitementFragment.TraitementFragmentCallback,
-        SommeilDialogFragment.SommeilDialogFragmentCallback {
+        SommeilDialogFragment.DialogHeuresMinutesCallback {
 
-    private MainFragment mainFragment;
+    //private MainFragment_RecyclerView mainFragment;
+    private MainFragment_ViewPager mainFragment;
     private etatViewModel etatViewModel;
 
-    @State
-    String currentFragment;
-    @State
-    etat etatActuel;
-    @State
-    String tagMoment;
-    @State
-    String tagEtats;
+    private String currentFragment;
+    private etat etatActuel;
+    private String tagMoment;
+    private String tagEtats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +59,8 @@ public class MainActivity extends AppCompatActivity
             this.ConfigureDb();
         }
         //if (currentFragment==null) {
-        Log.e("Test", "Affichage configureAndShowMainFragment");
         this.configureAndShowMainFragment();
+
         /*} else switch (currentFragment) {
             case "Main":
                 Log.e("Test", "Affichage configureAndShowMainFragment");
@@ -109,10 +105,12 @@ public class MainActivity extends AppCompatActivity
     private void configureAndShowMainFragment() {
 
         currentFragment = "Main";
-        mainFragment = (MainFragment) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
-
+        //mainFragment = (MainFragment_RecyclerView) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
+        mainFragment = (MainFragment_ViewPager) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
+        Log.e("Test", "configureAndShowMainFragment: ");
         if (mainFragment == null) {
-            mainFragment = new MainFragment();
+            //mainFragment = new MainFragment_RecyclerView();
+            mainFragment = new MainFragment_ViewPager();
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.activity_main_layout, mainFragment)
@@ -122,29 +120,28 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void ShowMainFragment() {
-        if (currentFragment != "Main") {
-            currentFragment = "Main";
-            etatActuel = null;
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.activity_main_layout, mainFragment)
-                    .addToBackStack("Main")
-                    .commit();
-        }
+        //if (currentFragment != "Main") {
+        //    currentFragment = "Main";
+        etatActuel = null;
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_main_layout, mainFragment)
+                .addToBackStack("Main")
+                .commit();
+        //}
     }
 
     public void ShowJourneeFragment(etat etat) {
-        Log.e("Test", "Affichage ShowJourneeFragment");
+        ShowMainFragment();
+        /*Log.e("Test", "ShowJourneeFragment : " + etat.getTraitement().getCommentaire());
         currentFragment = "Journee";
-        Log.e("Test", "Affichage ShowJourneeFragment");
         this.etatActuel = etat;
-        Log.e("Test", "Affichage ShowJourneeFragment");
         JourneeFragment journeeFragment = JourneeFragment.newInstance(etat);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.activity_main_layout, journeeFragment, null)
                 .addToBackStack("Journee")
-                .commit();
+                .commit();*/
     }
 
     public void ShowHumeurFragment(etat etat, String quand) {
@@ -173,7 +170,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void ShowHeuresSommeil(etat etat) {
         this.etatActuel = etat;
-        SommeilDialogFragment sommeilDialogFragment = SommeilDialogFragment.newInstance(this.etatActuel);
+        SommeilDialogFragment sommeilDialogFragment = SommeilDialogFragment.newInstance(etat);
         sommeilDialogFragment.show(getSupportFragmentManager(), "EditionHeure");
     }
 
@@ -199,13 +196,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onOKFragmentTraitement(etat etat) {
+        Log.e("Test", "onOKFragmentTraitement : " + etat.getTraitement().getCommentaire());
         this.etatActuel = etat;
         etatViewModel.update(etat);
         ShowJourneeFragment(this.etatActuel);
     }
 
     @Override
-    public void onOkSommeilDialogFragment(etat etat) {
+    public void onOkDialogFragmentHeuresMinutes(etat etat) {
         this.etatActuel = etat;
         etatViewModel.update(etat);
         ShowSommeilFragment(this.etatActuel);
@@ -236,6 +234,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onOKFragmentJournee(etat etat) {
+        Log.e("Test", "onOKFragmentJournee : " + etat.getTraitement().getCommentaire());
         this.etatActuel = etat;
         etatViewModel.update(etat);
         this.ShowMainFragment();
@@ -291,6 +290,41 @@ public class MainActivity extends AppCompatActivity
             }
         }
         ShowHumeurFragment(this.etatActuel, this.tagMoment);
+    }
+
+    public void exportDB() {
+        try {
+            // Database to backup
+            File dbFile = new File(this.getDatabasePath("etat_database").getAbsolutePath());
+            FileInputStream input = new FileInputStream(dbFile);
+
+            // Where to backup
+            String outFileName = "//sdcard" + File.separator + "SuiviEtatBackupDBs";
+            File folder = new File(outFileName);
+            boolean success = true;
+            if (!folder.exists()) {
+                success = folder.mkdirs();
+            }
+            outFileName += File.separator + "etat_database.db";
+            // Open the empty db as the output stream
+            OutputStream output = new FileOutputStream(outFileName);
+
+            // Transfer bytes from the inputfile to the outputfile
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = input.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
+            // Close the streams
+            output.flush();
+            output.close();
+            input.close();
+
+            Toast.makeText(this.getApplicationContext(), "Backup successfull", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            Log.e("exportDB:", e.getMessage());
+        }
     }
 
     private void importDB() {

@@ -6,6 +6,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
+import android.database.Cursor;
 
 import com.snoopytbe.cava.Classes.etat;
 
@@ -28,6 +29,9 @@ public interface etatDao {
 
     @Query("SELECT * from etat_table order by date DESC")
     LiveData<List<etat>> getAllEtats();
+
+    @Query("SELECT * from etat_table order by date DESC")
+    Cursor getAllEtatsForExport();
 
     @Query("SELECT MAX(date) from etat_table")
     long getDernierJour();

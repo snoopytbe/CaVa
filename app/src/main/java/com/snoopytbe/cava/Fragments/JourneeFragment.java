@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class JourneeFragment extends Fragment {
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, etat);
         fragment.setArguments(args);
+        Log.e("test", "newInstance: " + etat.DateLisible());
         return fragment;
     }
 
@@ -85,7 +87,15 @@ public class JourneeFragment extends Fragment {
         SaveEtatFromUI();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoadEtatInUI();
+    }
+
     private void LoadEtatInUI() {
+
+        Log.e("Test", "JourneeFragment : LoadEtatInUI");
         date.setText(etat.DateLisible());
 
         String myText;
@@ -164,7 +174,7 @@ public class JourneeFragment extends Fragment {
             activityCallback.ShowTraitementFragment(etat);
     }
 
-    @OnClick(R.id.tit_retour)
+    //@OnClick(R.id.tit_retour)
     public void ok() {
         SaveEtatFromUI();
         if (activityCallback != null)

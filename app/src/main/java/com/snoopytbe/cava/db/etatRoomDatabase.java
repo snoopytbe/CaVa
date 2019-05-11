@@ -5,6 +5,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -14,7 +15,7 @@ import com.snoopytbe.cava.Converters.Converters;
 
 import java.util.Calendar;
 
-@Database(entities = {etat.class}, version = 2)
+@Database(entities = {etat.class}, version = 3)
 @TypeConverters({Converters.class})
 public abstract class etatRoomDatabase extends RoomDatabase {
 
@@ -38,12 +39,22 @@ public abstract class etatRoomDatabase extends RoomDatabase {
     };
 
 
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE etat_table ADD COLUMN sieste_heures INTEGER");
+            database.execSQL("ALTER TABLE etat_table ADD COLUMN sieste_minutes INTEGER");
+            database.execSQL("ALTER TABLE etat_table ADD COLUMN commentaireSommeil TEXT");
+        }
+    };
+
     static etatRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (etatRoomDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             etatRoomDatabase.class, "etat_database")
+                            .addMigrations(MIGRATION_2_3)
                             .setJournalMode(JournalMode.TRUNCATE)
                             .fallbackToDestructiveMigration()
                             .addCallback(sRoomDatabaseCallback)

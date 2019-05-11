@@ -68,10 +68,10 @@
 
         <TextView
             android:id="@+id/fes_HeuresSommeil"
-            style="@style/CaVa.TextView.Rubrique.Centre"
+            style="@style/CaVa.TextView.Rubrique.CentreAligne"
             android:text="07h00"
             app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresSommeil"
-            app:layout_constraintStart_toEndOf="@+id/fes_titreHeuresSommeil"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
             app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresSommeil" />
 
         <ImageView
@@ -94,7 +94,7 @@
             style="@style/CaVa.TextView.Rubrique.CentreAligne"
             android:text="23h00"
             app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureCoucher"
-            app:layout_constraintStart_toStartOf="@+id/fes_HeuresSommeil"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
             app:layout_constraintTop_toTopOf="@+id/fes_imageHeureCoucher" />
 
 
@@ -118,7 +118,7 @@
             style="@style/CaVa.TextView.Rubrique.CentreAligne"
             android:text="07h00"
             app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureLever"
-            app:layout_constraintStart_toStartOf="@+id/fes_HeuresSommeil"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
             app:layout_constraintTop_toTopOf="@+id/fes_imageHeureLever" />
 
 
@@ -142,15 +142,63 @@
             style="@style/CaVa.TextView.Rubrique.CentreAligne"
             android:text="00h00"
             app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresInsomnie"
-            app:layout_constraintStart_toStartOf="@+id/fes_HeuresSommeil"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
             app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresInsomnie" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".50" />
 
     </android.support.constraint.ConstraintLayout>
 
     <include layout="@layout/include_separateur_horizontal" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/cardCommentaireSommeil"
+        android:id="@+id/fes_zoneSieste"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/fes_imageSieste"
+            style="@style/CaVa.ImageHumeur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/sleeping_symbol" />
+
+        <TextView
+            android:id="@+id/fes_titreSieste"
+            style="@style/CaVa.TextView.TitreRubrique.Centre"
+            android:text="Sieste"
+            app:layout_constraintBottom_toBottomOf="@+id/fes_imageSieste"
+            app:layout_constraintStart_toEndOf="@+id/fes_imageSieste"
+            app:layout_constraintTop_toTopOf="@+id/fes_imageSieste" />
+
+        <TextView
+            android:id="@+id/fes_HeuresSieste"
+            style="@style/CaVa.TextView.Rubrique.CentreAligne"
+            android:text="00h00"
+            app:layout_constraintBottom_toBottomOf="@+id/fes_imageSieste"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/fes_imageSieste" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".50" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <include layout="@layout/include_separateur_horizontal" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fes_zonecommentaires"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -163,7 +211,7 @@
             app:srcCompat="@drawable/commentaires" />
 
         <TextView
-            android:id="@+id/fet_titrecommentaire"
+            android:id="@+id/fes_titrecommentaire"
             style="@style/CaVa.TextView.TitreRubrique"
             android:text="Commentaires"
             app:layout_constraintStart_toEndOf="@+id/imageView6"
@@ -171,16 +219,15 @@
 
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/fes_commentaire"
             style="@style/CaVa.EditText.BigMargin"
             android:hint="Tapez vos commentaires"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toBottomOf="@+id/fet_titrecommentaire" />
+            app:layout_constraintTop_toBottomOf="@+id/fes_titrecommentaire" />
 
     </android.support.constraint.ConstraintLayout>
 
     <include layout="@layout/include_separateur_horizontal" />
-
 
 </LinearLayout>

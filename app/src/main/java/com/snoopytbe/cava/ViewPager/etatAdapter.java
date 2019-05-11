@@ -20,11 +20,17 @@ public class etatAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
+        //Log.e("test", "getItem: "+ i);
         return (JourneeFragment.newInstance(mEtats.get(i)));
     }
 
+    /*public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }*/
+
     public void setEtats(List<etat> etats) {
         this.mEtats = etats;
+        //Log.e("test", "setEtats: " + mEtats.size());
         notifyDataSetChanged();
     }
 

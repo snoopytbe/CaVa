@@ -6,11 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.MainActivity;
@@ -18,24 +16,19 @@ import com.snoopytbe.cava.R;
 import com.snoopytbe.cava.RecyclerView.EtatListAdapter;
 import com.snoopytbe.cava.utils.ItemClickSupport;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainFragment extends Fragment {
+public class MainFragment_RecyclerView extends Fragment {
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
     private EtatListAdapter adapter;
     public View myView;
 
-    public MainFragment() {
+    public MainFragment_RecyclerView() {
     }
 
     @Nullable
@@ -44,13 +37,13 @@ public class MainFragment extends Fragment {
         if (myView == null) {
             myView = inflater.inflate(R.layout.fragment_recyclerview, container, false);
             ButterKnife.bind(this, myView);
-            ConfigureRecyclerView(myView);
+            ConfigureRecyclerView();
             ConfigureOnClickRecyclerView();
         }
         return myView;
     }
 
-    private void ConfigureRecyclerView(View view) {
+    private void ConfigureRecyclerView() {
         adapter = new EtatListAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -70,41 +63,4 @@ public class MainFragment extends Fragment {
                     }
                 });
     }
-
-    //@OnClick(R.id.buttonSave)
-    public void exportDB() {
-        try {
-            // Database to backup
-            File dbFile = new File(((MainActivity) getActivity()).getDatabasePath("etat_database").getAbsolutePath());
-            FileInputStream input = new FileInputStream(dbFile);
-
-            // Where to backup
-            String outFileName = "//sdcard" + File.separator + "SuiviEtatBackupDBs";
-            File folder = new File(outFileName);
-            boolean success = true;
-            if (!folder.exists()) {
-                success = folder.mkdirs();
-            }
-            outFileName += File.separator + "etat_database.db";
-            // Open the empty db as the output stream
-            OutputStream output = new FileOutputStream(outFileName);
-
-            // Transfer bytes from the inputfile to the outputfile
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = input.read(buffer)) > 0) {
-                output.write(buffer, 0, length);
-            }
-            // Close the streams
-            output.flush();
-            output.close();
-            input.close();
-
-            Toast.makeText(((MainActivity) getActivity()).getApplicationContext(), "Backup successfull", Toast.LENGTH_SHORT).show();
-
-        } catch (IOException e) {
-            Log.e("exportDB:", e.getMessage());
-        }
-    }
-
 }
