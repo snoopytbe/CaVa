@@ -15,15 +15,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.NumberPicker;
 
+import com.snoopytbe.cava.Classes.HeuresMinutes;
 import com.snoopytbe.cava.Classes.etat;
 
 import butterknife.ButterKnife;
 
 public abstract class DialogHeuresMinutes extends DialogFragment {
 
-    protected static String ARG_PARAM1 = "Etat";
     protected DialogHeuresMinutesCallback activityCallback;
-    protected etat etat;
+
 
     protected abstract int getFragmentLayout();
 
@@ -39,14 +39,6 @@ public abstract class DialogHeuresMinutes extends DialogFragment {
         ButterKnife.bind(this, view);
         LoadDatainUI();
         return view;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            etat = (etat) getArguments().getSerializable(ARG_PARAM1);
-        }
     }
 
     @Override
@@ -88,9 +80,26 @@ public abstract class DialogHeuresMinutes extends DialogFragment {
 
     }
 
-    protected void configureNumberPicker(NumberPicker numberPicker, int MinValue, int MaxValue, String[] DisplayedValue, boolean WrapSelectorWheel, int Value) {
+    protected String[] configureHeuresAffichees(int pas) {
+
+        String[] heuresAffichees = new String[96];
+        HeuresMinutes time = new HeuresMinutes();
+        int compteur = 0;
+
+        for (int i = 0; i < 24; i++) {
+            time.setHeures(i);
+            for (int j = 0; j < 60; j += pas) {
+                time.setMinutes(j);
+                heuresAffichees[compteur] = time.Lisible();
+                compteur++;
+            }
+        }
+        return heuresAffichees;
+    }
+
+    protected void configureNumberPicker(NumberPicker numberPicker, int MinValue, String[] DisplayedValue, boolean WrapSelectorWheel, int Value) {
         numberPicker.setMinValue(MinValue);
-        numberPicker.setMaxValue(MaxValue);
+        numberPicker.setMaxValue(MinValue + DisplayedValue.length - 1);
         numberPicker.setDisplayedValues(DisplayedValue);
         numberPicker.setWrapSelectorWheel(WrapSelectorWheel);
         numberPicker.setValue(Value);

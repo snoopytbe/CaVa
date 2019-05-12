@@ -20,12 +20,23 @@ public class SommeilDialogFragment extends DialogHeuresMinutes {
     @BindView(R.id.dhs_insomnie)
     NumberPicker insomnie;
 
+    protected static String ARG_ETAT = "Etat";
+    protected etat etat;
+
     public static SommeilDialogFragment newInstance(etat etat) {
         SommeilDialogFragment fragment = new SommeilDialogFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, etat);
+        args.putSerializable(ARG_ETAT, etat);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            etat = (etat) getArguments().getSerializable(ARG_ETAT);
+        }
     }
 
     @Override
@@ -36,25 +47,13 @@ public class SommeilDialogFragment extends DialogHeuresMinutes {
     @Override
     protected void LoadDatainUI() {
 
+        String[] heuresAffichees = this.configureHeuresAffichees(15);
 
-        String[] heuresAffichees = new String[96];
-        HeuresMinutes time = new HeuresMinutes();
-        int compteur = 0;
+        this.configureNumberPicker(coucher, 0, heuresAffichees, true, this.etat.getQualiteSommeil().getHeureCoucher().getIntQuinzaine());
 
-        for (int i = 0; i < 24; i++) {
-            time.setHeures(i);
-            for (int j = 0; j < 60; j += 15) {
-                time.setMinutes(j);
-                heuresAffichees[compteur] = time.Lisible();
-                compteur++;
-            }
-        }
+        this.configureNumberPicker(lever, 0, heuresAffichees, true, this.etat.getQualiteSommeil().getHeureLever().getIntQuinzaine());
 
-        this.configureNumberPicker(coucher, 0, compteur - 1, heuresAffichees, true, this.etat.getQualiteSommeil().getHeureCoucher().getIntQuinzaine());
-
-        this.configureNumberPicker(lever, 0, compteur - 1, heuresAffichees, true, this.etat.getQualiteSommeil().getHeureLever().getIntQuinzaine());
-
-        this.configureNumberPicker(insomnie, 0, compteur - 1, heuresAffichees, false, this.etat.getQualiteSommeil().getHeuresInsomnie().getIntQuinzaine());
+        this.configureNumberPicker(insomnie, 0, heuresAffichees, false, this.etat.getQualiteSommeil().getHeuresInsomnie().getIntQuinzaine());
 
     }
 

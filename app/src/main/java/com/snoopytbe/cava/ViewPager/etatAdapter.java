@@ -24,9 +24,16 @@ public class etatAdapter extends FragmentStatePagerAdapter {
         return (JourneeFragment.newInstance(mEtats.get(i)));
     }
 
-    /*public int getItemPosition(Object object) {
-        return POSITION_NONE;
-    }*/
+    public int getItemPosition(Object object) {
+        if (object instanceof JourneeFragment) {
+            // Create a new method notifyUpdate() in your fragment
+            // it will get call when you invoke
+            // notifyDatasetChaged();
+            ((JourneeFragment) object).notifyUpdate();
+        }
+        //don't return POSITION_NONE, avoid fragment recreation.
+        return super.getItemPosition(object);
+    }
 
     public void setEtats(List<etat> etats) {
         this.mEtats = etats;

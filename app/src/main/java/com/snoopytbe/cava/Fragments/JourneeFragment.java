@@ -93,6 +93,10 @@ public class JourneeFragment extends Fragment {
         LoadEtatInUI();
     }
 
+    public void notifyUpdate() {
+        this.LoadEtatInUI();
+    }
+
     private void LoadEtatInUI() {
 
         Log.e("Test", "JourneeFragment : LoadEtatInUI");

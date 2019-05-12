@@ -1,206 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="top|start"
-    android:orientation="vertical">
+    android:layout_height="fill_parent">
 
-    <include layout="@layout/include_titre" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|start"
+        android:orientation="vertical">
 
-    <include layout="@layout/include_soustitre" />
+        <include layout="@layout/include_titre" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/feh_zonemeteo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <include layout="@layout/include_soustitre" />
 
-        <ImageView
-            android:id="@+id/fes_imageRatingSommeil"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/meteo" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/feh_zonemeteo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/feh_titremeteo"
-            style="@style/CaVa.TextView.TitreRubrique"
-            android:text="Météo de l'humeur"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/fes_imageRatingSommeil"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/meteo" />
 
-        <TextView
-            android:id="@+id/feh_meteo"
-            style="@style/CaVa.TextView.Rubrique"
-            android:text="Soleil"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
-            app:layout_constraintTop_toBottomOf="@+id/feh_titremeteo" />
+            <TextView
+                android:id="@+id/feh_titremeteo"
+                style="@style/CaVa.TextView.TitreRubrique"
+                android:text="Météo de l'humeur"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/feh_meteo"
+                style="@style/CaVa.TextView.Rubrique"
+                android:text="Soleil"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
+                app:layout_constraintTop_toBottomOf="@+id/feh_titremeteo" />
 
-    <include layout="@layout/include_separateur_horizontal" />
+        </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/feh_zoneangoisse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <include layout="@layout/include_separateur_horizontal" />
 
-        <ImageView
-            android:id="@+id/fes_imageHeuresSommeil"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/angoisse" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/feh_zoneangoisse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/feh_titreangoisse"
-            style="@style/CaVa.TextView.TitreRubrique"
-            android:text="Angoisse"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresSommeil"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/fes_imageHeuresSommeil"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/angoisse" />
 
-        <TextView
-            android:id="@+id/feh_angoisse"
-            style="@style/CaVa.TextView.Rubrique"
-            android:text="Pas angoissé"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresSommeil"
-            app:layout_constraintTop_toBottomOf="@+id/feh_titreangoisse" />
+            <TextView
+                android:id="@+id/feh_titreangoisse"
+                style="@style/CaVa.TextView.TitreRubrique"
+                android:text="Angoisse"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresSommeil"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/feh_angoisse"
+                style="@style/CaVa.TextView.Rubrique"
+                android:text="Pas angoissé"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresSommeil"
+                app:layout_constraintTop_toBottomOf="@+id/feh_titreangoisse" />
 
-    <include layout="@layout/include_separateur_horizontal" />
+        </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/feh_zoneenergie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <include layout="@layout/include_separateur_horizontal" />
 
-        <ImageView
-            android:id="@+id/fes_imageHeureCoucher"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/energie" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/feh_zoneenergie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/feh_titreenergie"
-            style="@style/CaVa.TextView.TitreRubrique"
-            android:text="Energie"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageHeureCoucher"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/fes_imageHeureCoucher"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/energie" />
 
-        <TextView
-            android:id="@+id/feh_energie"
-            style="@style/CaVa.TextView.Rubrique"
-            android:text="En forme"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageHeureCoucher"
-            app:layout_constraintTop_toBottomOf="@+id/feh_titreenergie" />
+            <TextView
+                android:id="@+id/feh_titreenergie"
+                style="@style/CaVa.TextView.TitreRubrique"
+                android:text="Energie"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageHeureCoucher"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/feh_energie"
+                style="@style/CaVa.TextView.Rubrique"
+                android:text="En forme"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageHeureCoucher"
+                app:layout_constraintTop_toBottomOf="@+id/feh_titreenergie" />
 
-    <include layout="@layout/include_separateur_horizontal" />
+        </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/feh_zoneirritabilite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <include layout="@layout/include_separateur_horizontal" />
 
-        <ImageView
-            android:id="@+id/imageView4"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/irritabilite" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/feh_zoneirritabilite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/feh_titreirritabilite"
-            style="@style/CaVa.TextView.TitreRubrique"
-            android:text="Irritabilité"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/imageView4"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/irritabilite" />
 
-        <TextView
-            android:id="@+id/feh_irritabilite"
-            style="@style/CaVa.TextView.Rubrique"
-            android:text="Cool"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toBottomOf="@+id/feh_titreirritabilite" />
+            <TextView
+                android:id="@+id/feh_titreirritabilite"
+                style="@style/CaVa.TextView.TitreRubrique"
+                android:text="Irritabilité"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/feh_irritabilite"
+                style="@style/CaVa.TextView.Rubrique"
+                android:text="Cool"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toBottomOf="@+id/feh_titreirritabilite" />
 
-    <include layout="@layout/include_separateur_horizontal" />
+        </android.support.constraint.ConstraintLayout>
 
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/feh_zonesymptomes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imageView5"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/symptomes" />
-
-        <TextView
-            android:id="@+id/feh_titresymptomes"
-            style="@style/CaVa.TextView.TitreRubrique"
-            android:text="Symptômes"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/feh_listesymptomes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:gravity="top|start"
-            android:orientation="vertical"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/feh_titresymptomes" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <include layout="@layout/include_separateur_horizontal" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/feh_zonecommentaires"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imageView6"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/commentaires" />
-
-        <TextView
-            android:id="@+id/feh_titrecommentaire"
-            style="@style/CaVa.TextView.TitreRubrique"
-            android:text="Commentaires"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toTopOf="parent" />
+        <include layout="@layout/include_separateur_horizontal" />
 
 
-        <EditText
-            android:id="@+id/feh_commentaire"
-            style="@style/CaVa.EditText.BigMargin"
-            android:hint="Tapez vos commentaires"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toBottomOf="@+id/feh_titrecommentaire" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/feh_zonesymptomes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/imageView5"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/symptomes" />
 
-    <include layout="@layout/include_separateur_horizontal" />
+            <TextView
+                android:id="@+id/feh_titresymptomes"
+                style="@style/CaVa.TextView.TitreRubrique"
+                android:text="Symptômes"
+                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+            <LinearLayout
+                android:id="@+id/feh_listesymptomes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:gravity="top|start"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintTop_toBottomOf="@+id/feh_titresymptomes" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <include layout="@layout/include_separateur_horizontal" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/feh_zonecommentaires"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView6"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/commentaires" />
+
+            <TextView
+                android:id="@+id/feh_titrecommentaire"
+                style="@style/CaVa.TextView.TitreRubrique"
+                android:text="Commentaires"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/feh_commentaire"
+                style="@style/CaVa.EditText.BigMargin"
+                android:hint="Tapez vos commentaires"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/feh_titrecommentaire" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <include layout="@layout/include_separateur_horizontal" />
+
+    </LinearLayout>
+</ScrollView>

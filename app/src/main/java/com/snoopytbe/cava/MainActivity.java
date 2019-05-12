@@ -14,6 +14,7 @@ import com.snoopytbe.cava.Fragments.HumeurFragment;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
 import com.snoopytbe.cava.Fragments.ListeEtatsFragment;
 import com.snoopytbe.cava.Fragments.MainFragment_ViewPager;
+import com.snoopytbe.cava.Fragments.SiesteDialogFragment;
 import com.snoopytbe.cava.Fragments.SommeilDialogFragment;
 import com.snoopytbe.cava.Fragments.SommeilFragment;
 import com.snoopytbe.cava.Fragments.TraitementFragment;
@@ -172,6 +173,13 @@ public class MainActivity extends AppCompatActivity
         this.etatActuel = etat;
         SommeilDialogFragment sommeilDialogFragment = SommeilDialogFragment.newInstance(etat);
         sommeilDialogFragment.show(getSupportFragmentManager(), "EditionHeure");
+    }
+
+    @Override
+    public void ShowHeuresSieste(etat etat) {
+        this.etatActuel = etat;
+        SiesteDialogFragment siesteDialogFragment = SiesteDialogFragment.newInstance(etat);
+        siesteDialogFragment.show(getSupportFragmentManager(), "EditionSieste");
     }
 
 

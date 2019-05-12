@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -39,6 +40,10 @@ public class SommeilFragment extends Fragment {
     TextView heuresInsomnie;
     @BindView(R.id.tit_date)
     TextView date;
+    @BindView(R.id.fes_HeuresSieste)
+    TextView heuresSieste;
+    @BindView(R.id.fes_commentaire)
+    EditText commentaire;
 
     public static SommeilFragment newInstance(etat etat) {
         SommeilFragment fragment = new SommeilFragment();
@@ -91,10 +96,13 @@ public class SommeilFragment extends Fragment {
         heureCoucher.setText(etat.getQualiteSommeil().getHeureCoucher().Lisible());
         heureLever.setText(etat.getQualiteSommeil().getHeureLever().Lisible());
         heuresInsomnie.setText(etat.getQualiteSommeil().getHeuresInsomnie().Lisible());
+        heuresSieste.setText(etat.getQualiteSommeil().getHeuresSieste().Lisible());
+        commentaire.setText(etat.getQualiteSommeil().getCommentaire());
     }
 
     private void SaveEtatFromUI() {
         etat.getQualiteSommeil().setRatingSommeil(ratingSommeil.getRating());
+        etat.getQualiteSommeil().setCommentaire(commentaire.getText().toString());
     }
 
     @OnClick(R.id.fes_zoneQuantite)
@@ -102,6 +110,13 @@ public class SommeilFragment extends Fragment {
         SaveEtatFromUI();
         if (activityCallback != null)
             activityCallback.ShowHeuresSommeil(etat);
+    }
+
+    @OnClick(R.id.fes_zoneSieste)
+    public void changeHeuresSieste() {
+        SaveEtatFromUI();
+        if (activityCallback != null)
+            activityCallback.ShowHeuresSieste(etat);
     }
 
     @OnClick(R.id.tit_retour)
@@ -116,6 +131,8 @@ public class SommeilFragment extends Fragment {
         void onRetourFragmentSommeil(etat etat);
 
         void ShowHeuresSommeil(etat etat);
+
+        void ShowHeuresSieste(etat etat);
     }
 
 }

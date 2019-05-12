@@ -1,233 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="top|start"
-    android:orientation="vertical">
+    android:layout_height="fill_parent">
 
-    <include layout="@layout/include_titre" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|start"
+        android:orientation="vertical">
 
-    <include layout="@layout/include_soustitre" />
+        <include layout="@layout/include_titre" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/fes_zoneRating"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <include layout="@layout/include_soustitre" />
 
-        <ImageView
-            android:id="@+id/fes_imageRatingSommeil"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/star" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fes_zoneRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/fes_titreRating"
-            style="@style/CaVa.TextView.TitreRubrique"
-            android:text="Qualité du sommeil"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/fes_imageRatingSommeil"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/star" />
 
-        <RatingBar
-            android:id="@+id/fes_ratingSommeil"
-            style="@style/Widget.AppCompat.RatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_small"
-            android:numStars="5"
-            android:stepSize="1"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
-            app:layout_constraintTop_toBottomOf="@+id/fes_titreRating" />
+            <TextView
+                android:id="@+id/fes_titreRating"
+                style="@style/CaVa.TextView.TitreRubrique"
+                android:text="Qualité du sommeil"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+            <RatingBar
+                android:id="@+id/fes_ratingSommeil"
+                style="@style/Widget.AppCompat.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:numStars="5"
+                android:stepSize="1"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageRatingSommeil"
+                app:layout_constraintTop_toBottomOf="@+id/fes_titreRating" />
 
-    <include layout="@layout/include_separateur_horizontal" />
+        </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/fes_zoneQuantite"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <include layout="@layout/include_separateur_horizontal" />
 
-        <ImageView
-            android:id="@+id/fes_imageHeuresSommeil"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/bed" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fes_zoneQuantite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/fes_titreHeuresSommeil"
-            style="@style/CaVa.TextView.TitreRubrique.Centre"
-            android:text="Temps de sommeil"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresSommeil"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresSommeil"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresSommeil" />
+            <ImageView
+                android:id="@+id/fes_imageHeuresSommeil"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/bed" />
 
-        <TextView
-            android:id="@+id/fes_HeuresSommeil"
-            style="@style/CaVa.TextView.Rubrique.CentreAligne"
-            android:text="07h00"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresSommeil"
-            app:layout_constraintStart_toStartOf="@+id/guideline1"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresSommeil" />
+            <TextView
+                android:id="@+id/fes_titreHeuresSommeil"
+                style="@style/CaVa.TextView.TitreRubrique.Centre"
+                android:text="Temps de sommeil"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresSommeil"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresSommeil"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresSommeil" />
 
-        <ImageView
-            android:id="@+id/fes_imageHeureCoucher"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fes_imageHeuresSommeil"
-            app:srcCompat="@drawable/sunset" />
+            <TextView
+                android:id="@+id/fes_HeuresSommeil"
+                style="@style/CaVa.TextView.Rubrique.CentreAligne"
+                android:text="07h00"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresSommeil"
+                app:layout_constraintStart_toStartOf="@+id/guideline1"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresSommeil" />
 
-        <TextView
-            android:id="@+id/fes_titreHeureCoucher"
-            style="@style/CaVa.TextView.TitreRubrique.Centre"
-            android:text="Heure de coucher"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureCoucher"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageHeureCoucher"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageHeureCoucher" />
+            <ImageView
+                android:id="@+id/fes_imageHeureCoucher"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fes_imageHeuresSommeil"
+                app:srcCompat="@drawable/sunset" />
 
-        <TextView
-            android:id="@+id/fes_HeureCoucher"
-            style="@style/CaVa.TextView.Rubrique.CentreAligne"
-            android:text="23h00"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureCoucher"
-            app:layout_constraintStart_toStartOf="@+id/guideline1"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageHeureCoucher" />
+            <TextView
+                android:id="@+id/fes_titreHeureCoucher"
+                style="@style/CaVa.TextView.TitreRubrique.Centre"
+                android:text="Heure de coucher"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureCoucher"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageHeureCoucher"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageHeureCoucher" />
 
-
-        <ImageView
-            android:id="@+id/fes_imageHeureLever"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fes_imageHeureCoucher"
-            app:srcCompat="@drawable/sunrise" />
-
-        <TextView
-            android:id="@+id/fes_titreHeureLever"
-            style="@style/CaVa.TextView.TitreRubrique.Centre"
-            android:text="Heure de réveil"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureLever"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageHeureLever"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageHeureLever" />
-
-        <TextView
-            android:id="@+id/fes_HeureLever"
-            style="@style/CaVa.TextView.Rubrique.CentreAligne"
-            android:text="07h00"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureLever"
-            app:layout_constraintStart_toStartOf="@+id/guideline1"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageHeureLever" />
+            <TextView
+                android:id="@+id/fes_HeureCoucher"
+                style="@style/CaVa.TextView.Rubrique.CentreAligne"
+                android:text="23h00"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureCoucher"
+                app:layout_constraintStart_toStartOf="@+id/guideline1"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageHeureCoucher" />
 
 
-        <ImageView
-            android:id="@+id/fes_imageHeuresInsomnie"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fes_imageHeureLever"
-            app:srcCompat="@drawable/rolling_eyes" />
+            <ImageView
+                android:id="@+id/fes_imageHeureLever"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fes_imageHeureCoucher"
+                app:srcCompat="@drawable/sunrise" />
 
-        <TextView
-            android:id="@+id/fes_titreHeuresInsomnie"
-            style="@style/CaVa.TextView.TitreRubrique.Centre"
-            android:text="Heures d'insomnie"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresInsomnie"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresInsomnie"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresInsomnie" />
+            <TextView
+                android:id="@+id/fes_titreHeureLever"
+                style="@style/CaVa.TextView.TitreRubrique.Centre"
+                android:text="Heure de réveil"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureLever"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageHeureLever"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageHeureLever" />
 
-        <TextView
-            android:id="@+id/fes_HeuresInsomnie"
-            style="@style/CaVa.TextView.Rubrique.CentreAligne"
-            android:text="00h00"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresInsomnie"
-            app:layout_constraintStart_toStartOf="@+id/guideline1"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresInsomnie" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".50" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <include layout="@layout/include_separateur_horizontal" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/fes_zoneSieste"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/fes_imageSieste"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/sleeping_symbol" />
-
-        <TextView
-            android:id="@+id/fes_titreSieste"
-            style="@style/CaVa.TextView.TitreRubrique.Centre"
-            android:text="Sieste"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageSieste"
-            app:layout_constraintStart_toEndOf="@+id/fes_imageSieste"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageSieste" />
-
-        <TextView
-            android:id="@+id/fes_HeuresSieste"
-            style="@style/CaVa.TextView.Rubrique.CentreAligne"
-            android:text="00h00"
-            app:layout_constraintBottom_toBottomOf="@+id/fes_imageSieste"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/fes_imageSieste" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".50" />
-
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/fes_HeureLever"
+                style="@style/CaVa.TextView.Rubrique.CentreAligne"
+                android:text="07h00"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeureLever"
+                app:layout_constraintStart_toStartOf="@+id/guideline1"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageHeureLever" />
 
 
-    <include layout="@layout/include_separateur_horizontal" />
+            <ImageView
+                android:id="@+id/fes_imageHeuresInsomnie"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fes_imageHeureLever"
+                app:srcCompat="@drawable/rolling_eyes" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/fes_zonecommentaires"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/fes_titreHeuresInsomnie"
+                style="@style/CaVa.TextView.TitreRubrique.Centre"
+                android:text="Heures d'insomnie"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresInsomnie"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageHeuresInsomnie"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresInsomnie" />
 
-        <ImageView
-            android:id="@+id/imageView6"
-            style="@style/CaVa.ImageHumeur"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/commentaires" />
+            <TextView
+                android:id="@+id/fes_HeuresInsomnie"
+                style="@style/CaVa.TextView.Rubrique.CentreAligne"
+                android:text="00h00"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageHeuresInsomnie"
+                app:layout_constraintStart_toStartOf="@+id/guideline1"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageHeuresInsomnie" />
 
-        <TextView
-            android:id="@+id/fes_titrecommentaire"
-            style="@style/CaVa.TextView.TitreRubrique"
-            android:text="Commentaires"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toTopOf="parent" />
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".50" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <include layout="@layout/include_separateur_horizontal" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fes_zoneSieste"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/fes_imageSieste"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/sleeping_symbol" />
+
+            <TextView
+                android:id="@+id/fes_titreSieste"
+                style="@style/CaVa.TextView.TitreRubrique.Centre"
+                android:text="Sieste"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageSieste"
+                app:layout_constraintStart_toEndOf="@+id/fes_imageSieste"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageSieste" />
+
+            <TextView
+                android:id="@+id/fes_HeuresSieste"
+                style="@style/CaVa.TextView.Rubrique.CentreAligne"
+                android:text="00h00"
+                app:layout_constraintBottom_toBottomOf="@+id/fes_imageSieste"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/fes_imageSieste" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".50" />
+
+        </android.support.constraint.ConstraintLayout>
 
 
-        <EditText
-            android:id="@+id/fes_commentaire"
-            style="@style/CaVa.EditText.BigMargin"
-            android:hint="Tapez vos commentaires"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toBottomOf="@+id/fes_titrecommentaire" />
+        <include layout="@layout/include_separateur_horizontal" />
 
-    </android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fes_zonecommentaires"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <include layout="@layout/include_separateur_horizontal" />
+            <ImageView
+                android:id="@+id/imageView6"
+                style="@style/CaVa.ImageHumeur"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/commentaires" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/fes_titrecommentaire"
+                style="@style/CaVa.TextView.TitreRubrique"
+                android:text="Commentaires"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <EditText
+                android:id="@+id/fes_commentaire"
+                style="@style/CaVa.EditText.BigMargin"
+                android:hint="Tapez vos commentaires"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/fes_titrecommentaire" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <include layout="@layout/include_separateur_horizontal" />
+
+    </LinearLayout>
+</ScrollView>
