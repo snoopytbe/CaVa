@@ -38,13 +38,14 @@ public abstract class etatRoomDatabase extends RoomDatabase {
 
     };
 
-
     static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE etat_table ADD COLUMN sieste_heures INTEGER");
             database.execSQL("ALTER TABLE etat_table ADD COLUMN sieste_minutes INTEGER");
             database.execSQL("ALTER TABLE etat_table ADD COLUMN commentaireSommeil TEXT");
+            database.execSQL("UPDATE etat_table SET sieste_heures = '0'");
+            database.execSQL("UPDATE etat_table SET sieste_minutes = '0'");
         }
     };
 

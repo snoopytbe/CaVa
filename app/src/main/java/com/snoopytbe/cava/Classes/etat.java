@@ -89,6 +89,19 @@ public class etat implements Serializable {
         this.id = id;
     }
 
+    public Humeur getHumeurFromTag(String tagMoment) {
+        switch (tagMoment) {
+            case "Matin":
+                return humeurMatin;
+            case "Aprem":
+                return humeurApresMidi;
+            case "Soir":
+                return humeurSoir;
+            default:
+                return humeurMatin;
+        }
+    }
+
     public Humeur getHumeurMatin() {
         return humeurMatin;
     }

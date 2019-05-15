@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.NumberPicker;
 
+import com.snoopytbe.cava.AbstractFragments.DialogFragmentHeuresMinutes;
 import com.snoopytbe.cava.Classes.HeuresMinutes;
 import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.R;
@@ -11,7 +12,7 @@ import com.snoopytbe.cava.R;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SommeilDialogFragment extends DialogHeuresMinutes {
+public class SommeilDialogFragment extends DialogFragmentHeuresMinutes {
 
     @BindView(R.id.dhs_coucher)
     NumberPicker coucher;

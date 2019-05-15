@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CaVaDialogTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/dns_commentaire"
+        style="@style/CaVa.EditText.BigMargin"
+        android:hint="Saisissez le nouveau symptome"
+        android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/dns_boutonCancel"
+        style="@style/CaVa.Bouton"
+        android:text="Annuler"
+        app:layout_constraintEnd_toStartOf="@+id/dns_boutonOK"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dns_commentaire" />
+
+    <Button
+        android:id="@+id/dns_boutonOK"
+        style="@style/CaVa.Bouton"
+        android:text="OK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dns_boutonCancel"
+        app:layout_constraintTop_toBottomOf="@+id/dns_commentaire" />
+
+</android.support.constraint.ConstraintLayout>

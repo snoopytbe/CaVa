@@ -16,6 +16,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/feh_zonemeteo"
+            android:tag="Humeur"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -47,6 +48,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/feh_zoneangoisse"
+            android:tag="Angoisse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -78,6 +80,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/feh_zoneenergie"
+            android:tag="Energie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -109,6 +112,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/feh_zoneirritabilite"
+            android:tag="Irritabilite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

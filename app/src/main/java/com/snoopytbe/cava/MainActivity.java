@@ -10,10 +10,11 @@ import android.widget.Toast;
 
 import com.snoopytbe.cava.Classes.ListeEtats;
 import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.Fragments.ChoixEtatDialogFragment;
 import com.snoopytbe.cava.Fragments.HumeurFragment;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
-import com.snoopytbe.cava.Fragments.ListeEtatsFragment;
 import com.snoopytbe.cava.Fragments.MainFragment_ViewPager;
+import com.snoopytbe.cava.Fragments.NewSymptomeDialogFragment;
 import com.snoopytbe.cava.Fragments.SiesteDialogFragment;
 import com.snoopytbe.cava.Fragments.SommeilDialogFragment;
 import com.snoopytbe.cava.Fragments.SommeilFragment;
@@ -32,10 +33,11 @@ import icepick.Icepick;
 public class MainActivity extends AppCompatActivity
         implements HumeurFragment.HumeurFragmentCallback,
         SommeilFragment.SommeilFragmentCallback,
-        ListeEtatsFragment.ListeEtatsFragmentCallback,
+        ChoixEtatDialogFragment.ListeEtatsFragmentCallback,
         JourneeFragment.JourneeFragmentCallback,
         TraitementFragment.TraitementFragmentCallback,
-        SommeilDialogFragment.DialogHeuresMinutesCallback {
+        SommeilDialogFragment.DialogHeuresMinutesCallback,
+        NewSymptomeDialogFragment.NewSymptomeDialogFragmentCallback {
 
     //private MainFragment_RecyclerView mainFragment;
     private MainFragment_ViewPager mainFragment;
@@ -182,6 +184,27 @@ public class MainActivity extends AppCompatActivity
         siesteDialogFragment.show(getSupportFragmentManager(), "EditionSieste");
     }
 
+    @Override
+    public void onNewSymptomeClicked(etat etat, String quand) {
+        this.etatActuel = etat;
+        this.tagMoment = quand;
+        NewSymptomeDialogFragment newSymptomeDialogFragment = NewSymptomeDialogFragment.newInstance(quand);
+        newSymptomeDialogFragment.show(getSupportFragmentManager(), "NewSymptome");
+    }
+
+    @Override
+    public void onOkNewSymptomeDialogFragment(String newSymptome, String tagMoment) {
+        if (!newSymptome.isEmpty()) {
+            if (!this.etatActuel.getHumeurFromTag(tagMoment).getSymptomesInactifs().contains(newSymptome)
+                    && !this.etatActuel.getHumeurFromTag(tagMoment).getSymptomesActifs().contains(newSymptome)) {
+                this.etatActuel.getHumeurFromTag(tagMoment).getSymptomesActifs().add(newSymptome);
+                Toast.makeText(this.getApplicationContext(), "Ajout réussi", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this.getApplicationContext(), "Le symptome existe déjà", Toast.LENGTH_SHORT).show();
+            }
+        }
+        ShowHumeurFragment(this.etatActuel, tagMoment);
+    }
 
     @Override
     public void ShowTraitementFragment(etat etat) {
@@ -236,8 +259,8 @@ public class MainActivity extends AppCompatActivity
             listeEtats = new ListeEtats.ListeIrritabilite();
         }
 
-        ListeEtatsFragment listeEtatsFragment = ListeEtatsFragment.newInstance(listeEtats);
-        listeEtatsFragment.show(getSupportFragmentManager(), "etatPicker");
+        ChoixEtatDialogFragment choixEtatDialogFragment = ChoixEtatDialogFragment.newInstance(listeEtats);
+        choixEtatDialogFragment.show(getSupportFragmentManager(), "etatPicker");
     }
 
     @Override

@@ -103,6 +103,7 @@ public class QualiteSommeil implements Serializable {
 
     public HeuresMinutes getHeuresSieste() {
         return heuresSieste;
+
     }
 
     public void setHeuresSieste(HeuresMinutes heuresSieste) {

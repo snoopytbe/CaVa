@@ -38,17 +38,24 @@ public class HeuresMinutes implements Serializable {
     }
 
     public String Lisible() {
+
         String resultat;
-        if (this.heures < 10) {
-            resultat = "0" + this.heures;
-        } else {
-            resultat = "" + this.heures;
-        }
-        resultat += "h";
-        if (this.minutes < 10) {
-            resultat += "0" + this.minutes;
-        } else {
-            resultat += this.minutes;
+        try {
+            if (this.heures < 10) {
+                resultat = "0" + this.heures;
+            } else {
+                resultat = "" + this.heures;
+            }
+            resultat += "h";
+            if (this.minutes < 10) {
+                resultat += "0" + this.minutes;
+            } else {
+                resultat += this.minutes;
+            }
+        } catch (Exception e) {
+            this.heures = 12;
+            this.minutes = 0;
+            resultat = "12h";
         }
         return resultat;
     }

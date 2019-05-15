@@ -14,19 +14,19 @@ import android.view.WindowManager;
 import com.snoopytbe.cava.Classes.ListeEtats;
 import com.snoopytbe.cava.R;
 
-public class ListeEtatsFragment extends DialogFragment {
+public class ChoixEtatDialogFragment extends DialogFragment {
 
     private static final String ARG_PARAM1 = "ListeEtats";
     private ListeEtats listeEtats;
     private ListeEtatsFragmentCallback activityCallback;
 
-    public ListeEtatsFragment() {
+    public ChoixEtatDialogFragment() {
     }
 
-    public static ListeEtatsFragment newInstance(ListeEtats listeEtats) {
+    public static ChoixEtatDialogFragment newInstance(ListeEtats listeEtats) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, listeEtats);
-        ListeEtatsFragment fragment = new ListeEtatsFragment();
+        ChoixEtatDialogFragment fragment = new ChoixEtatDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,8 +62,8 @@ public class ListeEtatsFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ListeEtatsFragment.ListeEtatsFragmentCallback)
-            activityCallback = (ListeEtatsFragment.ListeEtatsFragmentCallback) context;
+        if (context instanceof ChoixEtatDialogFragment.ListeEtatsFragmentCallback)
+            activityCallback = (ChoixEtatDialogFragment.ListeEtatsFragmentCallback) context;
     }
 
     @Override

@@ -13,23 +13,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.NumberPicker;
+import android.widget.EditText;
 
-import com.snoopytbe.cava.Classes.HeuresMinutes;
-import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public abstract class DialogHeuresMinutes extends DialogFragment {
+public class NewSymptomeDialogFragment extends DialogFragment {
 
-    protected DialogHeuresMinutesCallback activityCallback;
+    protected static String ARG_MOMENT = "Moment";
+    protected String moment;
+    protected NewSymptomeDialogFragmentCallback activityCallback;
+    @BindView(R.id.dns_commentaire)
+    EditText commentaire;
 
+    public static NewSymptomeDialogFragment newInstance(String moment) {
+        NewSymptomeDialogFragment fragment = new NewSymptomeDialogFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_MOMENT, moment);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-    protected abstract int getFragmentLayout();
-
-    protected abstract void LoadDatainUI();
-
-    protected abstract void SaveDataofUI();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            moment = (String) getArguments().getSerializable(ARG_MOMENT);
+        }
+    }
 
     @Nullable
     @Override
@@ -44,8 +58,8 @@ public abstract class DialogHeuresMinutes extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof DialogHeuresMinutesCallback)
-            activityCallback = (DialogHeuresMinutesCallback) context;
+        if (context instanceof NewSymptomeDialogFragmentCallback)
+            activityCallback = (NewSymptomeDialogFragmentCallback) context;
     }
 
     @Override
@@ -80,33 +94,32 @@ public abstract class DialogHeuresMinutes extends DialogFragment {
 
     }
 
-    protected String[] configureHeuresAffichees(int pas) {
-
-        String[] heuresAffichees = new String[96];
-        HeuresMinutes time = new HeuresMinutes();
-        int compteur = 0;
-
-        for (int i = 0; i < 24; i++) {
-            time.setHeures(i);
-            for (int j = 0; j < 60; j += pas) {
-                time.setMinutes(j);
-                heuresAffichees[compteur] = time.Lisible();
-                compteur++;
-            }
-        }
-        return heuresAffichees;
+    protected int getFragmentLayout() {
+        return R.layout.dialogfragment_new_symtome;
     }
 
-    protected void configureNumberPicker(NumberPicker numberPicker, int MinValue, String[] DisplayedValue, boolean WrapSelectorWheel, int Value) {
-        numberPicker.setMinValue(MinValue);
-        numberPicker.setMaxValue(MinValue + DisplayedValue.length - 1);
-        numberPicker.setDisplayedValues(DisplayedValue);
-        numberPicker.setWrapSelectorWheel(WrapSelectorWheel);
-        numberPicker.setValue(Value);
+    protected void LoadDatainUI() {
     }
 
-    public interface DialogHeuresMinutesCallback {
-        void onOkDialogFragmentHeuresMinutes(etat etat);
+    protected void SaveDataofUI() {
     }
+
+    @OnClick(R.id.dns_boutonOK)
+    public void Ok() {
+
+        if (activityCallback != null)
+            activityCallback.onOkNewSymptomeDialogFragment(this.commentaire.getText().toString(), moment);
+        this.dismiss();
+    }
+
+    @OnClick(R.id.dns_boutonCancel)
+    public void Bye() {
+        this.dismiss();
+    }
+
+    public interface NewSymptomeDialogFragmentCallback {
+        void onOkNewSymptomeDialogFragment(String newSymptome, String moment);
+    }
+
 
 }

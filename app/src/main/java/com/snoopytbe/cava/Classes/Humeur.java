@@ -64,6 +64,21 @@ public class Humeur implements Serializable {
         InitialiseSymptomes();
     }
 
+    public int getHumeurFromTag(String tagHumeur) {
+        switch (tagHumeur) {
+            case "humeur":
+                return this.humeur;
+            case "energie":
+                return this.energie;
+            case "angoisse":
+                return this.angoisse;
+            case "irritabilite":
+                return this.irritabilite;
+            default:
+                return this.humeur;
+        }
+    }
+
     public int getHumeur() {
         return humeur;
     }

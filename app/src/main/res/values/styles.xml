@@ -99,17 +99,10 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-
-    <style name="CaVa.EditText.SmallMargin">
-        <item name="android:layout_marginStart">@dimen/margin_small</item>
-        <item name="android:layout_marginTop">@dimen/margin_small</item>
-        <item name="android:layout_marginEnd">@dimen/margin_small</item>
-    </style>
-
     <style name="CaVa.EditText.BigMargin">
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginStart">@dimen/margin_large</item>
+        <item name="android:layout_marginTop">@dimen/margin_large</item>
+        <item name="android:layout_marginEnd">@dimen/margin_large</item>
     </style>
 
     <style name="CaVa.Bouton" parent="Widget.AppCompat.Button">
@@ -118,28 +111,12 @@
         <item name="android:layout_margin">@dimen/margin_small</item>
         <item name="android:background">@color/colorBackground</item>
         <item name="android:stateListAnimator">@null</item>
-
     </style>
 
     <style name="CaVa.Titre" parent="@android:style/TextAppearance.Material">
         <item name="android:layout_width">0dp</item>
         <item name="android:textSize">@dimen/large_text_size</item>
         <item name="android:textColor">@color/colorPrimaryText</item>
-    </style>
-
-    <style name="CaVa.Titre.Small">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
-    </style>
-
-    <style name="CaVa.CardView" parent="CardView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/margin_tiny</item>
-        <item name="android:layout_marginTop">@dimen/margin_large</item>
-        <item name="android:layout_marginEnd">@dimen/margin_tiny</item>
-        <item name="cardBackgroundColor">@color/colorBackground</item>
-        <item name="cardElevation">0dp</item>
     </style>
 
     <style name="CustomDatePickerDialog" parent="Theme.AppCompat.Light.Dialog.Alert">

@@ -3,6 +3,7 @@ package com.snoopytbe.cava.Fragments;
 import android.os.Bundle;
 import android.widget.NumberPicker;
 
+import com.snoopytbe.cava.AbstractFragments.DialogFragmentHeuresMinutes;
 import com.snoopytbe.cava.Classes.HeuresMinutes;
 import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.R;
@@ -10,7 +11,7 @@ import com.snoopytbe.cava.R;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SiesteDialogFragment extends DialogHeuresMinutes {
+public class SiesteDialogFragment extends DialogFragmentHeuresMinutes {
 
     protected static String ARG_ETAT = "Etat";
     protected com.snoopytbe.cava.Classes.etat etat;

@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,6 +37,7 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
     private ListeEtats.ListeIrritabilite listeIrritabilite;
 
     private etat etat;
+    private String SymptomeASupprimer;
 
     private ArrayList<String> SymptomesActifs;
     private ArrayList<String> SymptomesInactifs;
@@ -44,6 +48,7 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
     private HumeurFragmentCallback activityCallback;
 
     private String quand;
+
     @BindView(R.id.tit_date)
     TextView date;
     @BindView(R.id.sti_soustitre)
@@ -121,31 +126,65 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
         SaveEtatFromUI();
     }
 
-    private void LoadEtatInUI() {
+    private TextView getSymptomeTextView(String texte, Boolean actifTrueInactifFalse) {
 
-        Log.e("Test", "Départ config");
+        TextView result = new TextView(getContext());
+
+        int margin = (int) (getResources().getDimension(R.dimen.margin_small) / getResources().getDisplayMetrics().density);
+
+        LinearLayout.LayoutParams marginSetter = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        marginSetter.setMargins(margin, margin, margin, margin);
+        result.setLayoutParams(marginSetter);
+
+        result.setText(texte);
+
+        //Log.e("Test",   texte + " " + actifTrueInactifFalse);
+
+        result.setBackgroundResource(actifTrueInactifFalse ? R.drawable.background_symptome_active : R.drawable.background_symptome_deactive);
+        result.setTextAppearance(actifTrueInactifFalse ? R.style.CaVa_SymptomeActif : R.style.CaVa_SymptomeInactif);
+
+        result.setOnClickListener(this);
+
+        registerForContextMenu(result);
+
+        result.measure(0, 0);
+
+        return result;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        SymptomeASupprimer = ((TextView) v).getText().toString();
+        Log.e("Test", "onCreateContextMenu: " + SymptomeASupprimer);
+        menu.add("Supprimer");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        //TextView view = (TextView) ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).targetView;
+        String SymptomeSupprime = SymptomeASupprimer; //view.getText().toString();
+        Log.e("Test", "onContextItemSelected: " + SymptomeSupprime);
+        if (SymptomesActifs.contains(SymptomeSupprime)) {
+            SymptomesActifs.remove(SymptomeSupprime);
+        } else SymptomesInactifs.remove(SymptomeSupprime);
+        SaveEtatFromUI();
+        LoadEtatInUI();
+        return true;
+    }
 
 
-        date.setText(etat.DateLisible());
+    private LinearLayout addLinearLayoutTechnique() {
+        LinearLayout result = new LinearLayout(getContext());
+        result.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        result.setOrientation(LinearLayout.HORIZONTAL);
+        result.setGravity(Gravity.START);
+        return result;
+    }
 
-        Humeur humeur = new Humeur();
-        if (this.quand == "Matin") {
-            humeur = etat.getHumeurMatin();
-            sousTitre.setText("Humeur du matin");
-        } else if (this.quand == "Aprem") {
-            humeur = etat.getHumeurApresMidi();
-            sousTitre.setText("Humeur de l'après-midi");
-        } else if (this.quand == "Soir") {
-            humeur = etat.getHumeurSoir();
-            sousTitre.setText("Humeur du soir");
-        }
-        meteo.setText(listeHumeurs.getListeNiveaux().get(humeur.getHumeur()).getNom());
-        angoisse.setText(listeAngoisses.getListeNiveaux().get(humeur.getAngoisse()).getNom());
-        energie.setText(listeEnergies.getListeNiveaux().get(humeur.getEnergie()).getNom());
-        irritabilite.setText(listeIrritabilite.getListeNiveaux().get(humeur.getIrritabilite()).getNom());
-        commentaire.setText(humeur.getCommentaire());
-        Log.e("Test", "Milieu");
+    private void afficheSymptomes(Humeur humeur) {
 
+        // Récupération des symptomes
         try {
             SymptomesActifs = new ArrayList<>(humeur.getSymptomesActifs());
             SymptomesInactifs = new ArrayList<>(humeur.getSymptomesInactifs());
@@ -154,42 +193,34 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
             SymptomesInactifs = new ArrayList<>();
         }
 
+        listesymptomes.removeAllViews();
+
+        // Récupération de la taille de l'écran
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager()
                 .getDefaultDisplay()
                 .getMetrics(displayMetrics);
-        int maxWidth = displayMetrics.widthPixels - 300; // (R.dimen.margin_small * 4 + R.dimen.largeur_image_humeur);
+        // Calcul de la largeur maximale
+        int maxWidth = displayMetrics.widthPixels - (int) (getResources().getDimension(R.dimen.margin_small) * 2 + getResources().getDimension(R.dimen.margin_large) * 2 + getResources().getDimension(R.dimen.largeur_image_humeur));
+        //Log.e("Test", "MaxWidth " + maxWidth);
+
+
+        LinearLayout llTechnique = addLinearLayoutTechnique();
+        TextView newTextView;
         int currentWidth = 0;
-        Log.e("Test", "MaxWidth " + maxWidth);
+        int currentHeight = 100;
 
-        LinearLayout.LayoutParams marginSetter = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        marginSetter.setMargins(8, 8, 8, 8);
-
-        LinearLayout llTechnique = new LinearLayout(getContext());
-        llTechnique.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        llTechnique.setOrientation(LinearLayout.HORIZONTAL);
-        llTechnique.setGravity(Gravity.START);
-
-        TextView newTextView = new TextView(getContext());
-
-        for (int i = 0; i < SymptomesActifs.size(); i++) {
+        for (int i = 0; i < SymptomesActifs.size() + SymptomesInactifs.size(); i++) {
             //Log.e("Test", "début " + i);
-            newTextView = new TextView(getContext());
-            newTextView.setTextAppearance(R.style.CaVa_SymptomeActif);
-            newTextView.setLayoutParams(marginSetter);
-            newTextView.setText(SymptomesActifs.get(i));
-            newTextView.setBackgroundResource(R.drawable.background_symptome_active);
-            newTextView.setOnClickListener(this);
-            newTextView.measure(0, 0);
+            newTextView = getSymptomeTextView(i < SymptomesActifs.size() ? SymptomesActifs.get(i) : SymptomesInactifs.get(i - SymptomesActifs.size()), i < SymptomesActifs.size());
             currentWidth += newTextView.getMeasuredWidth();
+            currentHeight = newTextView.getMeasuredHeight();
+
             //Log.e("Test", "Width " + currentWidth);
             if (currentWidth > maxWidth) {
                 //Log.e("Test", "Nouvelle ligne");
                 listesymptomes.addView(llTechnique);
-                llTechnique = new LinearLayout(getContext());
-                llTechnique.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                llTechnique.setOrientation(LinearLayout.HORIZONTAL);
-                llTechnique.setGravity(Gravity.LEFT);
+                llTechnique = addLinearLayoutTechnique();
                 llTechnique.addView(newTextView);
                 currentWidth = newTextView.getMeasuredWidth();
             } else {
@@ -198,59 +229,80 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
             }
         }
 
-        for (int i = 0; i < SymptomesInactifs.size(); i++) {
-            //Log.e("Test", "début " + i + " " + SymptomesInactifs.get(i));
-            newTextView = new TextView(getContext());
-            newTextView.setTextAppearance(R.style.CaVa_SymptomeInactif);
-            newTextView.setLayoutParams(marginSetter);
-            newTextView.setText(SymptomesInactifs.get(i));
-            newTextView.setBackgroundResource(R.drawable.background_symptome_deactive);
-            newTextView.setOnClickListener(this);
-            newTextView.measure(0, 0);
-            currentWidth += newTextView.getMeasuredWidth();
-            //Log.e("Test", "Width " + currentWidth);
-            if (currentWidth > maxWidth) {
-                //Log.e("Test", "Nouvelle ligne");
-                listesymptomes.addView(llTechnique);
-                llTechnique = new LinearLayout(getContext());
-                llTechnique.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                llTechnique.setOrientation(LinearLayout.HORIZONTAL);
-                llTechnique.setGravity(Gravity.START);
-                llTechnique.addView(newTextView);
-                currentWidth = newTextView.getMeasuredWidth();
-            } else {
-                //Log.e("Test", "Ligne actuelle");
-                llTechnique.addView(newTextView);
+        ImageView imageView = new ImageView(getContext());
+        imageView.setImageResource(R.drawable.plus);
+        int margin = (int) (getResources().getDimension(R.dimen.margin_small) / getResources().getDisplayMetrics().density);
+        LinearLayout.LayoutParams marginSetter = new LinearLayout.LayoutParams(currentHeight, currentHeight);
+        marginSetter.setMargins(margin, margin, margin, margin);
+        imageView.setLayoutParams(marginSetter);
+        imageView.setTag("IMAGE");
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SaveEtatFromUI();
+                if (activityCallback != null)
+                    activityCallback.onNewSymptomeClicked(etat, quand);
             }
-        }
+        });
+        llTechnique.addView(imageView);
 
         listesymptomes.addView(llTechnique);
 
     }
 
-    private void SaveEtatFromUI() {
-        if (quand == "Matin") {
-            this.etat.getHumeurMatin().setCommentaire(commentaire.getText().toString());
-            this.etat.getHumeurMatin().setSymptomesActifs(this.SymptomesActifs);
-            this.etat.getHumeurMatin().setSymptomesInactifs(this.SymptomesInactifs);
+    private void LoadEtatInUI() {
 
-        } else if (quand == "Aprem") {
-            this.etat.getHumeurApresMidi().setCommentaire(commentaire.getText().toString());
-            this.etat.getHumeurApresMidi().setSymptomesActifs(this.SymptomesActifs);
-            this.etat.getHumeurApresMidi().setSymptomesInactifs(this.SymptomesInactifs);
-        } else if (quand == "Soir") {
-            this.etat.getHumeurSoir().setCommentaire(commentaire.getText().toString());
-            this.etat.getHumeurSoir().setSymptomesActifs(this.SymptomesActifs);
-            this.etat.getHumeurSoir().setSymptomesInactifs(this.SymptomesInactifs);
+        Log.e("Test", "Départ config");
+
+        date.setText(etat.DateLisible());
+
+        switch (this.quand) {
+            case "Matin":
+                sousTitre.setText("Humeur du matin");
+                break;
+            case "Aprem":
+                sousTitre.setText("Humeur de l'après-midi");
+                break;
+            case "Soir":
+                sousTitre.setText("Humeur du soir");
+                break;
+            default:
+                sousTitre.setText("Humeur du matin");
         }
-        //etat.setHumeur(SpinnerHumeur.getSelectedItemPosition());
+
+        meteo.setText(listeHumeurs.getListeNiveaux()
+                .get(etat.getHumeurFromTag(this.quand).getHumeur())
+                .getNom());
+        angoisse.setText(listeAngoisses.getListeNiveaux()
+                .get(etat.getHumeurFromTag(this.quand).getAngoisse())
+                .getNom());
+        energie.setText(listeEnergies.getListeNiveaux().
+                get(etat.getHumeurFromTag(this.quand).getEnergie())
+                .getNom());
+        irritabilite.setText(listeIrritabilite.getListeNiveaux()
+                .get(etat.getHumeurFromTag(this.quand).getIrritabilite())
+                .getNom());
+        commentaire.setText(etat.getHumeurFromTag(this.quand).getCommentaire());
+        Log.e("Test", "Milieu");
+
+        afficheSymptomes(etat.getHumeurFromTag(this.quand));
+
+    }
+
+    private void SaveEtatFromUI() {
+        this.etat.getHumeurFromTag(quand).setCommentaire(commentaire.getText().toString());
+        this.etat.getHumeurFromTag(quand).setSymptomesActifs(this.SymptomesActifs);
+        this.etat.getHumeurFromTag(quand).setSymptomesInactifs(this.SymptomesInactifs);
     }
 
     @Override
     public void onClick(View v) {
+        //if (v.getTag() == "IMAGE") {
+        //
+        //} else {
         TextView self = (TextView) v;
         String symptomeClique = self.getText().toString();
-        Log.e("Test", "Click sur " + symptomeClique);
+        //Log.e("Test", "Click sur " + symptomeClique);
         if (SymptomesInactifs.indexOf(symptomeClique) >= 0) {
             SymptomesInactifs.remove(symptomeClique);
             SymptomesActifs.add(symptomeClique);
@@ -262,34 +314,32 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
             self.setTextAppearance(R.style.CaVa_SymptomeInactif);
             self.setBackgroundResource(R.drawable.background_symptome_deactive);
         }
+        //}
     }
 
-    @OnClick(R.id.feh_zonemeteo)
-    public void EditHumeur() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onChoixEtatClicked(etat, quand, "Humeur");
-    }
 
-    @OnClick(R.id.feh_zoneangoisse)
-    public void EditAngoisse() {
+    @OnClick({R.id.feh_zonemeteo, R.id.feh_zoneangoisse, R.id.feh_zoneenergie, R.id.feh_zoneirritabilite})
+    public void ClickChoixEtat(View v) {
         SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onChoixEtatClicked(etat, quand, "Angoisse");
-    }
 
-    @OnClick(R.id.feh_zoneenergie)
-    public void EditEnergie() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onChoixEtatClicked(etat, quand, "Energie");
-    }
-
-    @OnClick(R.id.feh_zoneirritabilite)
-    public void EditIrritabilite() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onChoixEtatClicked(etat, quand, "Irritabilite");
+        if (activityCallback != null) {
+            String type = "";
+            switch (v.getId()) {
+                case R.id.feh_zonemeteo:
+                    type = "Humeur";
+                    break;
+                case R.id.feh_zoneangoisse:
+                    type = "Angoisse";
+                    break;
+                case R.id.feh_zoneenergie:
+                    type = "Energie";
+                    break;
+                case R.id.feh_zoneirritabilite:
+                    type = "Irritabilite";
+                    break;
+            }
+            activityCallback.onChoixEtatClicked(etat, quand, type);
+        }
     }
 
 
@@ -304,6 +354,8 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
         void onOKFragmentHumeur(etat etat);
 
         void onChoixEtatClicked(etat etat, String quand, String type);
+
+        void onNewSymptomeClicked(etat etat, String quand);
     }
 
 }
