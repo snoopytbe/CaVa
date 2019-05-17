@@ -5,7 +5,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.snoopytbe.cava.Classes.ListeEtats;
@@ -28,7 +31,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import icepick.Icepick;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity
         implements HumeurFragment.HumeurFragmentCallback,
@@ -48,49 +54,31 @@ public class MainActivity extends AppCompatActivity
     private String tagMoment;
     private String tagEtats;
 
+    @BindView(R.id.toolbar_menu)
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        Timber.e("Départ");
+
         Icepick.restoreInstanceState(this, savedInstanceState);
 
-        //importDB();
-        Log.e("Test", "Top départ");
         setContentView(R.layout.activity_main);
 
-        if (etatViewModel == null) {
-            Log.e("Test", "ConfigureDb");
-            this.ConfigureDb();
-        }
-        //if (currentFragment==null) {
-        this.configureAndShowMainFragment();
+        ButterKnife.bind(this);
 
-        /*} else switch (currentFragment) {
-            case "Main":
-                Log.e("Test", "Affichage configureAndShowMainFragment");
-                this.configureAndShowMainFragment();
-                break;
-            case "Journee":
-                Log.e("Test", "Affichage ShowJourneeFragment");
-                this.ShowJourneeFragment(this.etatActuel);
-                break;
-            case "Sommeil":
-                this.ShowSommeilFragment(this.etatActuel);
-                break;
-            case "Traitement":
-                this.ShowTraitementFragment(this.etatActuel);
-                break;
-            case "Humeur":
-                this.ShowHumeurFragment(this.etatActuel, this.tagMoment);
-                break;
-            default:
-                this.ShowMainFragment();
-                break;
-        }*/
+        setSupportActionBar(toolbar);
+
+        ConfigureDb();
+        configureAndShowMainFragment();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        Log.e("Test", "Sauvegarde InstanceState");
+        Timber.e("Sauvegarde InstanceState");
         super.onSaveInstanceState(outState);
         Icepick.saveInstanceState(this, outState);
     }
@@ -105,11 +93,30 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.menu_about):
+                Toast.makeText(this.getApplicationContext(), "About", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void configureAndShowMainFragment() {
 
         currentFragment = "Main";
+
         //mainFragment = (MainFragment_RecyclerView) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
         mainFragment = (MainFragment_ViewPager) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
+
         Log.e("Test", "configureAndShowMainFragment: ");
         if (mainFragment == null) {
             //mainFragment = new MainFragment_RecyclerView();
@@ -125,7 +132,8 @@ public class MainActivity extends AppCompatActivity
     public void ShowMainFragment() {
         //if (currentFragment != "Main") {
         //    currentFragment = "Main";
-        etatActuel = null;
+        //etatActuel = null;
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.activity_main_layout, mainFragment)
@@ -149,6 +157,7 @@ public class MainActivity extends AppCompatActivity
 
     public void ShowHumeurFragment(etat etat, String quand) {
         currentFragment = "Humeur";
+        //showOption(R.id.menu_copy);
         this.etatActuel = etat;
         HumeurFragment humeurFragment = HumeurFragment.newInstance(etat, quand);
         getSupportFragmentManager()

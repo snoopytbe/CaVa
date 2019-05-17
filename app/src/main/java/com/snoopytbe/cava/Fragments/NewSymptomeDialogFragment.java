@@ -95,7 +95,7 @@ public class NewSymptomeDialogFragment extends DialogFragment {
     }
 
     protected int getFragmentLayout() {
-        return R.layout.dialogfragment_new_symtome;
+        return R.layout.dialogfragment_new_symptome;
     }
 
     protected void LoadDatainUI() {

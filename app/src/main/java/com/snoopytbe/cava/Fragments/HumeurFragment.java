@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.snoopytbe.cava.Classes.Humeur;
 import com.snoopytbe.cava.Classes.ListeEtats;
@@ -95,6 +98,8 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_edition_humeur, container, false);
 
+        setHasOptionsMenu(true);
+
         ButterKnife.bind(this, view);
 
         listeHumeurs = new ListeEtats.ListeHumeurs();
@@ -105,6 +110,29 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
         LoadEtatInUI();
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_feh, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.menu_copy):
+                Log.e("Test", "onOptionsItemSelected: Humeur");
+                Toast.makeText(this.getContext(), "Copy", Toast.LENGTH_SHORT).show();
+                return true;
+            case (R.id.menu_about):
+                Log.e("Test", "onOptionsItemSelected: Humeur");
+                Toast.makeText(this.getContext(), "About", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -253,6 +281,8 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
     private void LoadEtatInUI() {
 
         Log.e("Test", "Départ config");
+
+        getActivity().setTitle(etat.DateLisible());
 
         date.setText(etat.DateLisible());
 
