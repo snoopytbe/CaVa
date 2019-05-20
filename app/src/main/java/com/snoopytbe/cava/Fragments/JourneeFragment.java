@@ -7,9 +7,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.snoopytbe.cava.Classes.ListeEtats;
 import com.snoopytbe.cava.Classes.etat;
@@ -23,8 +27,6 @@ public class JourneeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "Etat";
 
-    @BindView(R.id.tit_date)
-    TextView date;
     @BindView(R.id.fpj_textViewSommeil)
     TextView sommeil;
     @BindView(R.id.fpj_textViewTraitement)
@@ -63,9 +65,31 @@ public class JourneeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_presentation_journee, container, false);
+
+        setHasOptionsMenu(true);
+
         ButterKnife.bind(this, view);
         LoadEtatInUI();
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        getActivity().setTitle(etat.DateLisible());
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.menu_about):
+                Toast.makeText(this.getContext(), "About", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -98,9 +122,6 @@ public class JourneeFragment extends Fragment {
     }
 
     private void LoadEtatInUI() {
-
-        Log.e("Test", "JourneeFragment : LoadEtatInUI");
-        date.setText(etat.DateLisible());
 
         String myText;
 
@@ -178,12 +199,6 @@ public class JourneeFragment extends Fragment {
             activityCallback.ShowTraitementFragment(etat);
     }
 
-    //@OnClick(R.id.tit_retour)
-    public void ok() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onOKFragmentJournee(etat);
-    }
 
     public interface JourneeFragmentCallback {
         void ShowSommeilFragment(etat etat);
@@ -192,6 +207,5 @@ public class JourneeFragment extends Fragment {
 
         void onChargeEtatClicked(etat etat, String quand);
 
-        void onOKFragmentJournee(etat etat);
     }
 }

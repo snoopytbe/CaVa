@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         return true;
     }
 
@@ -127,32 +128,6 @@ public class MainActivity extends AppCompatActivity
                     .addToBackStack("Main")
                     .commit();
         }
-    }
-
-    public void ShowMainFragment() {
-        //if (currentFragment != "Main") {
-        //    currentFragment = "Main";
-        //etatActuel = null;
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.activity_main_layout, mainFragment)
-                .addToBackStack("Main")
-                .commit();
-        //}
-    }
-
-    public void ShowJourneeFragment(etat etat) {
-        ShowMainFragment();
-        /*Log.e("Test", "ShowJourneeFragment : " + etat.getTraitement().getCommentaire());
-        currentFragment = "Journee";
-        this.etatActuel = etat;
-        JourneeFragment journeeFragment = JourneeFragment.newInstance(etat);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.activity_main_layout, journeeFragment, null)
-                .addToBackStack("Journee")
-                .commit();*/
     }
 
     public void ShowHumeurFragment(etat etat, String quand) {
@@ -228,25 +203,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onOKFragmentHumeur(etat etat) {
-        this.etatActuel = etat;
-        etatViewModel.update(etat);
-        ShowJourneeFragment(this.etatActuel);
-    }
-
-    @Override
-    public void onOKFragmentTraitement(etat etat) {
-        Log.e("Test", "onOKFragmentTraitement : " + etat.getTraitement().getCommentaire());
-        this.etatActuel = etat;
-        etatViewModel.update(etat);
-        ShowJourneeFragment(this.etatActuel);
-    }
-
-    @Override
     public void onOkDialogFragmentHeuresMinutes(etat etat) {
         this.etatActuel = etat;
         etatViewModel.update(etat);
         ShowSommeilFragment(this.etatActuel);
+    }
+
+    @Override
+    public void sauveEtat(etat etat) {
+        this.etatActuel = etat;
+        etatViewModel.update(etat);
     }
 
     @Override
@@ -270,21 +236,6 @@ public class MainActivity extends AppCompatActivity
 
         ChoixEtatDialogFragment choixEtatDialogFragment = ChoixEtatDialogFragment.newInstance(listeEtats);
         choixEtatDialogFragment.show(getSupportFragmentManager(), "etatPicker");
-    }
-
-    @Override
-    public void onOKFragmentJournee(etat etat) {
-        Log.e("Test", "onOKFragmentJournee : " + etat.getTraitement().getCommentaire());
-        this.etatActuel = etat;
-        etatViewModel.update(etat);
-        this.ShowMainFragment();
-    }
-
-    @Override
-    public void onRetourFragmentSommeil(etat etat) {
-        this.etatActuel = etat;
-        etatViewModel.update(etat);
-        ShowJourneeFragment(etat);
     }
 
     @Override

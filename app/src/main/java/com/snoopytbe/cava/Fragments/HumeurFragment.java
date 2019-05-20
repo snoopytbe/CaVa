@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.snoopytbe.cava.Classes.Humeur;
 import com.snoopytbe.cava.Classes.ListeEtats;
 import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.MainActivity;
 import com.snoopytbe.cava.R;
 
 import java.util.ArrayList;
@@ -52,8 +53,6 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
 
     private String quand;
 
-    @BindView(R.id.tit_date)
-    TextView date;
     @BindView(R.id.sti_soustitre)
     TextView sousTitre;
     @BindView(R.id.feh_meteo)
@@ -116,12 +115,17 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.menu_feh, menu);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
             case (R.id.menu_copy):
                 Log.e("Test", "onOptionsItemSelected: Humeur");
                 Toast.makeText(this.getContext(), "Copy", Toast.LENGTH_SHORT).show();
@@ -152,6 +156,7 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
     public void onPause() {
         super.onPause();
         SaveEtatFromUI();
+        activityCallback.sauveEtat(etat);
     }
 
     private TextView getSymptomeTextView(String texte, Boolean actifTrueInactifFalse) {
@@ -280,12 +285,6 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
 
     private void LoadEtatInUI() {
 
-        Log.e("Test", "Départ config");
-
-        getActivity().setTitle(etat.DateLisible());
-
-        date.setText(etat.DateLisible());
-
         switch (this.quand) {
             case "Matin":
                 sousTitre.setText("Humeur du matin");
@@ -373,19 +372,13 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    @OnClick(R.id.tit_retour)
-    public void ok() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onOKFragmentHumeur(etat);
-    }
-
     public interface HumeurFragmentCallback {
-        void onOKFragmentHumeur(etat etat);
 
         void onChoixEtatClicked(etat etat, String quand, String type);
 
         void onNewSymptomeClicked(etat etat, String quand);
+
+        void sauveEtat(etat etat);
     }
 
 }

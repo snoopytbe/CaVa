@@ -127,7 +127,7 @@ public abstract class etatRoomDatabase extends RoomDatabase {
             // Ajout des jours manquants
             while (lastDayDB.compareTo(today) < 0) {
                 lastDayDB.add(Calendar.DAY_OF_MONTH, 1);
-                etat etat = new etat(lastDayDB.getTimeInMillis(), etatDernierJour.getTraitement());
+                etat etat = new etat(lastDayDB.getTimeInMillis(), etatDernierJour.getTraitement(), etatDernierJour.getAllSymptomes());
                 mDao.insert(etat);
             }
 

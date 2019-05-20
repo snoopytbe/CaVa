@@ -6,12 +6,10 @@
     android:layout_height="50dp"
     android:background="@color/colorPrimary">
 
-    <TextView
+    <ImageView
         android:id="@+id/tit_retour"
-        style="@style/CaVa.Titre"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="&lt;"
+        style="@style/CaVa.ImageTitre"
+        app:srcCompat="@drawable/left_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -26,5 +24,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/tit_copy"
+        style="@style/CaVa.ImageTitre"
+        android:cropToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tit_threedots"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/copy" />
+
+    <ImageView
+        android:id="@+id/tit_threedots"
+        style="@style/CaVa.ImageTitre"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/three_dots" />
 
 </android.support.constraint.ConstraintLayout>

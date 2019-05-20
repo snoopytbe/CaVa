@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.snoopytbe.cava.Classes.etat;
-import com.snoopytbe.cava.MainActivity;
 import com.snoopytbe.cava.R;
 import com.snoopytbe.cava.RecyclerView.EtatListAdapter;
 import com.snoopytbe.cava.utils.ItemClickSupport;
@@ -59,7 +58,7 @@ public class MainFragment_RecyclerView extends Fragment {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         etat etat = adapter.getEtat(position);
-                        ((MainActivity) getActivity()).ShowJourneeFragment(etat);
+                        //((MainActivity) getActivity()).ShowJourneeFragment(etat);
                     }
                 });
     }

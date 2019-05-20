@@ -10,8 +10,6 @@
         android:gravity="top|start"
         android:orientation="vertical">
 
-        <include layout="@layout/include_titre" />
-
         <include layout="@layout/include_soustitre" />
 
         <android.support.constraint.ConstraintLayout

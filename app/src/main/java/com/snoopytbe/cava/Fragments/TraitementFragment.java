@@ -4,26 +4,28 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.MainActivity;
 import com.snoopytbe.cava.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 public class TraitementFragment extends Fragment {
 
     private etat etat;
     private static final String ARG_PARAM1 = "etat";
-    @BindView(R.id.tit_date)
-    TextView date;
     @BindView(R.id.fet_respecte)
     CheckBox respecte;
     @BindView(R.id.fet_actuel)
@@ -55,7 +57,6 @@ public class TraitementFragment extends Fragment {
     }
 
     private void LoadEtatInUI() {
-        date.setText(etat.DateLisible());
         sousTitre.setText("Traitement");
         actuel.setText(etat.getTraitement().getActuel());
         respecte.setChecked(etat.getTraitement().getRespecte());
@@ -67,9 +68,33 @@ public class TraitementFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_edition_traitement, container, false);
+        setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
         LoadEtatInUI();
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_main, menu);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
+            case (R.id.menu_about):
+                Toast.makeText(this.getContext(), "About", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -89,6 +114,7 @@ public class TraitementFragment extends Fragment {
     public void onPause() {
         super.onPause();
         SaveEtatFromUI();
+        activityCallback.sauveEtat(etat);
     }
 
     private void SaveEtatFromUI() {
@@ -97,15 +123,10 @@ public class TraitementFragment extends Fragment {
         this.etat.getTraitement().setCommentaire(commentaire.getText().toString());
     }
 
-    @OnClick(R.id.tit_retour)
-    public void ok() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onOKFragmentTraitement(etat);
-    }
 
     public interface TraitementFragmentCallback {
-        void onOKFragmentTraitement(etat etat);
+
+        void sauveEtat(etat etat);
     }
 
 }

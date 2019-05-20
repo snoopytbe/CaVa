@@ -7,7 +7,9 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Locale;
 
 @Entity(tableName = "etat_table")
@@ -44,13 +46,13 @@ public class etat implements Serializable {
     }
 
     @Ignore
-    public etat(long date, Traitement traitement) {
+    public etat(long date, Traitement traitement, ArrayList<String> symptomes) {
         this.date = date;
         this.traitement = new Traitement(traitement.getActuel());
         this.qualiteSommeil = new QualiteSommeil();
-        this.humeurMatin = new Humeur();
-        this.humeurApresMidi = new Humeur();
-        this.humeurSoir = new Humeur();
+        this.humeurMatin = new Humeur(symptomes);
+        this.humeurApresMidi = new Humeur(symptomes);
+        this.humeurSoir = new Humeur(symptomes);
     }
 
     public QualiteSommeil getQualiteSommeil() {
@@ -100,6 +102,23 @@ public class etat implements Serializable {
             default:
                 return humeurMatin;
         }
+    }
+
+    public ArrayList<String> getAllSymptomes() {
+        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> temp = new ArrayList<>();
+
+        result.addAll(humeurMatin.getAllSymptomes());
+        temp.addAll(humeurApresMidi.getAllSymptomes());
+        temp.addAll(humeurSoir.getAllSymptomes());
+
+        for (int i = 0; i < temp.size(); i++) {
+            if (!result.contains(temp.get(i))) result.add(temp.get(i));
+        }
+
+        Collections.sort(result);
+
+        return result;
     }
 
     public Humeur getHumeurMatin() {

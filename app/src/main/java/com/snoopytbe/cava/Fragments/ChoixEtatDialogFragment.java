@@ -53,7 +53,7 @@ public class ChoixEtatDialogFragment extends DialogFragment {
         Dialog dialog = builder.create();
         Window window = dialog.getWindow();
         WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.gravity = Gravity.BOTTOM;
+        wlp.gravity = Gravity.CENTER;
         wlp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         return dialog;

@@ -6,13 +6,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.MainActivity;
 import com.snoopytbe.cava.R;
 
 import butterknife.BindView;
@@ -38,8 +43,6 @@ public class SommeilFragment extends Fragment {
     TextView heureLever;
     @BindView(R.id.fes_HeuresInsomnie)
     TextView heuresInsomnie;
-    @BindView(R.id.tit_date)
-    TextView date;
     @BindView(R.id.fes_HeuresSieste)
     TextView heuresSieste;
     @BindView(R.id.fes_commentaire)
@@ -57,9 +60,33 @@ public class SommeilFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edition_sommeil, container, false);
+        setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
         LoadEtatInUI();
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_main, menu);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
+            case (R.id.menu_about):
+                Toast.makeText(this.getContext(), "About", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -87,10 +114,10 @@ public class SommeilFragment extends Fragment {
     public void onPause() {
         super.onPause();
         SaveEtatFromUI();
+        activityCallback.sauveEtat(etat);
     }
 
     private void LoadEtatInUI() {
-        date.setText(etat.DateLisible());
         ratingSommeil.setRating(etat.getQualiteSommeil().getRatingSommeil());
         heuresSommeil.setText(etat.getQualiteSommeil().getHeuresSommeil().Lisible());
         heureCoucher.setText(etat.getQualiteSommeil().getHeureCoucher().Lisible());
@@ -119,20 +146,14 @@ public class SommeilFragment extends Fragment {
             activityCallback.ShowHeuresSieste(etat);
     }
 
-    @OnClick(R.id.tit_retour)
-    public void ok() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.onRetourFragmentSommeil(etat);
-    }
 
     public interface SommeilFragmentCallback {
-
-        void onRetourFragmentSommeil(etat etat);
 
         void ShowHeuresSommeil(etat etat);
 
         void ShowHeuresSieste(etat etat);
+
+        void sauveEtat(etat etat);
     }
 
 }

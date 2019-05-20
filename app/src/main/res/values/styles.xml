@@ -89,6 +89,12 @@
         <item name="android:layout_margin">@dimen/margin_small</item>
     </style>
 
+    <style name="CaVa.ImageTitre">
+        <item name="android:layout_width">@dimen/largeur_image_titre</item>
+        <item name="android:layout_height">@dimen/largeur_image_titre</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
+    </style>
+
     <style name="CaVa.EditText" parent="Widget.AppCompat.EditText">
         <item name="android:gravity">start|top</item>
         <item name="android:textAlignment">textStart</item>

@@ -14,6 +14,7 @@
 
     <!--taille de l'icone-->
     <dimen name="largeur_image_humeur">35dp</dimen>
+    <dimen name="largeur_image_titre">20dp</dimen>
 
     <!--separateur-->
     <dimen name="hauteur_separateur">2dp</dimen>

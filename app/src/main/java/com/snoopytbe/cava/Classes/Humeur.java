@@ -5,6 +5,7 @@ import android.arch.persistence.room.Ignore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Humeur implements Serializable {
     @ColumnInfo(name = "humeur")
@@ -28,6 +29,51 @@ public class Humeur implements Serializable {
     @ColumnInfo(name = "symptomesInactifs")
     private ArrayList<String> symptomesInactifs;
 
+    @Ignore
+    public Humeur(int humeur, int angoisse, int energie, int irritabilite, String commentaire, ArrayList<String> symptomes) {
+        this.humeur = humeur;
+        this.angoisse = angoisse;
+        this.energie = energie;
+        this.irritabilite = irritabilite;
+        this.commentaire = commentaire;
+        InitialiseSymptomes(symptomes);
+    }
+
+    @Ignore
+    public Humeur(int humeur, int angoisse, int energie, int irritabilite, String commentaire) {
+        this.humeur = humeur;
+        this.angoisse = angoisse;
+        this.energie = energie;
+        this.irritabilite = irritabilite;
+        this.commentaire = commentaire;
+        InitialiseSymptomes();
+    }
+
+    @Ignore
+    public Humeur(ArrayList<String> symptomes) {
+        this.humeur = 0;
+        this.angoisse = 0;
+        this.energie = 0;
+        this.irritabilite = 0;
+        this.commentaire = "";
+        InitialiseSymptomes(symptomes);
+    }
+
+    private void InitialiseSymptomes(ArrayList<String> symptomes) {
+        this.symptomesInactifs = new ArrayList<>();
+        this.symptomesActifs = new ArrayList<>();
+        this.symptomesInactifs.addAll(symptomes);
+    }
+
+    public Humeur() {
+        this.humeur = 0;
+        this.angoisse = 0;
+        this.energie = 0;
+        this.irritabilite = 0;
+        this.commentaire = "";
+        InitialiseSymptomes();
+    }
+
     private void InitialiseSymptomes() {
         this.symptomesInactifs = new ArrayList<>();
         this.symptomesActifs = new ArrayList<>();
@@ -43,25 +89,6 @@ public class Humeur implements Serializable {
         this.symptomesInactifs.add("Sentiment d'échec");
         this.symptomesInactifs.add("Envie de tout plaquer");
         this.symptomesInactifs.add("Idées suicidaires");
-    }
-
-    public Humeur(int humeur, int angoisse, int energie, int irritabilite, String commentaire) {
-        this.humeur = humeur;
-        this.angoisse = angoisse;
-        this.energie = energie;
-        this.irritabilite = irritabilite;
-        this.commentaire = commentaire;
-        InitialiseSymptomes();
-    }
-
-    @Ignore
-    public Humeur() {
-        this.humeur = 0;
-        this.angoisse = 0;
-        this.energie = 0;
-        this.irritabilite = 0;
-        this.commentaire = "";
-        InitialiseSymptomes();
     }
 
     public int getHumeurFromTag(String tagHumeur) {
@@ -129,6 +156,19 @@ public class Humeur implements Serializable {
 
     public ArrayList<String> getSymptomesInactifs() {
         return symptomesInactifs;
+    }
+
+    public ArrayList<String> getAllSymptomes() {
+        ArrayList<String> result = new ArrayList<>();
+        result.addAll(symptomesActifs);
+        for (int i = 0; i < symptomesInactifs.size(); i++) {
+            if (result.contains(symptomesInactifs.get(i)))
+                result.add(symptomesInactifs.get(i));
+        }
+
+        Collections.sort(result);
+
+        return result;
     }
 
     public void setSymptomesInactifs(ArrayList<String> symptomesInactifs) {
