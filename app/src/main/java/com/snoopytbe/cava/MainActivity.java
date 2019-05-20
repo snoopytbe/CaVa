@@ -34,6 +34,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableMaybeObserver;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity
                 mainFragment.setEtats(etats);
             }
         });
+
     }
 
     @Override
@@ -213,6 +217,33 @@ public class MainActivity extends AppCompatActivity
     public void sauveEtat(etat etat) {
         this.etatActuel = etat;
         etatViewModel.update(etat);
+    }
+
+    public etat copiePrecedenteHumeur(etat etat, String tagMoment) {
+        etat result = etat;
+        if (tagMoment == "Matin") {
+
+            etatViewModel.getPrecedentEtat(etat.getDate())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new DisposableMaybeObserver<etat>() {
+                        @Override
+                        public void onSuccess(etat hier) {
+                            result.setHumeurMatin(hier.getHumeurSoir());
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onComplete() {
+                        }
+                    });
+        }
+
+        //etat precedentEtat = etatViewModel.getPrecedentEtat(etat.getDate());
+        return result;
     }
 
     @Override

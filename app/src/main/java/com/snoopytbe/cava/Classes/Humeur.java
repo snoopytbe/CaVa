@@ -29,6 +29,15 @@ public class Humeur implements Serializable {
     @ColumnInfo(name = "symptomesInactifs")
     private ArrayList<String> symptomesInactifs;
 
+    public Humeur() {
+        this.humeur = 0;
+        this.angoisse = 0;
+        this.energie = 0;
+        this.irritabilite = 0;
+        this.commentaire = "";
+        InitialiseSymptomes();
+    }
+
     @Ignore
     public Humeur(int humeur, int angoisse, int energie, int irritabilite, String commentaire, ArrayList<String> symptomes) {
         this.humeur = humeur;
@@ -63,15 +72,6 @@ public class Humeur implements Serializable {
         this.symptomesInactifs = new ArrayList<>();
         this.symptomesActifs = new ArrayList<>();
         this.symptomesInactifs.addAll(symptomes);
-    }
-
-    public Humeur() {
-        this.humeur = 0;
-        this.angoisse = 0;
-        this.energie = 0;
-        this.irritabilite = 0;
-        this.commentaire = "";
-        InitialiseSymptomes();
     }
 
     private void InitialiseSymptomes() {

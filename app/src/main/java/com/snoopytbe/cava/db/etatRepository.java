@@ -8,6 +8,8 @@ import com.snoopytbe.cava.Classes.etat;
 
 import java.util.List;
 
+import io.reactivex.Maybe;
+
 public class etatRepository {
 
     private etatDao mEtatDao;
@@ -23,16 +25,16 @@ public class etatRepository {
         return mAllEtats;
     }
 
-    public etat getEtatFromID(int paramID) {
-        return mEtatDao.getEtatFromID(paramID);
-    }
-
     public void insert(etat etat) {
         new insertAsyncTask(mEtatDao).execute(etat);
     }
 
     public void update(etat etat) {
         new updateAsyncTask(mEtatDao).execute(etat);
+    }
+
+    Maybe<etat> getPrecedentEtat(long paramDate) {
+        return mEtatDao.getPrecedentEtat(paramDate);
     }
 
     private static class insertAsyncTask extends AsyncTask<etat, Void, Void> {
@@ -64,4 +66,5 @@ public class etatRepository {
             return null;
         }
     }
+
 }

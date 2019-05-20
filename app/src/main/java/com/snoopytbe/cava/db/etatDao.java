@@ -6,11 +6,12 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
-import android.database.Cursor;
 
 import com.snoopytbe.cava.Classes.etat;
 
 import java.util.List;
+
+import io.reactivex.Maybe;
 
 @Dao
 public interface etatDao {
@@ -30,17 +31,14 @@ public interface etatDao {
     @Query("SELECT * from etat_table order by date DESC")
     LiveData<List<etat>> getAllEtats();
 
-    @Query("SELECT * from etat_table order by date DESC")
-    Cursor getAllEtatsForExport();
-
     @Query("SELECT MAX(date) from etat_table")
     long getDernierJour();
 
     @Query("SELECT * from etat_table where date = (SELECT MAX(date) from etat_table)")
     etat getEtatDernierJour();
 
-    @Query("SELECT * from etat_table WHERE id = :paramID")
-    etat getEtatFromID(int paramID);
+    @Query("SELECT * from etat_table where date = (SELECT MAX(date) from etat_table WHERE date < :paramDate)")
+    Maybe<etat> getPrecedentEtat(long paramDate);
 }
 
 

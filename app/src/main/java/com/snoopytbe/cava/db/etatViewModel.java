@@ -8,6 +8,8 @@ import com.snoopytbe.cava.Classes.etat;
 
 import java.util.List;
 
+import io.reactivex.Maybe;
+
 
 public class etatViewModel extends AndroidViewModel {
 
@@ -33,7 +35,7 @@ public class etatViewModel extends AndroidViewModel {
         mRepository.update(etat);
     }
 
-    public etat getEtatFromID(int paramID) {
-        return mRepository.getEtatFromID(paramID);
+    public Maybe<etat> getPrecedentEtat(long paramDate) {
+        return mRepository.getPrecedentEtat(paramDate);
     }
 }

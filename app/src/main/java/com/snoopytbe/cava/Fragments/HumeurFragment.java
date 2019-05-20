@@ -128,7 +128,9 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
                 return true;
             case (R.id.menu_copy):
                 Log.e("Test", "onOptionsItemSelected: Humeur");
+                etat = activityCallback.copiePrecedenteHumeur(etat, quand);
                 Toast.makeText(this.getContext(), "Copy", Toast.LENGTH_SHORT).show();
+                LoadEtatInUI();
                 return true;
             case (R.id.menu_about):
                 Log.e("Test", "onOptionsItemSelected: Humeur");
@@ -379,6 +381,8 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
         void onNewSymptomeClicked(etat etat, String quand);
 
         void sauveEtat(etat etat);
+
+        etat copiePrecedenteHumeur(etat etat, String quand);
     }
 
 }
