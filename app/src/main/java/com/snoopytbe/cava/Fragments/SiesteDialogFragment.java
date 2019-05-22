@@ -58,8 +58,8 @@ public class SiesteDialogFragment extends DialogFragmentHeuresMinutes {
         time.setIntQuinzaine(sieste.getValue());
         this.etat.getQualiteSommeil().setHeuresSieste(new HeuresMinutes(time.getHeures(), time.getMinutes()));
 
-        if (activityCallback != null)
-            activityCallback.onOkDialogFragmentHeuresMinutes(this.etat);
+        if (fragmentCallback != null)
+            fragmentCallback.onOkDialogFragmentHeuresMinutes();
 
         this.dismiss();
     }

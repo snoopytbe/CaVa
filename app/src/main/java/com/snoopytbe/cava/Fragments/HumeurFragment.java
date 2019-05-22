@@ -1,25 +1,23 @@
 package com.snoopytbe.cava.Fragments;
 
 import android.app.Activity;
-import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.snoopytbe.cava.AbstractFragments.FragmentCaVa;
 import com.snoopytbe.cava.Classes.Humeur;
 import com.snoopytbe.cava.Classes.ListeEtats;
 import com.snoopytbe.cava.Classes.etat;
@@ -29,27 +27,34 @@ import com.snoopytbe.cava.R;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
+
+import static com.snoopytbe.cava.Classes.commun.etat_angoisse;
+import static com.snoopytbe.cava.Classes.commun.etat_energie;
+import static com.snoopytbe.cava.Classes.commun.etat_humeur;
+import static com.snoopytbe.cava.Classes.commun.etat_irritabilite;
+import static com.snoopytbe.cava.Classes.commun.moment_aprem;
+import static com.snoopytbe.cava.Classes.commun.moment_matin;
+import static com.snoopytbe.cava.Classes.commun.moment_soir;
 
 
-public class HumeurFragment extends Fragment implements View.OnClickListener {
+public class HumeurFragment extends FragmentCaVa implements View.OnClickListener, ChoixEtatDialogFragment.ListeEtatsFragmentCallback, NewSymptomeDialogFragment.NewSymptomeDialogFragmentCallback {
 
     private ListeEtats.ListeAngoisses listeAngoisses;
     private ListeEtats.ListeHumeurs listeHumeurs;
     private ListeEtats.ListeEnergies listeEnergies;
     private ListeEtats.ListeIrritabilite listeIrritabilite;
 
-    private etat etat;
     private String SymptomeASupprimer;
+    private String tagEtats;
+    private int idAjout;
 
     private ArrayList<String> SymptomesActifs;
     private ArrayList<String> SymptomesInactifs;
 
     private static final String ARG_PARAM1 = "etat";
     private static final String ARG_PARAM2 = "quand";
-
-    private HumeurFragmentCallback activityCallback;
 
     private String quand;
 
@@ -90,75 +95,36 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
     public HumeurFragment() {
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_edition_humeur, container, false);
-
-        setHasOptionsMenu(true);
-
-        ButterKnife.bind(this, view);
-
-        listeHumeurs = new ListeEtats.ListeHumeurs();
-        listeAngoisses = new ListeEtats.ListeAngoisses();
-        listeIrritabilite = new ListeEtats.ListeIrritabilite();
-        listeEnergies = new ListeEtats.ListeEnergies();
-
-        LoadEtatInUI();
-
-        return view;
+    protected int getFragmentLayout() {
+        return R.layout.fragment_edition_humeur;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Timber.e("Menu Humeur");
         menu.clear();
         inflater.inflate(R.menu.menu_feh, menu);
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        super.onCreateOptionsMenu(menu, inflater);
+        //super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().onBackPressed();
                 return true;
             case (R.id.menu_copy):
-                Log.e("Test", "onOptionsItemSelected: Humeur");
-                etat = activityCallback.copiePrecedenteHumeur(etat, quand);
-                Toast.makeText(this.getContext(), "Copy", Toast.LENGTH_SHORT).show();
-                LoadEtatInUI();
+                copyTask copyTask = new copyTask();
+                copyTask.execute();
                 return true;
             case (R.id.menu_about):
-                Log.e("Test", "onOptionsItemSelected: Humeur");
                 Toast.makeText(this.getContext(), "About", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof HumeurFragmentCallback)
-            activityCallback = (HumeurFragmentCallback) context;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        activityCallback = null;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        SaveEtatFromUI();
-        activityCallback.sauveEtat(etat);
     }
 
     private TextView getSymptomeTextView(String texte, Boolean actifTrueInactifFalse) {
@@ -208,15 +174,6 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
         return true;
     }
 
-
-    private LinearLayout addLinearLayoutTechnique() {
-        LinearLayout result = new LinearLayout(getContext());
-        result.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        result.setOrientation(LinearLayout.HORIZONTAL);
-        result.setGravity(Gravity.START);
-        return result;
-    }
-
     private void afficheSymptomes(Humeur humeur) {
 
         // Récupération des symptomes
@@ -264,37 +221,48 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
             }
         }
 
+
+        // TODO : clean this portion of code
         ImageView imageView = new ImageView(getContext());
         imageView.setImageResource(R.drawable.plus);
         int margin = (int) (getResources().getDimension(R.dimen.margin_small) / getResources().getDisplayMetrics().density);
         LinearLayout.LayoutParams marginSetter = new LinearLayout.LayoutParams(currentHeight, currentHeight);
         marginSetter.setMargins(margin, margin, margin, margin);
         imageView.setLayoutParams(marginSetter);
-        imageView.setTag("IMAGE");
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SaveEtatFromUI();
-                if (activityCallback != null)
-                    activityCallback.onNewSymptomeClicked(etat, quand);
-            }
-        });
+        idAjout = View.generateViewId();
+        imageView.setId(idAjout);
+        imageView.setOnClickListener(this);
         llTechnique.addView(imageView);
 
         listesymptomes.addView(llTechnique);
 
     }
 
-    private void LoadEtatInUI() {
+    private LinearLayout addLinearLayoutTechnique() {
+        LinearLayout result = new LinearLayout(getContext());
+        result.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        result.setOrientation(LinearLayout.HORIZONTAL);
+        result.setGravity(Gravity.START);
+        return result;
+    }
+
+    protected void LoadEtatInUI() {
+
+        Timber.e("Chargement HumeurFragment");
+
+        listeHumeurs = new ListeEtats.ListeHumeurs();
+        listeAngoisses = new ListeEtats.ListeAngoisses();
+        listeIrritabilite = new ListeEtats.ListeIrritabilite();
+        listeEnergies = new ListeEtats.ListeEnergies();
 
         switch (this.quand) {
-            case "Matin":
+            case moment_matin:
                 sousTitre.setText("Humeur du matin");
                 break;
-            case "Aprem":
+            case moment_aprem:
                 sousTitre.setText("Humeur de l'après-midi");
                 break;
-            case "Soir":
+            case moment_soir:
                 sousTitre.setText("Humeur du soir");
                 break;
             default:
@@ -314,13 +282,13 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
                 .get(etat.getHumeurFromTag(this.quand).getIrritabilite())
                 .getNom());
         commentaire.setText(etat.getHumeurFromTag(this.quand).getCommentaire());
-        Log.e("Test", "Milieu");
+
 
         afficheSymptomes(etat.getHumeurFromTag(this.quand));
 
     }
 
-    private void SaveEtatFromUI() {
+    protected void SaveEtatFromUI() {
         this.etat.getHumeurFromTag(quand).setCommentaire(commentaire.getText().toString());
         this.etat.getHumeurFromTag(quand).setSymptomesActifs(this.SymptomesActifs);
         this.etat.getHumeurFromTag(quand).setSymptomesInactifs(this.SymptomesInactifs);
@@ -328,61 +296,117 @@ public class HumeurFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        //if (v.getTag() == "IMAGE") {
-        //
-        //} else {
-        TextView self = (TextView) v;
-        String symptomeClique = self.getText().toString();
-        //Log.e("Test", "Click sur " + symptomeClique);
-        if (SymptomesInactifs.indexOf(symptomeClique) >= 0) {
-            SymptomesInactifs.remove(symptomeClique);
-            SymptomesActifs.add(symptomeClique);
-            self.setTextAppearance(R.style.CaVa_SymptomeActif);
-            self.setBackgroundResource(R.drawable.background_symptome_active);
-        } else {
-            SymptomesActifs.remove(symptomeClique);
-            SymptomesInactifs.add(symptomeClique);
-            self.setTextAppearance(R.style.CaVa_SymptomeInactif);
-            self.setBackgroundResource(R.drawable.background_symptome_deactive);
-        }
-        //}
-    }
 
+        if (v.getId() == idAjout) {
+            NewSymptomeDialogFragment newSymptomeDialogFragment = new NewSymptomeDialogFragment();
+            newSymptomeDialogFragment.setTargetFragment(this, 0);
+            newSymptomeDialogFragment.show(getFragmentManager(), "NewSymptome");
+
+        } else {
+
+            TextView self = (TextView) v;
+            String symptomeClique = self.getText().toString();
+
+            if (SymptomesInactifs.indexOf(symptomeClique) >= 0) {
+                SymptomesInactifs.remove(symptomeClique);
+                SymptomesActifs.add(symptomeClique);
+                self.setTextAppearance(R.style.CaVa_SymptomeActif);
+                self.setBackgroundResource(R.drawable.background_symptome_active);
+            } else {
+                SymptomesActifs.remove(symptomeClique);
+                SymptomesInactifs.add(symptomeClique);
+                self.setTextAppearance(R.style.CaVa_SymptomeInactif);
+                self.setBackgroundResource(R.drawable.background_symptome_deactive);
+            }
+        }
+    }
 
     @OnClick({R.id.feh_zonemeteo, R.id.feh_zoneangoisse, R.id.feh_zoneenergie, R.id.feh_zoneirritabilite})
-    public void ClickChoixEtat(View v) {
-        SaveEtatFromUI();
+    public void onChoixEtatClicked(View v) {
 
-        if (activityCallback != null) {
-            String type = "";
-            switch (v.getId()) {
-                case R.id.feh_zonemeteo:
-                    type = "Humeur";
-                    break;
-                case R.id.feh_zoneangoisse:
-                    type = "Angoisse";
-                    break;
-                case R.id.feh_zoneenergie:
-                    type = "Energie";
-                    break;
-                case R.id.feh_zoneirritabilite:
-                    type = "Irritabilite";
-                    break;
-            }
-            activityCallback.onChoixEtatClicked(etat, quand, type);
+        ListeEtats listeEtats;
+
+        switch (v.getId()) {
+            case R.id.feh_zonemeteo:
+                this.tagEtats = etat_humeur;
+                listeEtats = new ListeEtats.ListeHumeurs();
+                break;
+            case R.id.feh_zoneangoisse:
+                this.tagEtats = etat_angoisse;
+                listeEtats = new ListeEtats.ListeAngoisses();
+                break;
+            case R.id.feh_zoneenergie:
+                this.tagEtats = etat_energie;
+                listeEtats = new ListeEtats.ListeEnergies();
+                break;
+            case R.id.feh_zoneirritabilite:
+                this.tagEtats = etat_irritabilite;
+                listeEtats = new ListeEtats.ListeIrritabilite();
+                break;
+            default:
+                listeEtats = new ListeEtats.ListeHumeurs();
         }
+
+        ChoixEtatDialogFragment choixEtatDialogFragment = ChoixEtatDialogFragment.newInstance(listeEtats);
+        choixEtatDialogFragment.setTargetFragment(this, 0);
+        choixEtatDialogFragment.show(getFragmentManager(), "etatPicker");
     }
 
+    @Override
+    public void onEtatClicked(int numero) {
 
-    public interface HumeurFragmentCallback {
+        if (this.tagEtats == etat_angoisse) {
+            this.etat.getHumeurFromTag(quand).setAngoisse(numero);
+        } else if (this.tagEtats == etat_humeur) {
+            this.etat.getHumeurFromTag(quand).setHumeur(numero);
+        } else if (this.tagEtats == etat_energie) {
+            this.etat.getHumeurFromTag(quand).setEnergie(numero);
+        } else if (this.tagEtats == etat_irritabilite) {
+            this.etat.getHumeurFromTag(quand).setIrritabilite(numero);
+        }
 
-        void onChoixEtatClicked(etat etat, String quand, String type);
+        LoadEtatInUI();
+    }
 
-        void onNewSymptomeClicked(etat etat, String quand);
+    @Override
+    public void onOkNewSymptomeDialogFragment(String newSymptome) {
+        SaveEtatFromUI();
+        if (!newSymptome.isEmpty()) {
+            if (!SymptomesInactifs.contains(newSymptome) && !SymptomesActifs.contains(newSymptome)) {
+                etat.getHumeurFromTag(quand).getSymptomesActifs().add(newSymptome);
+            } else {
+                Toast.makeText(this.getContext(), "Le symptome existe déjà", Toast.LENGTH_LONG).show();
+            }
+        }
+        LoadEtatInUI();
+    }
 
-        void sauveEtat(etat etat);
+    private class copyTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
 
-        etat copiePrecedenteHumeur(etat etat, String quand);
+            switch (quand) {
+                case moment_matin:
+                    etat hier = ((MainActivity) getActivity()).getEtatViewModel().getPrecedentEtatv2(etat.getDate());
+                    etat.setHumeurMatin(hier.getHumeurSoir().copie());
+                    break;
+                case moment_aprem:
+                    etat.setHumeurApresMidi(etat.getHumeurMatin().copie());
+                    break;
+                case moment_soir:
+                    etat.setHumeurSoir(etat.getHumeurApresMidi().copie());
+                    break;
+                default:
+                    break;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            LoadEtatInUI();
+        }
     }
 
 }

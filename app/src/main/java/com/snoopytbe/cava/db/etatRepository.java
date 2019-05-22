@@ -37,6 +37,10 @@ public class etatRepository {
         return mEtatDao.getPrecedentEtat(paramDate);
     }
 
+    etat getPrecedentEtatv2(long paramDate) {
+        return mEtatDao.getPrecedentEtatv2(paramDate);
+    }
+
     private static class insertAsyncTask extends AsyncTask<etat, Void, Void> {
 
         private etatDao mAsyncTaskDao;

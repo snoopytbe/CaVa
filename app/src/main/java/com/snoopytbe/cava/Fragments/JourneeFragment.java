@@ -23,6 +23,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.snoopytbe.cava.Classes.commun.moment_aprem;
+import static com.snoopytbe.cava.Classes.commun.moment_matin;
+import static com.snoopytbe.cava.Classes.commun.moment_soir;
+
 public class JourneeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "Etat";
@@ -175,21 +179,21 @@ public class JourneeFragment extends Fragment {
     public void chargeMatin() {
         SaveEtatFromUI();
         if (activityCallback != null)
-            activityCallback.onChargeEtatClicked(etat, "Matin");
+            activityCallback.ShowHumeurFragment(etat, moment_matin);
     }
 
     @OnClick(R.id.fpj_cardAprem)
     public void chargeAprem() {
         SaveEtatFromUI();
         if (activityCallback != null)
-            activityCallback.onChargeEtatClicked(etat, "Aprem");
+            activityCallback.ShowHumeurFragment(etat, moment_aprem);
     }
 
     @OnClick(R.id.fpj_cardSoir)
     public void chargeSoir() {
         SaveEtatFromUI();
         if (activityCallback != null)
-            activityCallback.onChargeEtatClicked(etat, "Soir");
+            activityCallback.ShowHumeurFragment(etat, moment_soir);
     }
 
     @OnClick(R.id.fpj_cardTraitement)
@@ -205,7 +209,7 @@ public class JourneeFragment extends Fragment {
 
         void ShowTraitementFragment(etat etat);
 
-        void onChargeEtatClicked(etat etat, String quand);
+        void ShowHumeurFragment(etat etat, String quand);
 
     }
 }

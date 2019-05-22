@@ -12,6 +12,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Locale;
 
+import static com.snoopytbe.cava.Classes.commun.moment_aprem;
+import static com.snoopytbe.cava.Classes.commun.moment_matin;
+import static com.snoopytbe.cava.Classes.commun.moment_soir;
+
 @Entity(tableName = "etat_table")
 public class etat implements Serializable {
 
@@ -93,11 +97,11 @@ public class etat implements Serializable {
 
     public Humeur getHumeurFromTag(String tagMoment) {
         switch (tagMoment) {
-            case "Matin":
+            case moment_matin:
                 return humeurMatin;
-            case "Aprem":
+            case moment_aprem:
                 return humeurApresMidi;
-            case "Soir":
+            case moment_soir:
                 return humeurSoir;
             default:
                 return humeurMatin;

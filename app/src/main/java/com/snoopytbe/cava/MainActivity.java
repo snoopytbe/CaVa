@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,15 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.snoopytbe.cava.Classes.ListeEtats;
+import com.snoopytbe.cava.AbstractFragments.FragmentCaVa;
 import com.snoopytbe.cava.Classes.etat;
-import com.snoopytbe.cava.Fragments.ChoixEtatDialogFragment;
 import com.snoopytbe.cava.Fragments.HumeurFragment;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
 import com.snoopytbe.cava.Fragments.MainFragment_ViewPager;
-import com.snoopytbe.cava.Fragments.NewSymptomeDialogFragment;
-import com.snoopytbe.cava.Fragments.SiesteDialogFragment;
-import com.snoopytbe.cava.Fragments.SommeilDialogFragment;
 import com.snoopytbe.cava.Fragments.SommeilFragment;
 import com.snoopytbe.cava.Fragments.TraitementFragment;
 import com.snoopytbe.cava.db.etatViewModel;
@@ -34,28 +31,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableMaybeObserver;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity
-        implements HumeurFragment.HumeurFragmentCallback,
-        SommeilFragment.SommeilFragmentCallback,
-        ChoixEtatDialogFragment.ListeEtatsFragmentCallback,
-        JourneeFragment.JourneeFragmentCallback,
-        TraitementFragment.TraitementFragmentCallback,
-        SommeilDialogFragment.DialogHeuresMinutesCallback,
-        NewSymptomeDialogFragment.NewSymptomeDialogFragmentCallback {
+        implements JourneeFragment.JourneeFragmentCallback,
+        FragmentCaVa.FragmentCaVaCallback {
 
     //private MainFragment_RecyclerView mainFragment;
     private MainFragment_ViewPager mainFragment;
     private etatViewModel etatViewModel;
-
-    private String currentFragment;
-    private etat etatActuel;
-    private String tagMoment;
-    private String tagEtats;
 
     @BindView(R.id.toolbar_menu)
     Toolbar toolbar;
@@ -117,8 +101,6 @@ public class MainActivity extends AppCompatActivity
 
     private void configureAndShowMainFragment() {
 
-        currentFragment = "Main";
-
         //mainFragment = (MainFragment_RecyclerView) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
         mainFragment = (MainFragment_ViewPager) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
 
@@ -134,185 +116,42 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void ShowHumeurFragment(etat etat, String quand) {
-        currentFragment = "Humeur";
-        //showOption(R.id.menu_copy);
-        this.etatActuel = etat;
-        HumeurFragment humeurFragment = HumeurFragment.newInstance(etat, quand);
+    public void remplaceFragment(Fragment fragment, String nom) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.activity_main_layout, humeurFragment, null)
-                .addToBackStack("Humeur")
+                .replace(R.id.activity_main_layout, fragment, null)
+                .addToBackStack(nom)
                 .commit();
+    }
+
+    @Override
+    public void ShowHumeurFragment(etat etat, String quand) {
+        HumeurFragment humeurFragment = HumeurFragment.newInstance(etat, quand);
+        remplaceFragment(humeurFragment, "Humeur");
     }
 
     @Override
     public void ShowSommeilFragment(etat etat) {
-        currentFragment = "Sommeil";
-        this.etatActuel = etat;
         SommeilFragment sommeilFragment = SommeilFragment.newInstance(etat);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.activity_main_layout, sommeilFragment)
-                .addToBackStack("Sommeil")
-                .commit();
-    }
-
-    @Override
-    public void ShowHeuresSommeil(etat etat) {
-        this.etatActuel = etat;
-        SommeilDialogFragment sommeilDialogFragment = SommeilDialogFragment.newInstance(etat);
-        sommeilDialogFragment.show(getSupportFragmentManager(), "EditionHeure");
-    }
-
-    @Override
-    public void ShowHeuresSieste(etat etat) {
-        this.etatActuel = etat;
-        SiesteDialogFragment siesteDialogFragment = SiesteDialogFragment.newInstance(etat);
-        siesteDialogFragment.show(getSupportFragmentManager(), "EditionSieste");
-    }
-
-    @Override
-    public void onNewSymptomeClicked(etat etat, String quand) {
-        this.etatActuel = etat;
-        this.tagMoment = quand;
-        NewSymptomeDialogFragment newSymptomeDialogFragment = NewSymptomeDialogFragment.newInstance(quand);
-        newSymptomeDialogFragment.show(getSupportFragmentManager(), "NewSymptome");
-    }
-
-    @Override
-    public void onOkNewSymptomeDialogFragment(String newSymptome, String tagMoment) {
-        if (!newSymptome.isEmpty()) {
-            if (!this.etatActuel.getHumeurFromTag(tagMoment).getSymptomesInactifs().contains(newSymptome)
-                    && !this.etatActuel.getHumeurFromTag(tagMoment).getSymptomesActifs().contains(newSymptome)) {
-                this.etatActuel.getHumeurFromTag(tagMoment).getSymptomesActifs().add(newSymptome);
-                Toast.makeText(this.getApplicationContext(), "Ajout réussi", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this.getApplicationContext(), "Le symptome existe déjà", Toast.LENGTH_SHORT).show();
-            }
-        }
-        ShowHumeurFragment(this.etatActuel, tagMoment);
+        remplaceFragment(sommeilFragment, "Sommeil");
     }
 
     @Override
     public void ShowTraitementFragment(etat etat) {
-        currentFragment = "Traitement";
-        this.etatActuel = etat;
         TraitementFragment traitementFragment = TraitementFragment.newInstance(etat);
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.activity_main_layout, traitementFragment)
-                .addToBackStack("Traitement")
-                .commit();
-    }
-
-    @Override
-    public void onOkDialogFragmentHeuresMinutes(etat etat) {
-        this.etatActuel = etat;
-        etatViewModel.update(etat);
-        ShowSommeilFragment(this.etatActuel);
+        remplaceFragment(traitementFragment, "Traitement");
     }
 
     @Override
     public void sauveEtat(etat etat) {
-        this.etatActuel = etat;
         etatViewModel.update(etat);
     }
 
-    public etat copiePrecedenteHumeur(etat etat, String tagMoment) {
-        etat result = etat;
-        if (tagMoment == "Matin") {
 
-            etatViewModel.getPrecedentEtat(etat.getDate())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new DisposableMaybeObserver<etat>() {
-                        @Override
-                        public void onSuccess(etat hier) {
-                            result.setHumeurMatin(hier.getHumeurSoir());
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                        }
-
-                        @Override
-                        public void onComplete() {
-                        }
-                    });
-        }
-
-        //etat precedentEtat = etatViewModel.getPrecedentEtat(etat.getDate());
-        return result;
+    public etatViewModel getEtatViewModel() {
+        return etatViewModel;
     }
 
-    @Override
-    public void onChoixEtatClicked(etat etat, String tagMoment, String tagEtats) {
-        this.etatActuel = etat;
-        etatViewModel.update(etat);
-        this.tagEtats = tagEtats;
-        this.tagMoment = tagMoment;
-
-        ListeEtats listeEtats = new ListeEtats.ListeAngoisses();
-
-        if (tagEtats == "Angoisse") {
-            listeEtats = new ListeEtats.ListeAngoisses();
-        } else if (tagEtats == "Humeur") {
-            listeEtats = new ListeEtats.ListeHumeurs();
-        } else if (tagEtats == "Energie") {
-            listeEtats = new ListeEtats.ListeEnergies();
-        } else if (tagEtats == "Irritabilite") {
-            listeEtats = new ListeEtats.ListeIrritabilite();
-        }
-
-        ChoixEtatDialogFragment choixEtatDialogFragment = ChoixEtatDialogFragment.newInstance(listeEtats);
-        choixEtatDialogFragment.show(getSupportFragmentManager(), "etatPicker");
-    }
-
-    @Override
-    public void onChargeEtatClicked(etat etat, String quand) {
-        this.tagMoment = quand;
-        ShowHumeurFragment(etat, quand);
-    }
-
-    @Override
-    public void onEtatClicked(int numero) {
-
-        if (this.tagEtats == "Angoisse") {
-            if (this.tagMoment == "Matin") {
-                this.etatActuel.getHumeurMatin().setAngoisse(numero);
-            } else if (this.tagMoment == "Aprem") {
-                this.etatActuel.getHumeurApresMidi().setAngoisse(numero);
-            } else if (this.tagMoment == "Soir") {
-                this.etatActuel.getHumeurSoir().setAngoisse(numero);
-            }
-        } else if (this.tagEtats == "Humeur") {
-            if (this.tagMoment == "Matin") {
-                this.etatActuel.getHumeurMatin().setHumeur(numero);
-            } else if (this.tagMoment == "Aprem") {
-                this.etatActuel.getHumeurApresMidi().setHumeur(numero);
-            } else if (this.tagMoment == "Soir") {
-                this.etatActuel.getHumeurSoir().setHumeur(numero);
-            }
-        } else if (this.tagEtats == "Energie") {
-            if (this.tagMoment == "Matin") {
-                this.etatActuel.getHumeurMatin().setEnergie(numero);
-            } else if (this.tagMoment == "Aprem") {
-                this.etatActuel.getHumeurApresMidi().setEnergie(numero);
-            } else if (this.tagMoment == "Soir") {
-                this.etatActuel.getHumeurSoir().setEnergie(numero);
-            }
-        } else if (this.tagEtats == "Irritabilite") {
-            if (this.tagMoment == "Matin") {
-                this.etatActuel.getHumeurMatin().setIrritabilite(numero);
-            } else if (this.tagMoment == "Aprem") {
-                this.etatActuel.getHumeurApresMidi().setIrritabilite(numero);
-            } else if (this.tagMoment == "Soir") {
-                this.etatActuel.getHumeurSoir().setIrritabilite(numero);
-            }
-        }
-        ShowHumeurFragment(this.etatActuel, this.tagMoment);
-    }
 
     public void exportDB() {
         try {
@@ -377,4 +216,30 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+        /*public etat copiePrecedenteHumeur(etat etat, String tagMoment) {
+        etat result = etat;
+        if (tagMoment == "Matin") {
+
+            etatViewModel.getPrecedentEtat(etat.getDate())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new DisposableMaybeObserver<etat>() {
+                        @Override
+                        public void onSuccess(etat hier) {
+                            result.setHumeurMatin(hier.getHumeurSoir());
+                            Timber.e("Copie réalisée");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onComplete() {
+                        }
+                    });
+        }
+
+        return result;
+    }*/
 }

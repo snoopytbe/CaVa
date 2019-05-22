@@ -23,27 +23,9 @@ import butterknife.OnClick;
 
 public class NewSymptomeDialogFragment extends DialogFragment {
 
-    protected static String ARG_MOMENT = "Moment";
-    protected String moment;
-    protected NewSymptomeDialogFragmentCallback activityCallback;
+    protected NewSymptomeDialogFragmentCallback fragmentCallback;
     @BindView(R.id.dns_commentaire)
     EditText commentaire;
-
-    public static NewSymptomeDialogFragment newInstance(String moment) {
-        NewSymptomeDialogFragment fragment = new NewSymptomeDialogFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_MOMENT, moment);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            moment = (String) getArguments().getSerializable(ARG_MOMENT);
-        }
-    }
 
     @Nullable
     @Override
@@ -58,14 +40,17 @@ public class NewSymptomeDialogFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof NewSymptomeDialogFragmentCallback)
-            activityCallback = (NewSymptomeDialogFragmentCallback) context;
+        try {
+            fragmentCallback = (NewSymptomeDialogFragment.NewSymptomeDialogFragmentCallback) getTargetFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Calling Fragment must implement NewSymptomeDialogFragmentCallback");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        activityCallback = null;
+        fragmentCallback = null;
     }
 
     @Override
@@ -106,9 +91,8 @@ public class NewSymptomeDialogFragment extends DialogFragment {
 
     @OnClick(R.id.dns_boutonOK)
     public void Ok() {
-
-        if (activityCallback != null)
-            activityCallback.onOkNewSymptomeDialogFragment(this.commentaire.getText().toString(), moment);
+        if (fragmentCallback != null)
+            fragmentCallback.onOkNewSymptomeDialogFragment(this.commentaire.getText().toString());
         this.dismiss();
     }
 
@@ -118,7 +102,7 @@ public class NewSymptomeDialogFragment extends DialogFragment {
     }
 
     public interface NewSymptomeDialogFragmentCallback {
-        void onOkNewSymptomeDialogFragment(String newSymptome, String moment);
+        void onOkNewSymptomeDialogFragment(String newSymptome);
     }
 
 

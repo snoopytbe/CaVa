@@ -16,13 +16,12 @@ import android.view.WindowManager;
 import android.widget.NumberPicker;
 
 import com.snoopytbe.cava.Classes.HeuresMinutes;
-import com.snoopytbe.cava.Classes.etat;
 
 import butterknife.ButterKnife;
 
 public abstract class DialogFragmentHeuresMinutes extends DialogFragment {
 
-    protected DialogHeuresMinutesCallback activityCallback;
+    protected DialogHeuresMinutesCallback fragmentCallback;
 
     protected abstract int getFragmentLayout();
 
@@ -43,14 +42,17 @@ public abstract class DialogFragmentHeuresMinutes extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof DialogHeuresMinutesCallback)
-            activityCallback = (DialogHeuresMinutesCallback) context;
+        try {
+            fragmentCallback = (DialogHeuresMinutesCallback) getTargetFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Calling Fragment must implement ListeEtatsFragmentCallback");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        activityCallback = null;
+        fragmentCallback = null;
     }
 
     @Override
@@ -105,7 +107,7 @@ public abstract class DialogFragmentHeuresMinutes extends DialogFragment {
     }
 
     public interface DialogHeuresMinutesCallback {
-        void onOkDialogFragmentHeuresMinutes(etat etat);
+        void onOkDialogFragmentHeuresMinutes();
     }
 
 }

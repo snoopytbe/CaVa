@@ -1,7 +1,6 @@
 package com.snoopytbe.cava.Fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.NumberPicker;
 
 import com.snoopytbe.cava.AbstractFragments.DialogFragmentHeuresMinutes;
@@ -67,16 +66,13 @@ public class SommeilDialogFragment extends DialogFragmentHeuresMinutes {
         HeuresMinutes time = new HeuresMinutes();
         time.setIntQuinzaine(lever.getValue());
         this.etat.getQualiteSommeil().setHeureLever(new HeuresMinutes(time.getHeures(), time.getMinutes()));
-        Log.e("Test", "@OnClick(R.id.dhs_boutonOK) : " + etat.getQualiteSommeil().getHeureLever().Lisible());
         time.setIntQuinzaine(coucher.getValue());
         this.etat.getQualiteSommeil().setHeureCoucher(new HeuresMinutes(time.getHeures(), time.getMinutes()));
-        Log.e("Test", "@OnClick(R.id.dhs_boutonOK) : " + etat.getQualiteSommeil().getHeureLever().Lisible());
         time.setIntQuinzaine(insomnie.getValue());
         this.etat.getQualiteSommeil().setHeuresInsomnie(new HeuresMinutes(time.getHeures(), time.getMinutes()));
-        Log.e("Test", "@OnClick(R.id.dhs_boutonOK) : " + etat.getQualiteSommeil().getHeureLever().Lisible());
 
-        if (activityCallback != null)
-            activityCallback.onOkDialogFragmentHeuresMinutes(this.etat);
+        if (fragmentCallback != null)
+            fragmentCallback.onOkDialogFragmentHeuresMinutes();
 
         this.dismiss();
     }

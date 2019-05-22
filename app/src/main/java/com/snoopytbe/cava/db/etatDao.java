@@ -39,6 +39,9 @@ public interface etatDao {
 
     @Query("SELECT * from etat_table where date = (SELECT MAX(date) from etat_table WHERE date < :paramDate)")
     Maybe<etat> getPrecedentEtat(long paramDate);
+
+    @Query("SELECT * from etat_table where date = (SELECT MAX(date) from etat_table WHERE date < :paramDate)")
+    etat getPrecedentEtatv2(long paramDate);
 }
 
 

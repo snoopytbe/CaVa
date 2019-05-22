@@ -38,4 +38,8 @@ public class etatViewModel extends AndroidViewModel {
     public Maybe<etat> getPrecedentEtat(long paramDate) {
         return mRepository.getPrecedentEtat(paramDate);
     }
+
+    public etat getPrecedentEtatv2(long paramDate) {
+        return mRepository.getPrecedentEtatv2(paramDate);
+    }
 }

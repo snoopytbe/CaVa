@@ -7,6 +7,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.snoopytbe.cava.Classes.commun.etat_angoisse;
+import static com.snoopytbe.cava.Classes.commun.etat_energie;
+import static com.snoopytbe.cava.Classes.commun.etat_humeur;
+import static com.snoopytbe.cava.Classes.commun.etat_irritabilite;
+
 public class Humeur implements Serializable {
     @ColumnInfo(name = "humeur")
     private int humeur;
@@ -29,32 +34,23 @@ public class Humeur implements Serializable {
     @ColumnInfo(name = "symptomesInactifs")
     private ArrayList<String> symptomesInactifs;
 
+    public Humeur(int humeur, int angoisse, int energie, int irritabilite, String commentaire, ArrayList<String> symptomesActifs, ArrayList<String> symptomesInactifs) {
+        this.humeur = humeur;
+        this.angoisse = angoisse;
+        this.energie = energie;
+        this.irritabilite = irritabilite;
+        this.commentaire = commentaire;
+        this.symptomesInactifs = symptomesInactifs;
+        this.symptomesActifs = symptomesActifs;
+    }
+
+    @Ignore
     public Humeur() {
         this.humeur = 0;
         this.angoisse = 0;
         this.energie = 0;
         this.irritabilite = 0;
         this.commentaire = "";
-        InitialiseSymptomes();
-    }
-
-    @Ignore
-    public Humeur(int humeur, int angoisse, int energie, int irritabilite, String commentaire, ArrayList<String> symptomes) {
-        this.humeur = humeur;
-        this.angoisse = angoisse;
-        this.energie = energie;
-        this.irritabilite = irritabilite;
-        this.commentaire = commentaire;
-        InitialiseSymptomes(symptomes);
-    }
-
-    @Ignore
-    public Humeur(int humeur, int angoisse, int energie, int irritabilite, String commentaire) {
-        this.humeur = humeur;
-        this.angoisse = angoisse;
-        this.energie = energie;
-        this.irritabilite = irritabilite;
-        this.commentaire = commentaire;
         InitialiseSymptomes();
     }
 
@@ -66,6 +62,11 @@ public class Humeur implements Serializable {
         this.irritabilite = 0;
         this.commentaire = "";
         InitialiseSymptomes(symptomes);
+    }
+
+    public Humeur copie() {
+        Humeur result = new Humeur(this.humeur, this.angoisse, this.energie, this.irritabilite, this.commentaire, this.symptomesActifs, this.symptomesInactifs);
+        return result;
     }
 
     private void InitialiseSymptomes(ArrayList<String> symptomes) {
@@ -93,13 +94,13 @@ public class Humeur implements Serializable {
 
     public int getHumeurFromTag(String tagHumeur) {
         switch (tagHumeur) {
-            case "humeur":
+            case etat_humeur:
                 return this.humeur;
-            case "energie":
+            case etat_energie:
                 return this.energie;
-            case "angoisse":
+            case etat_angoisse:
                 return this.angoisse;
-            case "irritabilite":
+            case etat_irritabilite:
                 return this.irritabilite;
             default:
                 return this.humeur;
@@ -159,10 +160,10 @@ public class Humeur implements Serializable {
     }
 
     public ArrayList<String> getAllSymptomes() {
-        ArrayList<String> result = new ArrayList<>();
-        result.addAll(symptomesActifs);
+        ArrayList<String> result = new ArrayList<>(symptomesActifs);
+
         for (int i = 0; i < symptomesInactifs.size(); i++) {
-            if (result.contains(symptomesInactifs.get(i)))
+            if (!result.contains(symptomesInactifs.get(i)))
                 result.add(symptomesInactifs.get(i));
         }
 

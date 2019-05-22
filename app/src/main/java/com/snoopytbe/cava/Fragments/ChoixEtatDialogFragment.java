@@ -18,7 +18,7 @@ public class ChoixEtatDialogFragment extends DialogFragment {
 
     private static final String ARG_PARAM1 = "ListeEtats";
     private ListeEtats listeEtats;
-    private ListeEtatsFragmentCallback activityCallback;
+    private ListeEtatsFragmentCallback fragmentCallback;
 
     public ChoixEtatDialogFragment() {
     }
@@ -47,7 +47,7 @@ public class ChoixEtatDialogFragment extends DialogFragment {
         builder.setItems(listeEtats.getStringListeNiveaux().toArray(new CharSequence[listeEtats.getStringListeNiveaux().size()]), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                activityCallback.onEtatClicked(which);
+                fragmentCallback.onEtatClicked(which);
             }
         });
         Dialog dialog = builder.create();
@@ -62,14 +62,17 @@ public class ChoixEtatDialogFragment extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ChoixEtatDialogFragment.ListeEtatsFragmentCallback)
-            activityCallback = (ChoixEtatDialogFragment.ListeEtatsFragmentCallback) context;
+        try {
+            fragmentCallback = (ListeEtatsFragmentCallback) getTargetFragment();
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Calling Fragment must implement ListeEtatsFragmentCallback");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        activityCallback = null;
+        fragmentCallback = null;
     }
 
     public interface ListeEtatsFragmentCallback {
