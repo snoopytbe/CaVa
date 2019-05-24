@@ -88,6 +88,9 @@ public class JourneeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case (R.id.menu_graphique):
+                activityCallback.ShowGraphiqueFragment();
+                return true;
             case (R.id.menu_about):
                 Toast.makeText(this.getContext(), "About", Toast.LENGTH_SHORT).show();
                 return true;
@@ -210,6 +213,8 @@ public class JourneeFragment extends Fragment {
         void ShowTraitementFragment(etat etat);
 
         void ShowHumeurFragment(etat etat, String quand);
+
+        void ShowGraphiqueFragment();
 
     }
 }

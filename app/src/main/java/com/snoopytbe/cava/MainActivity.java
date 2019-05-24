@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.snoopytbe.cava.AbstractFragments.FragmentCaVa;
 import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.Fragments.GraphiqueFragment;
 import com.snoopytbe.cava.Fragments.HumeurFragment;
 import com.snoopytbe.cava.Fragments.JourneeFragment;
 import com.snoopytbe.cava.Fragments.MainFragment_ViewPager;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity
 
     //private MainFragment_RecyclerView mainFragment;
     private MainFragment_ViewPager mainFragment;
+    private GraphiqueFragment graphiqueFragment;
     private etatViewModel etatViewModel;
 
     @BindView(R.id.toolbar_menu)
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChanged(@Nullable final List<etat> etats) {
                 mainFragment.setEtats(etats);
+                if (!(graphiqueFragment == null)) graphiqueFragment.setEtats(etats);
             }
         });
 
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity
 
         //mainFragment = (MainFragment_RecyclerView) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
         mainFragment = (MainFragment_ViewPager) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
+        graphiqueFragment = new GraphiqueFragment();
 
         Log.e("Test", "configureAndShowMainFragment: ");
         if (mainFragment == null) {
@@ -143,11 +147,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void ShowGraphiqueFragment() {
+        if (graphiqueFragment == null)
+            graphiqueFragment = new GraphiqueFragment();
+        remplaceFragment(graphiqueFragment, "Graphique");
+    }
+
+    @Override
     public void sauveEtat(etat etat) {
         etatViewModel.update(etat);
     }
 
-
+    @Override
     public etatViewModel getEtatViewModel() {
         return etatViewModel;
     }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.snoopytbe.cava.Classes.etat;
 import com.snoopytbe.cava.MainActivity;
 import com.snoopytbe.cava.R;
+import com.snoopytbe.cava.db.etatViewModel;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -24,9 +25,7 @@ public abstract class FragmentCaVa extends Fragment {
     protected etat etat;
 
     protected abstract int getFragmentLayout();
-
     protected abstract void LoadEtatInUI();
-
     protected abstract void SaveEtatFromUI();
 
     @Override
@@ -55,6 +54,9 @@ public abstract class FragmentCaVa extends Fragment {
         switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().onBackPressed();
+                return true;
+            case (R.id.menu_graphique):
+                activityCallback.ShowGraphiqueFragment();
                 return true;
             case (R.id.menu_about):
                 Toast.makeText(this.getContext(), "About", Toast.LENGTH_SHORT).show();
@@ -86,6 +88,10 @@ public abstract class FragmentCaVa extends Fragment {
 
     public interface FragmentCaVaCallback {
         void sauveEtat(etat etat);
+
+        void ShowGraphiqueFragment();
+
+        etatViewModel getEtatViewModel();
     }
 
 }

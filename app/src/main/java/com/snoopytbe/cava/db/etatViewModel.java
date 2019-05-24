@@ -10,7 +10,6 @@ import java.util.List;
 
 import io.reactivex.Maybe;
 
-
 public class etatViewModel extends AndroidViewModel {
 
     private etatRepository mRepository;
