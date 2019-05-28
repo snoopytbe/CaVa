@@ -11,8 +11,6 @@ import com.snoopytbe.cava.Classes.etat;
 
 import java.util.List;
 
-import io.reactivex.Maybe;
-
 @Dao
 public interface etatDao {
 
@@ -38,10 +36,7 @@ public interface etatDao {
     etat getEtatDernierJour();
 
     @Query("SELECT * from etat_table where date = (SELECT MAX(date) from etat_table WHERE date < :paramDate)")
-    Maybe<etat> getPrecedentEtat(long paramDate);
-
-    @Query("SELECT * from etat_table where date = (SELECT MAX(date) from etat_table WHERE date < :paramDate)")
-    etat getPrecedentEtatv2(long paramDate);
+    etat getPrecedentEtat(long paramDate);
 }
 
 

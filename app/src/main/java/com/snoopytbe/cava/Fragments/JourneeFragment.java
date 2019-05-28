@@ -1,35 +1,33 @@
 package com.snoopytbe.cava.Fragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.snoopytbe.cava.AbstractFragments.FragmentCaVa;
 import com.snoopytbe.cava.Classes.ListeEtats;
 import com.snoopytbe.cava.Classes.etat;
+import com.snoopytbe.cava.MainActivity;
 import com.snoopytbe.cava.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 import static com.snoopytbe.cava.Classes.commun.moment_aprem;
 import static com.snoopytbe.cava.Classes.commun.moment_matin;
 import static com.snoopytbe.cava.Classes.commun.moment_soir;
 
-public class JourneeFragment extends Fragment {
+public class JourneeFragment extends FragmentCaVa {
 
-    private static final String ARG_PARAM1 = "Etat";
 
     @BindView(R.id.fpj_textViewSommeil)
     TextView sommeil;
@@ -42,11 +40,7 @@ public class JourneeFragment extends Fragment {
     @BindView(R.id.fpj_textViewSoir)
     TextView soir;
 
-    private JourneeFragmentCallback activityCallback;
-    private etat etat;
-
-    public JourneeFragment() {
-    }
+    private static final String ARG_PARAM1 = "Etat";
 
     public static JourneeFragment newInstance(etat etat) {
         JourneeFragment fragment = new JourneeFragment();
@@ -65,156 +59,142 @@ public class JourneeFragment extends Fragment {
         }
     }
 
-    @Nullable
+    protected JourneeFragmentCallback activityCallback2;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_presentation_journee, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
+        View view = inflater.inflate(this.getFragmentLayout(), container, false);
         setHasOptionsMenu(true);
-
         ButterKnife.bind(this, view);
+
+        etatViewModel = ViewModelProviders.of(getActivity()).get(com.snoopytbe.cava.db.etatViewModel.class);
+
         LoadEtatInUI();
         return view;
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        getActivity().setTitle(etat.DateLisible());
-        inflater.inflate(R.menu.menu_main, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case (R.id.menu_graphique):
-                activityCallback.ShowGraphiqueFragment();
-                return true;
-            case (R.id.menu_about):
-                Toast.makeText(this.getContext(), "About", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof JourneeFragmentCallback)
-            activityCallback = (JourneeFragmentCallback) context;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        activityCallback = null;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        SaveEtatFromUI();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        LoadEtatInUI();
+    protected int getFragmentLayout() {
+        return R.layout.fragment_presentation_journee;
     }
 
     public void notifyUpdate() {
         this.LoadEtatInUI();
     }
 
-    private void LoadEtatInUI() {
-
-        String myText;
-
-        myText = "Dormi " + etat.getQualiteSommeil().getHeuresSommeil().Lisible() + "\n";
-        myText += "Qualité : " + (int) etat.getQualiteSommeil().getRatingSommeil() + "/5";
-        sommeil.setText(myText);
-
-        if (etat.getTraitement().getRespecte()) {
-            myText = "Traitement habituel pris";
-        } else {
-            myText = "Traitement habituel modifié";
-        }
-        traitement.setText(myText);
-
-        ListeEtats.ListeAngoisses listeAngoisses = new ListeEtats.ListeAngoisses();
-        ListeEtats.ListeHumeurs listeHumeurs = new ListeEtats.ListeHumeurs();
-        ListeEtats.ListeEnergies listeEnergies = new ListeEtats.ListeEnergies();
-        ListeEtats.ListeIrritabilite listeIrritabilite = new ListeEtats.ListeIrritabilite();
-
-        myText = "Humeur : " + listeHumeurs.getListeNiveaux().get(etat.getHumeurMatin().getHumeur()).getNom() + "\n";
-        myText += "Angoisse : " + listeAngoisses.getListeNiveaux().get(etat.getHumeurMatin().getAngoisse()).getNom() + "\n";
-        myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurMatin().getEnergie()).getNom() + "\n";
-        myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurMatin().getIrritabilite()).getNom();
-        matin.setText(myText);
-
-        myText = "Humeur : " + listeHumeurs.getListeNiveaux().get(etat.getHumeurApresMidi().getHumeur()).getNom() + "\n";
-        myText += "Angoisse : " + listeAngoisses.getListeNiveaux().get(etat.getHumeurApresMidi().getAngoisse()).getNom() + "\n";
-        myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurApresMidi().getEnergie()).getNom() + "\n";
-        myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurApresMidi().getIrritabilite()).getNom();
-        aprem.setText(myText);
-
-        myText = "Humeur : " + listeHumeurs.getListeNiveaux().get(etat.getHumeurSoir().getHumeur()).getNom() + "\n";
-        myText += "Angoisse : " + listeAngoisses.getListeNiveaux().get(etat.getHumeurSoir().getAngoisse()).getNom() + "\n";
-        myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurSoir().getEnergie()).getNom() + "\n";
-        myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurSoir().getIrritabilite()).getNom();
-        soir.setText(myText);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().setTitle(etat.DateLisible());
+        super.onCreateOptionsMenu(menu, inflater);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
-    private void SaveEtatFromUI() {
+    protected void LoadEtatInUI() {
 
+        if (!(etat == null)) {
+            Timber.e("LoadEtatInUI " + etat.DateLisible());
+
+            //getActivity().setTitle(etat.DateLisible());
+            //setHasOptionsMenu(false);
+            //setHasOptionsMenu(true);
+
+            String myText;
+
+            myText = "Dormi " + etat.getQualiteSommeil().getHeuresSommeil().Lisible() + "\n";
+            myText += "Qualité : " + (int) etat.getQualiteSommeil().getRatingSommeil() + "/5";
+            sommeil.setText(myText);
+
+            if (etat.getTraitement().getRespecte()) {
+                myText = "Traitement habituel pris";
+            } else {
+                myText = "Traitement habituel modifié";
+            }
+            traitement.setText(myText);
+
+            ListeEtats.ListeAngoisses listeAngoisses = new ListeEtats.ListeAngoisses();
+            ListeEtats.ListeHumeurs listeHumeurs = new ListeEtats.ListeHumeurs();
+            ListeEtats.ListeEnergies listeEnergies = new ListeEtats.ListeEnergies();
+            ListeEtats.ListeIrritabilite listeIrritabilite = new ListeEtats.ListeIrritabilite();
+
+            myText = "Humeur : " + listeHumeurs.getListeNiveaux().get(etat.getHumeurMatin().getHumeur()).getNom() + "\n";
+            myText += "Angoisse : " + listeAngoisses.getListeNiveaux().get(etat.getHumeurMatin().getAngoisse()).getNom() + "\n";
+            myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurMatin().getEnergie()).getNom() + "\n";
+            myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurMatin().getIrritabilite()).getNom();
+            matin.setText(myText);
+
+            myText = "Humeur : " + listeHumeurs.getListeNiveaux().get(etat.getHumeurApresMidi().getHumeur()).getNom() + "\n";
+            myText += "Angoisse : " + listeAngoisses.getListeNiveaux().get(etat.getHumeurApresMidi().getAngoisse()).getNom() + "\n";
+            myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurApresMidi().getEnergie()).getNom() + "\n";
+            myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurApresMidi().getIrritabilite()).getNom();
+            aprem.setText(myText);
+
+            myText = "Humeur : " + listeHumeurs.getListeNiveaux().get(etat.getHumeurSoir().getHumeur()).getNom() + "\n";
+            myText += "Angoisse : " + listeAngoisses.getListeNiveaux().get(etat.getHumeurSoir().getAngoisse()).getNom() + "\n";
+            myText += "Energie : " + listeEnergies.getListeNiveaux().get(etat.getHumeurSoir().getEnergie()).getNom() + "\n";
+            myText += "Irritabilité : " + listeIrritabilite.getListeNiveaux().get(etat.getHumeurSoir().getIrritabilite()).getNom();
+            soir.setText(myText);
+        }
+    }
+
+    protected void SaveEtatFromUI() {
     }
 
     @OnClick(R.id.fpj_cardSommeil)
     public void chargeSommeil() {
+        etatViewModel.setEtatActuel(etat);
         SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.ShowSommeilFragment(etat);
+        if (activityCallback2 != null)
+            activityCallback2.ShowSommeilFragment();
     }
 
-    @OnClick(R.id.fpj_cardMatin)
-    public void chargeMatin() {
+    @OnClick({R.id.fpj_cardMatin, R.id.fpj_cardAprem, R.id.fpj_cardSoir})
+    public void chargeHumeur(View view) {
+        etatViewModel.setEtatActuel(etat);
         SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.ShowHumeurFragment(etat, moment_matin);
-    }
-
-    @OnClick(R.id.fpj_cardAprem)
-    public void chargeAprem() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.ShowHumeurFragment(etat, moment_aprem);
-    }
-
-    @OnClick(R.id.fpj_cardSoir)
-    public void chargeSoir() {
-        SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.ShowHumeurFragment(etat, moment_soir);
+        switch (view.getId()) {
+            case R.id.fpj_cardMatin:
+                etatViewModel.setMomentActuel(moment_matin);
+                break;
+            case R.id.fpj_cardAprem:
+                etatViewModel.setMomentActuel(moment_aprem);
+                break;
+            case R.id.fpj_cardSoir:
+                etatViewModel.setMomentActuel(moment_soir);
+                break;
+        }
+        if (activityCallback2 != null)
+            activityCallback2.ShowHumeurFragment();
     }
 
     @OnClick(R.id.fpj_cardTraitement)
     public void chargeTraitement() {
+        etatViewModel.setEtatActuel(etat);
         SaveEtatFromUI();
-        if (activityCallback != null)
-            activityCallback.ShowTraitementFragment(etat);
+        if (activityCallback2 != null)
+            activityCallback2.ShowTraitementFragment();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof JourneeFragmentCallback)
+            activityCallback2 = (JourneeFragmentCallback) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activityCallback2 = null;
+    }
 
     public interface JourneeFragmentCallback {
-        void ShowSommeilFragment(etat etat);
+        void ShowSommeilFragment();
 
-        void ShowTraitementFragment(etat etat);
+        void ShowTraitementFragment();
 
-        void ShowHumeurFragment(etat etat, String quand);
-
-        void ShowGraphiqueFragment();
+        void ShowHumeurFragment();
 
     }
 }

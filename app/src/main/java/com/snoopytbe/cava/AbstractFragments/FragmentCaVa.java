@@ -1,5 +1,6 @@
 package com.snoopytbe.cava.AbstractFragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,12 +18,12 @@ import com.snoopytbe.cava.R;
 import com.snoopytbe.cava.db.etatViewModel;
 
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public abstract class FragmentCaVa extends Fragment {
 
-    protected FragmentCaVa.FragmentCaVaCallback activityCallback;
+    protected FragmentCaVaCallback activityCallback;
     protected etat etat;
+    protected etatViewModel etatViewModel;
 
     protected abstract int getFragmentLayout();
     protected abstract void LoadEtatInUI();
@@ -35,13 +36,20 @@ public abstract class FragmentCaVa extends Fragment {
         View view = inflater.inflate(this.getFragmentLayout(), container, false);
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
+
+        etatViewModel = ViewModelProviders.of(getActivity()).get(etatViewModel.class);
+        etatViewModel.getEtatActuel().observe(this, etatFromGet -> {
+            this.etat = etatFromGet;
+            LoadEtatInUI();
+        });
+
         LoadEtatInUI();
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Timber.e("Menu général");
+
         menu.clear();
         inflater.inflate(R.menu.menu_main, menu);
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -56,6 +64,7 @@ public abstract class FragmentCaVa extends Fragment {
                 getActivity().onBackPressed();
                 return true;
             case (R.id.menu_graphique):
+                etatViewModel.setEtatActuel(etat);
                 activityCallback.ShowGraphiqueFragment();
                 return true;
             case (R.id.menu_about):
@@ -81,17 +90,14 @@ public abstract class FragmentCaVa extends Fragment {
 
     @Override
     public void onPause() {
+        //Timber.e("Update du " + etat.DateLisible());
         super.onPause();
         SaveEtatFromUI();
-        activityCallback.sauveEtat(etat);
+        etatViewModel.update(etat);
     }
 
     public interface FragmentCaVaCallback {
-        void sauveEtat(etat etat);
-
         void ShowGraphiqueFragment();
-
-        etatViewModel getEtatViewModel();
     }
 
 }

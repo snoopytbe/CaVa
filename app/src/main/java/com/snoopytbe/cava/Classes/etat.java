@@ -7,6 +7,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -76,15 +77,11 @@ public class etat implements Serializable {
     }
 
     public String DateLisible() {
-        String resultat;
+        Locale locale = Locale.getDefault();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE dd MMMM yyyy", locale);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(this.date);
-        Locale locale = Locale.getDefault();
-        resultat = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale);
-        resultat += " " + calendar.get(Calendar.DAY_OF_MONTH) + " ";
-        resultat += calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, locale);
-        resultat += " " + calendar.get(Calendar.YEAR);
-        return resultat;
+        return simpleDateFormat.format(calendar.getTime());
     }
 
     public int getId() {

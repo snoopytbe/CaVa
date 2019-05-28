@@ -32,6 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
+import icepick.State;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity
@@ -41,7 +42,14 @@ public class MainActivity extends AppCompatActivity
     //private MainFragment_RecyclerView mainFragment;
     private MainFragment_ViewPager mainFragment;
     private GraphiqueFragment graphiqueFragment;
+    @State
+    int idEtat;
+    @State
+    String fragmentActif = "";
+    private SommeilFragment sommeilFragment;
     private etatViewModel etatViewModel;
+    private HumeurFragment humeurFragment;
+    private TraitementFragment traitementFragment;
 
     @BindView(R.id.toolbar_menu)
     Toolbar toolbar;
@@ -56,13 +64,13 @@ public class MainActivity extends AppCompatActivity
         Icepick.restoreInstanceState(this, savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
-
         setSupportActionBar(toolbar);
 
+        configureAndShowFragments();
         ConfigureDb();
-        configureAndShowMainFragment();
+        //configureAndShowMainFragment();
+
     }
 
     @Override
@@ -78,10 +86,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChanged(@Nullable final List<etat> etats) {
                 mainFragment.setEtats(etats);
-                if (!(graphiqueFragment == null)) graphiqueFragment.setEtats(etats);
+                graphiqueFragment.setEtats(etats);
             }
         });
-
     }
 
     @Override
@@ -102,25 +109,38 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void configureAndShowMainFragment() {
+    private void configureAndShowFragments() {
 
-        //mainFragment = (MainFragment_RecyclerView) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
-        mainFragment = (MainFragment_ViewPager) getSupportFragmentManager().findFragmentById(R.id.activity_main_layout);
+        mainFragment = new MainFragment_ViewPager();
         graphiqueFragment = new GraphiqueFragment();
+        sommeilFragment = new SommeilFragment();
+        traitementFragment = new TraitementFragment();
+        sommeilFragment = new SommeilFragment();
+        humeurFragment = new HumeurFragment();
 
-        Log.e("Test", "configureAndShowMainFragment: ");
-        if (mainFragment == null) {
-            //mainFragment = new MainFragment_RecyclerView();
-            mainFragment = new MainFragment_ViewPager();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.activity_main_layout, mainFragment)
-                    .addToBackStack("Main")
-                    .commit();
+        switch (fragmentActif) {
+            case "Main":
+                afficheFragment(mainFragment, "Main");
+                break;
+            case "Traitement":
+                afficheFragment(traitementFragment, "Traitement");
+                break;
+            case "Sommeil":
+                afficheFragment(sommeilFragment, "Sommeil");
+                break;
+            case "Humeur":
+                afficheFragment(humeurFragment, "Humeur");
+                break;
+            case "Graphique":
+                afficheFragment(graphiqueFragment, "Graphique");
+                break;
+            default:
+                afficheFragment(mainFragment, "Main");
         }
     }
 
-    public void remplaceFragment(Fragment fragment, String nom) {
+    public void afficheFragment(Fragment fragment, String nom) {
+        fragmentActif = nom;
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.activity_main_layout, fragment, null)
@@ -129,40 +149,30 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void ShowHumeurFragment(etat etat, String quand) {
-        HumeurFragment humeurFragment = HumeurFragment.newInstance(etat, quand);
-        remplaceFragment(humeurFragment, "Humeur");
+    public void ShowHumeurFragment() {
+        afficheFragment(humeurFragment, "Humeur");
     }
 
     @Override
-    public void ShowSommeilFragment(etat etat) {
-        SommeilFragment sommeilFragment = SommeilFragment.newInstance(etat);
-        remplaceFragment(sommeilFragment, "Sommeil");
+    public void ShowSommeilFragment() {
+        afficheFragment(sommeilFragment, "Sommeil");
     }
 
     @Override
-    public void ShowTraitementFragment(etat etat) {
-        TraitementFragment traitementFragment = TraitementFragment.newInstance(etat);
-        remplaceFragment(traitementFragment, "Traitement");
+    public void ShowTraitementFragment() {
+        afficheFragment(traitementFragment, "Traitement");
     }
 
     @Override
     public void ShowGraphiqueFragment() {
-        if (graphiqueFragment == null)
-            graphiqueFragment = new GraphiqueFragment();
-        remplaceFragment(graphiqueFragment, "Graphique");
+        afficheFragment(graphiqueFragment, "Graphique");
     }
 
     @Override
-    public void sauveEtat(etat etat) {
-        etatViewModel.update(etat);
+    public void onBackPressed() {
+        afficheFragment(mainFragment, "Main");
+        mainFragment.goToPage(etatViewModel.getPosActuelle());
     }
-
-    @Override
-    public etatViewModel getEtatViewModel() {
-        return etatViewModel;
-    }
-
 
     public void exportDB() {
         try {
