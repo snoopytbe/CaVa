@@ -65,44 +65,38 @@ public class GraphiqueFragment extends FragmentCaVa {
 
     LineDataSet getLineDataSetHumeur(String humeur, int color) {
 
-        ArrayList<Float> MMEtats = new ArrayList<>();
-        for (int i = etats.size() - 1; i >= 0; i--) {
-            MMEtats.add((float) etats.get(i).getHumeurMatin().getHumeurFromTag(humeur));
-            MMEtats.add((float) etats.get(i).getHumeurApresMidi().getHumeurFromTag(humeur));
-            MMEtats.add((float) etats.get(i).getHumeurSoir().getHumeurFromTag(humeur));
-        }
-        MMEtats = MoyenneMobile(MMEtats, 6);
+        int tailleMoyenneMobile = 6;
 
-        ArrayList<Entry> values = new ArrayList<>();
-
-        float xValue = -1;
-        float yValue;
+        ArrayList<Float> yValues = new ArrayList<>();
+        ArrayList<Float> xValues = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
 
         for (int i = etats.size() - 1; i >= 0; i--) {
-            
             calendar.setTimeInMillis(etats.get(i).getDate());
 
             calendar.set(Calendar.HOUR, 8);
-            xValue = calendar.getTimeInMillis();
-            yValue = etats.get(i).getHumeurMatin().getHumeurFromTag(humeur);
-            values.add(new Entry(xValue, yValue));
+            xValues.add((float) calendar.getTimeInMillis());
+            yValues.add((float) etats.get(i).getHumeurMatin().getHumeurFromTag(humeur));
 
             calendar.set(Calendar.HOUR, 12);
-            xValue = calendar.getTimeInMillis();
-            yValue = etats.get(i).getHumeurApresMidi().getHumeurFromTag(humeur);
-            values.add(new Entry(xValue, yValue));
+            xValues.add((float) calendar.getTimeInMillis());
+            yValues.add((float) etats.get(i).getHumeurApresMidi().getHumeurFromTag(humeur));
 
             calendar.set(Calendar.HOUR, 18);
-            xValue = calendar.getTimeInMillis();
-            yValue = etats.get(i).getHumeurSoir().getHumeurFromTag(humeur);
-            values.add(new Entry(xValue, yValue));
+            yValues.add((float) etats.get(i).getHumeurSoir().getHumeurFromTag(humeur));
+            xValues.add((float) calendar.getTimeInMillis());
+        }
+        yValues = MoyenneMobile(yValues, tailleMoyenneMobile);
+
+        ArrayList<Entry> values = new ArrayList<>();
+        for (int i = tailleMoyenneMobile - 1; i < yValues.size() - 3; i++) {
+            values.add(new Entry(xValues.get(i), yValues.get(i)));
         }
 
         LineDataSet set = new LineDataSet(values, humeur);
 
-        set.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-        set.setCubicIntensity(1.5f);
+        //set.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        //set.setCubicIntensity(1.5f);
 
         // draw dashed line
         set.enableDashedLine(10f, 5f, 0f);
@@ -113,6 +107,43 @@ public class GraphiqueFragment extends FragmentCaVa {
         // line thickness and point size
         set.setLineWidth(1f);
         set.setDrawCircles(false);
+        //set.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        return set;
+    }
+
+    LineDataSet getLineDataSetSommeil(int color) {
+
+        int tailleMoyenneMobile = 3;
+
+        ArrayList<Float> yValues = new ArrayList<>();
+        ArrayList<Float> xValues = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+
+        for (int i = etats.size() - 1; i >= 0; i--) {
+            calendar.setTimeInMillis(etats.get(i).getDate());
+            xValues.add((float) calendar.getTimeInMillis());
+            yValues.add((float) etats.get(i).getQualiteSommeil().getHeuresSommeil().getHeures() + (float) etats.get(i).getQualiteSommeil().getHeuresSommeil().getMinutes() / 60f);
+        }
+        yValues = MoyenneMobile(yValues, tailleMoyenneMobile);
+
+        ArrayList<Entry> values = new ArrayList<>();
+        for (int i = tailleMoyenneMobile - 1; i < yValues.size(); i++) {
+            values.add(new Entry(xValues.get(i), yValues.get(i)));
+        }
+
+        LineDataSet set = new LineDataSet(values, "Sommeil");
+
+        // draw dashed line
+        set.enableDashedLine(10f, 5f, 0f);
+
+        // black lines and points
+        set.setColor(color);
+
+        // line thickness and point size
+        set.setLineWidth(1f);
+        set.setDrawCircles(false);
+        //set.setAxisDependency(YAxis.AxisDependency.RIGHT);
 
         return set;
     }
@@ -122,16 +153,6 @@ public class GraphiqueFragment extends FragmentCaVa {
         if (!(chart == null)) {
             chart.setTouchEnabled(true);
 
-        /*ArrayList<Entry> values = new ArrayList<>();
-        float xValue = 0;
-        float yValue;
-
-        for (int i = 0; i < etats.size(); i++) {
-            // Sommeil
-            xValue=i;
-            yValue= (float) etats.get(i).getQualiteSommeil().getHeuresSommeil().getHeures()+ (float) etats.get(i).getQualiteSommeil().getHeuresSommeil().getMinutes() / 60f;
-            values.add(new Entry(xValue, yValue));
-        }*/
 
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 
@@ -139,13 +160,16 @@ public class GraphiqueFragment extends FragmentCaVa {
             dataSets.add(getLineDataSetHumeur(etat_angoisse, Color.RED));
             dataSets.add(getLineDataSetHumeur(etat_energie, Color.GREEN));
             dataSets.add(getLineDataSetHumeur(etat_irritabilite, Color.BLACK));
-
+            //dataSets.add(getLineDataSetSommeil(Color.MAGENTA));
 
             // create a data object with the data sets
             LineData data = new LineData(dataSets);
 
             // set data
             chart.setData(data);
+
+            // no description
+            chart.getDescription().setEnabled(false);
 
             Legend l = chart.getLegend();
             l.setEnabled(true);
